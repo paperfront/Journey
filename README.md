@@ -16,4 +16,4 @@ Journey - A New Approach to Self Improvement
    
 ## Wireframes
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FqClIizmXb2I8LTkHtXK8Du%2FUntitled%3Fnode-id%3D10%253A69&chrome=DOCUMENTATION" allowfullscreen></iframe>
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FqClIizmXb2I8LTkHtXK8Du%2FUntitled%3Fnode-id%3D0%253A1&chrome=DOCUMENTATION" allowfullscreen></iframe>
