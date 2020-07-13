@@ -16,4 +16,31 @@ Journey - A New Approach to Self Improvement
    
 ## Wireframes
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FqClIizmXb2I8LTkHtXK8Du%2FUntitled%3Fnode-id%3D0%253A1&chrome=DOCUMENTATION" allowfullscreen></iframe>
+https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
+
+## Progress Outline
+
+# Week 1
+[ ] Create data models
+[ ] Build skeleton views
+[ ] Implement navigation between views + bottom navigation bar
+[ ] Review and update project plan
+
+# Week 2
+[ ] Setup Firebase/Parse for user authentication
+    [ ] Add sign-in with Google support
+[ ] Setup SQLite DB for storage of journal entries locally
+    [ ] Consider saving posts to Firebase/Parse as well for backup functionality/to allow users to have collaborative journal entries with their friends (this feature will not be implemented in the current outline, but could very well come to exist in the future so it could be nice to plan for it + make use of existing Firebase/Parse implementation)
+[ ] Setup Google Maps SDK
+[ ] Create functionality for making new journal entries with camera + geotags
+[ ] Setup timeline fragment functionality
+
+# Week 3
+[ ] Visual polish
+    [ ] Include an animation when signing in
+[ ] Create analysis feature
+[ ] Add gesture recognizer for favoriting entries by double tapping them
+[ ] Add any extra journaling "tracks"
+
+# Week 4
+[ ] Add as many new tracks as desired
