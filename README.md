@@ -12,3 +12,8 @@ Journey - A New Approach to Self Improvement
         - What is a small and repeatable step you can take towards developing stronger bonds?
         - etc.
     - Basically, this would be a sort of template for self improvement. I could base the structure off of optimal techniques (will have to do more research).
+   
+   
+## Wireframes
+
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FqClIizmXb2I8LTkHtXK8Du%2FUntitled%3Fnode-id%3D10%253A69&chrome=DOCUMENTATION" allowfullscreen></iframe>
