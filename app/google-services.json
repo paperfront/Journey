@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "20713017010",
+    "firebase_url": "https://journey-283319.firebaseio.com",
+    "project_id": "journey-283319",
+    "storage_bucket": "journey-283319.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20713017010:android:6a956b8df5f2aedf2d83ab",
+        "android_client_info": {
+          "package_name": "com.example.journey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "20713017010-9krecv45g2uhgvl8n1bolu3agqolc2ch.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD58jUG_mKjBwKz2IuFpef9LkVmsar6o-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "20713017010-9krecv45g2uhgvl8n1bolu3agqolc2ch.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
