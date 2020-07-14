@@ -44,6 +44,7 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 # Week 4
 - [ ] Implement 3 full tracks
 - [ ] Extra visual polish
+- [ ] Add extra polish to UX
 - [ ] Stretch Goals
     - [ ] Consider new ways to enhance the analysis feature
     - [ ] Integrating spotify/music clips into Journal entries
