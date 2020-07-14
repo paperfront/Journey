@@ -21,19 +21,18 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 ## Progress Outline
 
 # Week 1
-- [ ] Create data models
-- [ ] Build skeleton views
+- [X] Create data models
+- [X] Build skeleton views
+    - [ ] Setup timeline fragment functionality
 - [ ] Implement navigation between views + bottom navigation bar
+- [ ] Setup Firebase for user authentication
+    - [ ] Add sign-in with Google support
+    - [ ] Firebase offline
 - [ ] Review and update project plan
+- [X] Setup Google Maps SDK
 
 # Week 2
-- [ ] Setup Firebase/Parse for user authentication
-    - [ ] Add sign-in with Google support
-- [ ] Setup SQLite DB for storage of journal entries locally
-    - [ ] Consider saving posts to Firebase/Parse as well for backup functionality/to allow users to have collaborative journal entries with their friends (this feature will not be implemented in the current outline, but could very well come to exist in the future so it could be nice to plan for it + make use of existing Firebase/Parse implementation)
-- [ ] Setup Google Maps SDK
 - [ ] Create functionality for making new journal entries with camera + geotags
-- [ ] Setup timeline fragment functionality
 
 # Week 3
 - [ ] Visual polish
@@ -43,4 +42,9 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 - [ ] Add any extra journaling "tracks"
 
 # Week 4
-- [ ] Add as many new tracks as desired
+- [ ] Implement 3 full tracks
+- [ ] Extra visual polish
+- [ ] Stretch Goals
+    - [ ] Consider new ways to enhance the analysis feature
+    - [ ] Integrating spotify/music clips into Journal entries
+    - [ ] Adding any additional tracks (max 5)
