@@ -7,30 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="16dp"
-        android:layout_marginStart=""
-        android:layout_marginTop=""
-        android:layout_marginEnd=""
-        android:layout_marginBottom=""
-        android:fontFamily="@font/delius"
-        android:text="Browse Past Entries"
-        android:textSize="24sp" />
-
-
-    <CalendarView
-        android:layout_below="@id/tvTitle"
-        android:id="@+id/calendarView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"/>
+        android:layout_height="match_parent"
+        android:layout_above="@id/coordinatorLayout"
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_above="@id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
