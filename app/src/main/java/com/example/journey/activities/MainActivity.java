@@ -1,14 +1,21 @@
 package com.example.journey.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityMainBinding;
+import com.example.journey.fragments.AnalysisFragment;
+import com.example.journey.fragments.MainPageFragment;
+import com.example.journey.fragments.TimelineFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     private BottomNavigationView btmNavigation;
+    private FrameLayout fragmentHolder;
+
+    final FragmentManager fragmentManager = getSupportFragmentManager();
+    final Fragment analysisFragment = AnalysisFragment.newInstance();
+    final Fragment homeFragment = MainPageFragment.newInstance();
+    final Fragment timelineFragment = TimelineFragment.newInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void bindElements() {
         btmNavigation = binding.bottomNavigation;
+        fragmentHolder = binding.fragmentHolder;
     }
 
     private void setupElements() {
@@ -40,8 +54,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNavigation() {
+
+        btmNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        fragment = homeFragment;
+                        break;
+                    case R.id.action_analyze:
+                        fragment = analysisFragment;
+                        break;
+                    case R.id.action_timeline:
+                        fragment = timelineFragment;
+                        break;
+                    default:
+                        Timber.e("Navigation item clicked does not have a case. Setting clicked item to home...");
+                        fragment = homeFragment;
+                }
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentManager.beginTransaction().replace(fragmentHolder.getId(), fragment).commit();
+                return true;
+            }
+        });
+
         btmNavigation.setSelectedItemId(R.id.action_home);
     }
+
 
     // create an action bar button
     @Override
