@@ -32,7 +32,9 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 - [X] Setup Google Maps SDK
 
 # Week 2
-- [ ] Create functionality for making new journal entries with camera + geotags
+- [ ] Create functionality for making new journal entries
+    - [ ] Allow users to embed media by launching camera
+- [ ] Implement log out button
 
 # Week 3
 - [ ] Visual polish
