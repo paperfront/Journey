@@ -1,35 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     tools:context=".fragments.MainPageFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/delius"
+        android:text="Browse Past Entries"
+        android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/tvTitle"
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitle"
+        android:layout_margin="16dp" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btComposeEntry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/delius"
-            android:text="Browse Past Entries"
-            android:textSize="24sp" />
+            android:contentDescription="New Journal Entry"
+            android:src="@drawable/shoe_tracks" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
-        <CalendarView
-            android:layout_below="@id/tvTitle"
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"/>
-
-    </RelativeLayout>
+</RelativeLayout>
 
 
 
-</FrameLayout>
+
+
