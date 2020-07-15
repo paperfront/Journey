@@ -16,7 +16,10 @@ import android.widget.Toast;
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityLoginBinding;
 import com.example.journey.models.User;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import timber.log.Timber;
 
@@ -45,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
         bindElements();
         setupElements();
     }
@@ -117,8 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Timber.d("createUserWithEmail:success");
                             FirebaseUser currentUser = mAuth.getCurrentUser();
-                            User newUser = new User(currentUser.getEmail(), currentUser.getUid());
-                            mDatabase.child("users").child(newUser.getUserId()).setValue(newUser);
+                            saveUser(currentUser);
                             goToMainActivity();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -139,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -151,6 +157,25 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(i);
         finish();
+    }
+
+    private void saveUser(FirebaseUser currentUser) {
+        // Access a Cloud Firestore instance from your Activity
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .add(new User(currentUser.getEmail(), currentUser.getUid()))
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Timber.d("DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Timber.w(e, "Error adding document");
+                    }
+                });
     }
 
 
