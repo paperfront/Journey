@@ -51,6 +51,18 @@ public enum Prompt {
         return promptFragment;
     }
 
+    public Fragment getNewPromptFragment() {
+        try {
+            promptFragment = promptFragment.getClass().newInstance();
+            return promptFragment;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Fragment getResponseFragment() {
         return responseFragment;
     }

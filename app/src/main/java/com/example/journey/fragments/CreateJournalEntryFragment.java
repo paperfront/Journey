@@ -113,7 +113,7 @@ public class CreateJournalEntryFragment extends Fragment {
 
     private void setupPrompt() {
         tvQuestion.setText(currentPrompt.getQuestion());
-        fragmentManager.beginTransaction().replace(binding.flPromptHolder.getId(), currentPrompt.getPromptFragment()).commit();
+        fragmentManager.beginTransaction().replace(binding.flPromptHolder.getId(), currentPrompt.getNewPromptFragment()).commit();
         Timber.d("Loaded prompt: " + currentPrompt.name());
     }
 }
