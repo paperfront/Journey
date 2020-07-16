@@ -5,6 +5,7 @@ import java.util.List;
 
 public enum Track {
     SELF_HELP("Self Help"),
+    GENERAL("General"),
     ;
 
     private String title;
