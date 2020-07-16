@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.journey.R;
 import com.example.journey.databinding.FragmentMainPageBinding;
+import com.example.journey.models.Track;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import timber.log.Timber;
@@ -76,7 +77,9 @@ public class MainPageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Timber.d("Compose Entry button clicked.");
-                CreateJournalEntryFragment fragment = CreateJournalEntryFragment.newInstance();
+
+                //todo replace hardcoded track with the users current track
+                CreateJournalEntryFragment fragment = CreateJournalEntryFragment.newInstance(Track.GENERAL);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentHolder, fragment)
                         .addToBackStack(null)

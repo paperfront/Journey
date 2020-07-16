@@ -10,11 +10,18 @@ import androidx.fragment.app.Fragment;
 import com.example.journey.fragments.prompts.CameraAndGalleryFragment;
 import com.example.journey.fragments.responses.CameraAndGalleryResponseFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Prompt {
     PICTURE("Do you have any pictures to share from today?", CameraAndGalleryFragment.newInstance(), Track.GENERAL) {
 
         @Override
         public void createResponseFragment() {
+            if (!hasBeenCompleted()) {
+                return;
+            }
+
             Bitmap image = ((BitmapDrawable) ((ImageView) getResponse()).getDrawable()).getBitmap();
             setResponseFragment(CameraAndGalleryResponseFragment.newInstance(image));
         }
@@ -44,6 +51,10 @@ public enum Prompt {
         return promptFragment;
     }
 
+    public Fragment getResponseFragment() {
+        return responseFragment;
+    }
+
     public Track getTrack() {
         return track;
     }
@@ -53,11 +64,26 @@ public enum Prompt {
     }
 
     public void setResponse(Object response) {
+        completed = true;
         this.response = response;
     }
 
     public Object getResponse() {
         return response;
+    }
+
+    public boolean hasBeenCompleted() {
+        return completed;
+    }
+
+    public static List<Prompt> getPromptsOfType(Track track) {
+        List<Prompt> promptList = new ArrayList<>();
+        for (Prompt prompt : values()) {
+            if (prompt.track == track) {
+                promptList.add(prompt);
+            }
+        }
+        return promptList;
     }
 
     public abstract void createResponseFragment();
