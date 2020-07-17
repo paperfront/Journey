@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class CreateJournalEntryFragment extends Fragment {
     private FragmentManager fragmentManager;
     private TextView tvQuestion;
     private ProgressBar pbLoading;
+    private Button btNext;
 
     private FragmentCreateJournalEntryBinding binding;
 
@@ -102,10 +104,21 @@ public class CreateJournalEntryFragment extends Fragment {
         tvQuestion = binding.tvQuestion;
         fragmentManager = getActivity().getSupportFragmentManager();
         pbLoading = binding.pbLoading;
+        btNext = binding.btNext;
     }
 
     private void setupElements() {
+        setupButtons();
         getPrompts(track);
+    }
+
+    private void setupButtons() {
+        btNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadNextPrompt();
+            }
+        });
     }
 
 
@@ -140,11 +153,15 @@ public class CreateJournalEntryFragment extends Fragment {
 
     private void startLoading() {
         pbLoading.setVisibility(View.VISIBLE);
+        btNext.setVisibility(View.INVISIBLE);
     }
 
     private void stopLoading() {
         pbLoading.setVisibility(View.INVISIBLE);
+        btNext.setVisibility(View.VISIBLE);
     }
+
+
 
     private void loadNextPrompt() {
         if (currentPromptCounter >= prompts.size()) {
