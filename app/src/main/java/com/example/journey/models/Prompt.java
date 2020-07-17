@@ -9,38 +9,34 @@ import androidx.fragment.app.Fragment;
 
 import com.example.journey.fragments.prompts.CameraAndGalleryFragment;
 import com.example.journey.fragments.responses.CameraAndGalleryResponseFragment;
+import com.example.journey.helpers.DBQueryMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public enum Prompt {
-    PICTURE("Do you have any pictures to share from today?", CameraAndGalleryFragment.newInstance(), Track.GENERAL) {
-
-        @Override
-        public void createResponseFragment() {
-            if (!hasBeenCompleted()) {
-                return;
-            }
-
-            Bitmap image = ((BitmapDrawable) ((ImageView) getResponse()).getDrawable()).getBitmap();
-            setResponseFragment(CameraAndGalleryResponseFragment.newInstance(image));
-        }
-    },
+public class Prompt {
     //TRAVEL("Where did you travel today?", CameraAndGalleryFragment.newInstance(), Track.GENERAL),
-    ;
+
+    public static final int CAMERA_AND_GALLERY = 0;
+    public static final int TRAVEL = 1;
+
+
+
+
 
     private String question;
     private Fragment promptFragment;
     private Fragment responseFragment;
     private Object response = null;
-    private Track track;
+    private int promptId;
     private boolean completed = false;
 
 
-    Prompt(String question, Fragment fragment, Track track) {
+    public Prompt(){}
+
+    public Prompt(String question, Fragment fragment) {
         this.question = question;
         this.promptFragment = fragment;
-        this.track = track;
     }
 
     public String getQuestion() {
@@ -48,27 +44,12 @@ public enum Prompt {
     }
 
     public Fragment getPromptFragment() {
-        return promptFragment;
+        return DBQueryMapper.getFragmentForPrompt(this);
     }
 
-    public Fragment getNewPromptFragment() {
-        try {
-            promptFragment = promptFragment.getClass().newInstance();
-            return promptFragment;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public Fragment getResponseFragment() {
         return responseFragment;
-    }
-
-    public Track getTrack() {
-        return track;
     }
 
     public void setResponseFragment(Fragment responseFragment) {
@@ -88,17 +69,18 @@ public enum Prompt {
         return completed;
     }
 
-    public static List<Prompt> getPromptsOfType(Track track) {
-        List<Prompt> promptList = new ArrayList<>();
-        for (Prompt prompt : values()) {
-            if (prompt.track == track) {
-                promptList.add(prompt);
-            }
-        }
-        return promptList;
+    public int getPromptId() {
+        return promptId;
     }
 
-    public abstract void createResponseFragment();
+    public void createResponseFragment() {
+        if (!hasBeenCompleted()) {
+            return;
+        }
+
+        Bitmap image = ((BitmapDrawable) ((ImageView) getResponse()).getDrawable()).getBitmap();
+        setResponseFragment(CameraAndGalleryResponseFragment.newInstance(image));
+    }
 
 
 }

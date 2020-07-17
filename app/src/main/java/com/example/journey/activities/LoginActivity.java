@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityLoginBinding;
+import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.User;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;

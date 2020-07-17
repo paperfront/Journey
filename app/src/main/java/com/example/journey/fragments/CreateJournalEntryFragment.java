@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,17 @@ import android.widget.TextView;
 
 import com.example.journey.R;
 import com.example.journey.databinding.FragmentCreateJournalEntryBinding;
+import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Prompt;
 import com.example.journey.models.Track;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 
@@ -92,12 +102,35 @@ public class CreateJournalEntryFragment extends Fragment {
     }
 
     private void setupElements() {
-        getPrompts();
-        loadNextPrompt();
+        getPrompts(track);
     }
 
-    private void getPrompts() {
-        prompts = Prompt.getPromptsOfType(track);
+
+
+    private void getPrompts(Track track) {
+        FirebaseFirestore db = FirestoreClient.getReference();
+        db.collection(track.getKey()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot snapshot = task.getResult();
+                    if (!snapshot.isEmpty()) {
+                        prompts = new ArrayList<>();
+                        Timber.d("QuerySnapshot has some data");
+                        List<DocumentSnapshot> documents = snapshot.getDocuments();
+                        for (DocumentSnapshot document : documents) {
+                            prompts.add(document.toObject(Prompt.class));
+                        }
+                        loadNextPrompt();
+                    } else {
+                        Timber.d("Query yielded no results");
+                    }
+                } else {
+                    Timber.d(task.getException(), "get failed with ");
+                }
+            }
+        });
+
     }
 
     private void loadNextPrompt() {
@@ -113,7 +146,7 @@ public class CreateJournalEntryFragment extends Fragment {
 
     private void setupPrompt() {
         tvQuestion.setText(currentPrompt.getQuestion());
-        fragmentManager.beginTransaction().replace(binding.flPromptHolder.getId(), currentPrompt.getNewPromptFragment()).commit();
-        Timber.d("Loaded prompt: " + currentPrompt.name());
+        fragmentManager.beginTransaction().replace(binding.flPromptHolder.getId(), currentPrompt.getPromptFragment()).commit();
+        Timber.d("Loaded prompt: " + currentPrompt.getPromptId());
     }
 }
