@@ -23,7 +23,6 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 # Week 1
 - [X] Create data models
 - [X] Build skeleton views
-    - [ ] Setup timeline fragment functionality
 - [X] Implement navigation between views + bottom navigation bar
 - [X] Setup Firebase for user authentication
     - [X] Firebase offline
