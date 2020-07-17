@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.journey.R;
@@ -44,6 +45,7 @@ public class CreateJournalEntryFragment extends Fragment {
 
     private FragmentManager fragmentManager;
     private TextView tvQuestion;
+    private ProgressBar pbLoading;
 
     private FragmentCreateJournalEntryBinding binding;
 
@@ -99,6 +101,7 @@ public class CreateJournalEntryFragment extends Fragment {
     private void bindElements() {
         tvQuestion = binding.tvQuestion;
         fragmentManager = getActivity().getSupportFragmentManager();
+        pbLoading = binding.pbLoading;
     }
 
     private void setupElements() {
@@ -109,10 +112,12 @@ public class CreateJournalEntryFragment extends Fragment {
 
     private void getPrompts(Track track) {
         FirebaseFirestore db = FirestoreClient.getReference();
+        startLoading();
         db.collection(track.getKey()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    stopLoading();
                     QuerySnapshot snapshot = task.getResult();
                     if (!snapshot.isEmpty()) {
                         prompts = new ArrayList<>();
@@ -131,6 +136,14 @@ public class CreateJournalEntryFragment extends Fragment {
             }
         });
 
+    }
+
+    private void startLoading() {
+        pbLoading.setVisibility(View.VISIBLE);
+    }
+
+    private void stopLoading() {
+        pbLoading.setVisibility(View.INVISIBLE);
     }
 
     private void loadNextPrompt() {
