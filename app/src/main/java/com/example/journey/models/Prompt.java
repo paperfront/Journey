@@ -2,17 +2,12 @@ package com.example.journey.models;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.journey.fragments.prompts.CameraAndGalleryFragment;
 import com.example.journey.fragments.responses.CameraAndGalleryResponseFragment;
 import com.example.journey.helpers.DBQueryMapper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Prompt {
     //TRAVEL("Where did you travel today?", CameraAndGalleryFragment.newInstance(), Track.GENERAL),

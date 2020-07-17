@@ -12,13 +12,13 @@ import com.example.journey.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CameraAndGalleryFragment#newInstance} factory method to
+ * Use the {@link CameraAndGalleryPromptFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CameraAndGalleryFragment extends Fragment {
+public class CameraAndGalleryPromptFragment extends Fragment {
 
 
-    public CameraAndGalleryFragment() {
+    public CameraAndGalleryPromptFragment() {
         // Required empty public constructor
     }
 
@@ -28,8 +28,8 @@ public class CameraAndGalleryFragment extends Fragment {
      * @return A new instance of fragment CameraAndGalleryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CameraAndGalleryFragment newInstance() {
-        CameraAndGalleryFragment fragment = new CameraAndGalleryFragment();
+    public static CameraAndGalleryPromptFragment newInstance() {
+        CameraAndGalleryPromptFragment fragment = new CameraAndGalleryPromptFragment();
         return fragment;
     }
 
