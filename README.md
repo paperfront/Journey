@@ -23,31 +23,46 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 # Week 1
 - [X] Create data models
 - [X] Build skeleton views
-    - [ ] Setup timeline fragment functionality
-- [ ] Implement navigation between views + bottom navigation bar
-- [ ] Setup Firebase for user authentication
-    - [ ] Add sign-in with Google support
-    - [ ] Firebase offline
-- [ ] Review and update project plan
+- [X] Implement navigation between views + bottom navigation bar
+- [X] Setup Firebase for user authentication
+    - [X] Firebase offline
+- [X] Review and update project plan
 - [X] Setup Google Maps SDK
 
 # Week 2
 - [ ] Create functionality for making new journal entries
-    - [ ] Allow users to embed media by launching camera
-- [ ] Implement log out button
+    - [X] Setup prompts data model with firestore
+    - [X] Implement the transition between different prompts
+    - [ ] Implement the aggregation of data amongst all answered prompts
+- [ ] Implement basic report generation
+    - [ ] Handle the aggregation of geotags
+    - [ ] Handle the display of saved media
+- [ ] Setup all recyclerviews to populate now that data is available
+    - [ ] Setup timeline RV
+- [ ] Review and update the design of analysis entries to prepare for week 3
+    - [ ] Decide upon/implement the optimal data model to handle analysis
+    - [ ] Setup the RV for analysis
+    - [ ] Setup analysis data in firestore
+- [X] Implement log out button
+
 
 # Week 3
 - [ ] Visual polish
     - [ ] Include an animation when signing in
 - [ ] Create analysis feature
+- [ ] Implement detail views
+    - [ ] Detail view for analysis
+    - [ ] Detail view for entries
 - [ ] Add gesture recognizer for favoriting entries by double tapping them
 - [ ] Add any extra journaling "tracks"
 
 # Week 4
 - [ ] Implement 3 full tracks
+- [ ] Allow users to create new journals
 - [ ] Extra visual polish
 - [ ] Add extra polish to UX
 - [ ] Stretch Goals
     - [ ] Consider new ways to enhance the analysis feature
     - [ ] Integrating spotify/music clips into Journal entries
     - [ ] Adding any additional tracks (max 5)
+    - [ ] Allow users to run reports across various journals
