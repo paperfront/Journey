@@ -95,6 +95,7 @@ public class EntryDetailFragment extends Fragment {
         adapter = new PromptsAdapter(getContext(), getActivity().getSupportFragmentManager(), prompts);
         rvPrompts.setAdapter(adapter);
         rvPrompts.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        adapter.notifyDataSetChanged();
     }
 
 }

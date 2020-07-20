@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,7 +59,14 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
         }
 
         private void bind(Prompt prompt) {
-            fragmentManager.beginTransaction().replace(binding.flPromptHolder.getId(), prompt.getResponseFragment()).commit();
+            int containerId = this.flPromptHolder.getId();// Get container id
+            Fragment oldFragment = fragmentManager.findFragmentById(containerId);
+            if(oldFragment != null) {
+                fragmentManager.beginTransaction().remove(oldFragment).commit();
+            }
+            int newContainerId = View.generateViewId();// Generate unique container id
+            this.flPromptHolder.setId(newContainerId);// Set container id;
+            fragmentManager.beginTransaction().replace(flPromptHolder.getId(), prompt.getResponseFragment()).commit();
         }
     }
 }
