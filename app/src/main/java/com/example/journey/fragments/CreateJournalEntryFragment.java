@@ -55,7 +55,7 @@ public class CreateJournalEntryFragment extends Fragment {
     private static final String ARG_TRACK = "track";
 
     private Track track;
-    private List<Prompt> prompts;
+    private ArrayList<Prompt> prompts;
     private int currentPromptCounter = 0;
     private Prompt currentPrompt;
 
@@ -164,12 +164,13 @@ public class CreateJournalEntryFragment extends Fragment {
 
 
     private void loadNextPrompt() {
-        if (currentPromptCounter == prompts.size() - 1) {
-            btNext.setText("Finish");
-        } else if (currentPromptCounter >= prompts.size()) {
+         if (currentPromptCounter >= prompts.size()) {
             Timber.d("Finished loading all prompts for track " + track.toString());
-            return;
+            goToDetailPage();
         } else {
+             if (currentPromptCounter == prompts.size() - 1) {
+                 btNext.setText("Finish");
+             }
             currentPrompt = prompts.get(currentPromptCounter);
             currentPromptCounter += 1;
             setupPrompt();
@@ -184,5 +185,18 @@ public class CreateJournalEntryFragment extends Fragment {
 
     public FragmentManager getCurrentFragmentManager() {
         return fragmentManager;
+    }
+
+    private void goToDetailPage() {
+        getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentHolder, MainPageFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentHolder, EntryDetailFragment.newInstance(prompts))
+                .addToBackStack(null)
+                .commit();
+
     }
 }
