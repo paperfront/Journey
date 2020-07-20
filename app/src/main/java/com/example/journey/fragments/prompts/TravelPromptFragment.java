@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.journey.R;
 import com.example.journey.databinding.FragmentTravelPromptBinding;
 import com.example.journey.fragments.CreateJournalEntryFragment;
+import com.example.journey.models.Prompt;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
@@ -26,6 +28,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,11 +44,18 @@ import static android.app.Activity.RESULT_OK;
  */
 public class TravelPromptFragment extends Fragment {
 
+    private static final String ARG_PROMPT = "prompt";
+
+    private Prompt prompt;
+
+    private List<Place> places = new ArrayList<>();
+
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
-    List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+    List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
 
     private FragmentTravelPromptBinding binding;
     private Button btAddLocation;
+    private TextView tvLocations;
 
     public TravelPromptFragment() {
         // Required empty public constructor
@@ -56,14 +66,20 @@ public class TravelPromptFragment extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment TravelPromptFragment.
      */
-    public static TravelPromptFragment newInstance() {
+    public static TravelPromptFragment newInstance(Prompt prompt) {
         TravelPromptFragment fragment = new TravelPromptFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_PROMPT, prompt);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            prompt = getArguments().getParcelable(ARG_PROMPT);
+        }
     }
 
     @Override
@@ -84,6 +100,7 @@ public class TravelPromptFragment extends Fragment {
 
     private void bindElements() {
         btAddLocation = binding.btAddLocation;
+        tvLocations = binding.tvLocations;
     }
 
     private void setupElements() {
@@ -106,6 +123,9 @@ public class TravelPromptFragment extends Fragment {
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
+                places.add(place);
+                prompt.setResponse(places);
+                tvLocations.append(place.getName() + "\n");
                 Timber.i("Place: " + place.getName() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.

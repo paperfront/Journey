@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.journey.fragments.responses.CameraAndGalleryResponseFragment;
 import com.example.journey.helpers.DBQueryMapper;
+import com.google.protobuf.Any;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class Prompt implements Parcelable {
         out.writeString(question);
         out.writeInt(promptId);
         out.writeBoolean(completed);
-        out.writeParcelableList(response, flags);
+        out.writeList(response);
     }
 
     // In the vast majority of cases you can simply return 0 for this.
@@ -75,7 +76,7 @@ public class Prompt implements Parcelable {
         question = in.readString();
         promptId = in.readInt();
         completed = in.readBoolean();
-        response = in.readParcelableList(response, DBQueryMapper.getResponseClassForPromptId(promptId).getClassLoader());
+        in.readList(response, DBQueryMapper.getResponseClassForPromptId(promptId).getClassLoader());
     }
 
 
@@ -97,12 +98,12 @@ public class Prompt implements Parcelable {
         return DBQueryMapper.getResponseFragmentForPrompt(this);
     }
 
-    public void addResponse(Parcelable response) {
+    public <T extends Parcelable> void setResponse(List<T> response) {
         completed = true;
-        this.response.add(response);
+        this.response = (List<Parcelable>) response;
     }
 
-    public Object getResponse() {
+    public List<Parcelable> getResponse() {
         return response;
     }
 

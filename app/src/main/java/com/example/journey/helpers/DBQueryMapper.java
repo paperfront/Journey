@@ -19,9 +19,9 @@ public class DBQueryMapper {
 
        switch (prompt.getPromptId()) {
            case Prompt.CAMERA_AND_GALLERY:
-               return CameraAndGalleryPromptFragment.newInstance();
+               return CameraAndGalleryPromptFragment.newInstance(prompt);
            case Prompt.TRAVEL:
-               return TravelPromptFragment.newInstance();
+               return TravelPromptFragment.newInstance(prompt);
            default:
                Timber.e("No Fragment Found for that prompt ID");
                return null;
@@ -33,7 +33,7 @@ public class DBQueryMapper {
             case Prompt.CAMERA_AND_GALLERY:
                 return CameraAndGalleryResponseFragment.newInstance(prompt);
             case Prompt.TRAVEL:
-                return TravelResponseFragment.newInstance();
+                return TravelResponseFragment.newInstance(prompt);
             default:
                 Timber.e("No Fragment Found for that prompt ID");
                 return null;

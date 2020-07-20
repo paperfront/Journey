@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tvOpenGallery"
+                android:id="@+id/tvLaunchCamera"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Launch Camera"
@@ -31,7 +31,7 @@
                 android:textAlignment="center"/>
 
             <TextView
-                android:id="@+id/tvLaunchCamera"
+                android:id="@+id/tvOpenGallery"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Open Gallery"
