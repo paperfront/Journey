@@ -14,6 +14,7 @@ public class Prompt {
 
     public static final int CAMERA_AND_GALLERY = 0;
     public static final int TRAVEL = 1;
+    public static final int PROUD = 2;
 
 
 
