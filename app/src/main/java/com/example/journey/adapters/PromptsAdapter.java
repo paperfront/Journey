@@ -59,6 +59,11 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
         }
 
         private void bind(Prompt prompt) {
+
+            if (!prompt.hasBeenCompleted()) {
+                return;
+            }
+
             int containerId = this.flPromptHolder.getId();// Get container id
             Fragment oldFragment = fragmentManager.findFragmentById(containerId);
             if(oldFragment != null) {

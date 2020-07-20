@@ -2,14 +2,21 @@ package com.example.journey.fragments.responses;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.journey.R;
+import com.example.journey.databinding.FragmentProudPromptBinding;
+import com.example.journey.databinding.FragmentProudResponseBinding;
 import com.example.journey.models.Prompt;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +31,11 @@ public class ProudResponseFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Prompt prompt;
+
+    private FragmentProudResponseBinding binding;
+
+    private TextView tvPrompt;
+    private TextView tvProud;
 
     public ProudResponseFragment() {
         // Required empty public constructor
@@ -57,5 +69,30 @@ public class ProudResponseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_proud_response, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding = FragmentProudResponseBinding.bind(view);
+        bindElements();
+        setupElements();
+    }
+
+    private void bindElements() {
+        tvPrompt = binding.tvPrompt;
+        tvProud = binding.tvProud;
+    }
+
+    private void setupElements() {
+        setupTextViews();
+    }
+
+    private void setupTextViews() {
+        tvPrompt.setText(prompt.getQuestion());
+        List<String> responses = prompt.getStringResponse();
+        for (String response : responses) {
+            tvProud.append(" - " + response + "\n");
+        }
     }
 }
