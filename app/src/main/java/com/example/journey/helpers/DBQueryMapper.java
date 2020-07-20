@@ -8,6 +8,7 @@ import com.example.journey.fragments.prompts.CameraAndGalleryPromptFragment;
 import com.example.journey.fragments.prompts.ProudPromptFragment;
 import com.example.journey.fragments.prompts.TravelPromptFragment;
 import com.example.journey.fragments.responses.CameraAndGalleryResponseFragment;
+import com.example.journey.fragments.responses.ProudResponseFragment;
 import com.example.journey.fragments.responses.TravelResponseFragment;
 import com.example.journey.models.Prompt;
 import com.google.android.libraries.places.api.model.Place;
@@ -37,6 +38,8 @@ public class DBQueryMapper {
                 return CameraAndGalleryResponseFragment.newInstance(prompt);
             case Prompt.TRAVEL:
                 return TravelResponseFragment.newInstance(prompt);
+            case Prompt.PROUD:
+                return ProudResponseFragment.newInstance(prompt);
             default:
                 Timber.e("No Fragment Found for that prompt ID");
                 return null;
