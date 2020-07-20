@@ -22,11 +22,13 @@ import android.widget.Toast;
 
 import com.example.journey.R;
 import com.example.journey.databinding.FragmentCameraAndGalleryBinding;
+import com.example.journey.helpers.BitmapScaler;
 import com.example.journey.helpers.ImageUtils;
 import com.example.journey.models.Prompt;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -50,8 +52,10 @@ public class CameraAndGalleryPromptFragment extends Fragment {
 
     private FragmentCameraAndGalleryBinding binding;
     private File photoFile;
+    private List<Bitmap> allMedia = new ArrayList<>();
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    public final static int PICK_PHOTO_CODE = 1046;
     private static final String PHOTO_FILENAME = "photo.jpg";
 
 
@@ -113,6 +117,13 @@ public class CameraAndGalleryPromptFragment extends Fragment {
                 launchCamera();
             }
         });
+
+        tvOpenGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchGallery();
+            }
+        });
     }
 
     @Override
@@ -121,16 +132,29 @@ public class CameraAndGalleryPromptFragment extends Fragment {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                // See code above
+                Uri takenPhotoUri = Uri.fromFile(photoFile);
+                // by this point we have the camera photo on disk
+                Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
+                // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
+                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rawTakenImage, 50);
+                Bitmap takenImage = resizedBitmap;
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
                 ivMedia.setImageBitmap(takenImage);
-                ArrayList<Bitmap> allMedia = new ArrayList<>();
                 allMedia.add(takenImage);
                 prompt.setResponse(allMedia);
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
+        } else if ((data != null) && requestCode == PICK_PHOTO_CODE) {
+            Uri photoUri = data.getData();
+
+            // Load the image located at photoUri into selectedImage
+            Bitmap selectedImage = ImageUtils.loadFromUri(photoUri, getContext());
+            ivMedia.setImageBitmap(selectedImage);
+            allMedia.add(selectedImage);
+            prompt.setResponse(allMedia);
         }
 
     }
@@ -138,6 +162,7 @@ public class CameraAndGalleryPromptFragment extends Fragment {
     private void launchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = ImageUtils.getPhotoFileUri(getContext(), PHOTO_FILENAME);
+
         Uri fileProvider = FileProvider.getUriForFile(getContext(),
                 "com.codepath.fileprovider.journey", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
@@ -147,6 +172,20 @@ public class CameraAndGalleryPromptFragment extends Fragment {
         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
             // Start the image capture intent to take photo
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
+    }
+
+    // Trigger gallery selection for a photo
+    public void launchGallery() {
+        // Create intent for picking a photo from the gallery
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+        // So as long as the result is not null, it's safe to use the intent.
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Bring up gallery to select a photo
+            startActivityForResult(intent, PICK_PHOTO_CODE);
         }
     }
 }
