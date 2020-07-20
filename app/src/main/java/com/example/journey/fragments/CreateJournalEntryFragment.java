@@ -164,7 +164,9 @@ public class CreateJournalEntryFragment extends Fragment {
 
 
     private void loadNextPrompt() {
-        if (currentPromptCounter >= prompts.size()) {
+        if (currentPromptCounter == prompts.size() - 1) {
+            btNext.setText("Finish");
+        } else if (currentPromptCounter >= prompts.size()) {
             Timber.d("Finished loading all prompts for track " + track.toString());
             return;
         } else {
