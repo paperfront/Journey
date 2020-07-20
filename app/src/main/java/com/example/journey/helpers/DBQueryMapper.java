@@ -5,6 +5,7 @@ import android.media.Image;
 import androidx.fragment.app.Fragment;
 
 import com.example.journey.fragments.prompts.CameraAndGalleryPromptFragment;
+import com.example.journey.fragments.prompts.ProudPromptFragment;
 import com.example.journey.fragments.prompts.TravelPromptFragment;
 import com.example.journey.fragments.responses.CameraAndGalleryResponseFragment;
 import com.example.journey.fragments.responses.TravelResponseFragment;
@@ -22,6 +23,8 @@ public class DBQueryMapper {
                return CameraAndGalleryPromptFragment.newInstance(prompt);
            case Prompt.TRAVEL:
                return TravelPromptFragment.newInstance(prompt);
+           case Prompt.PROUD:
+               return ProudPromptFragment.newInstance(prompt);
            default:
                Timber.e("No Fragment Found for that prompt ID");
                return null;
@@ -46,6 +49,8 @@ public class DBQueryMapper {
                 return Image.class;
             case Prompt.TRAVEL:
                 return Place.class;
+            case Prompt.PROUD:
+                return String.class;
             default:
                 Timber.e("No Fragment Found for that prompt ID");
                 return null;

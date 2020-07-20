@@ -28,7 +28,8 @@ public class Prompt implements Parcelable {
     private String question;
     private int promptId;
     private boolean completed = false;
-    private List<Parcelable> response = new ArrayList<>();
+    private List<Parcelable> parcelableResponse = new ArrayList<>();
+    private List<String> stringResponse = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -36,7 +37,8 @@ public class Prompt implements Parcelable {
         out.writeString(question);
         out.writeInt(promptId);
         out.writeBoolean(completed);
-        out.writeList(response);
+        out.writeList(parcelableResponse);
+        out.writeList(stringResponse);
     }
 
     // In the vast majority of cases you can simply return 0 for this.
@@ -76,7 +78,8 @@ public class Prompt implements Parcelable {
         question = in.readString();
         promptId = in.readInt();
         completed = in.readBoolean();
-        in.readList(response, DBQueryMapper.getResponseClassForPromptId(promptId).getClassLoader());
+        in.readList(parcelableResponse, DBQueryMapper.getResponseClassForPromptId(promptId).getClassLoader());
+        in.readList(stringResponse, String.class.getClassLoader());
     }
 
 
@@ -98,14 +101,25 @@ public class Prompt implements Parcelable {
         return DBQueryMapper.getResponseFragmentForPrompt(this);
     }
 
-    public <T extends Parcelable> void setResponse(List<T> response) {
+    public <T extends Parcelable> void setParcelableResponse(List<T> response) {
         completed = true;
-        this.response = (List<Parcelable>) response;
+        this.parcelableResponse = (List<Parcelable>) response;
     }
 
-    public List<Parcelable> getResponse() {
-        return response;
+    public void setStringResponse(List<String> response) {
+        completed = true;
+        this.stringResponse = response;
     }
+
+
+    public List<Parcelable> getParcelableResponse() {
+        return parcelableResponse;
+    }
+
+    public List<String> getStringResponse() {
+        return stringResponse;
+    }
+
 
     public boolean hasBeenCompleted() {
         return completed;

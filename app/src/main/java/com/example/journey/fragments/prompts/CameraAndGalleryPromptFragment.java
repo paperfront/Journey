@@ -143,7 +143,7 @@ public class CameraAndGalleryPromptFragment extends Fragment {
                 // Load the taken image into a preview
                 ivMedia.setImageBitmap(takenImage);
                 allMedia.add(takenImage);
-                prompt.setResponse(allMedia);
+                prompt.setParcelableResponse(allMedia);
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
@@ -154,7 +154,7 @@ public class CameraAndGalleryPromptFragment extends Fragment {
             Bitmap selectedImage = ImageUtils.loadFromUri(photoUri, getContext());
             ivMedia.setImageBitmap(selectedImage);
             allMedia.add(selectedImage);
-            prompt.setResponse(allMedia);
+            prompt.setParcelableResponse(allMedia);
         }
 
     }

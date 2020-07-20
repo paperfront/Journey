@@ -124,7 +124,7 @@ public class TravelPromptFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 places.add(place);
-                prompt.setResponse(places);
+                prompt.setParcelableResponse(places);
                 tvLocations.append(place.getName() + "\n");
                 Timber.i("Place: " + place.getName() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
