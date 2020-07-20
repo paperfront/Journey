@@ -1,6 +1,7 @@
 package com.example.journey.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -9,10 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.journey.R;
 import com.example.journey.databinding.ItemPromptBinding;
 import com.example.journey.models.Prompt;
 
 import java.util.List;
+
 
 public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHolder> {
 
@@ -29,7 +32,8 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(context).inflate(R.layout.item_prompt, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
