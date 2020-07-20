@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.journey.R;
+import com.example.journey.models.Prompt;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,10 +22,10 @@ public class CameraAndGalleryResponseFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PROMPT = "prompt";
 
     // TODO: Rename and change types of parameters
-    private Bitmap mParam1;
+    private Prompt prompt;
 
     public CameraAndGalleryResponseFragment() {
         // Required empty public constructor
@@ -34,14 +35,13 @@ public class CameraAndGalleryResponseFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
      * @return A new instance of fragment CameraAndGalleryResponseFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CameraAndGalleryResponseFragment newInstance(Bitmap image) {
+    public static CameraAndGalleryResponseFragment newInstance(Prompt prompt) {
         CameraAndGalleryResponseFragment fragment = new CameraAndGalleryResponseFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAM1, image);
+        args.putParcelable(ARG_PROMPT, prompt);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +50,7 @@ public class CameraAndGalleryResponseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getParcelable(ARG_PARAM1);
+            prompt = getArguments().getParcelable(ARG_PROMPT);
         }
     }
 

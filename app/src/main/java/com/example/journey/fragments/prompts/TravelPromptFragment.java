@@ -1,14 +1,38 @@
 package com.example.journey.fragments.prompts;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.journey.R;
+import com.example.journey.databinding.FragmentTravelPromptBinding;
+import com.example.journey.fragments.CreateJournalEntryFragment;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.List;
+
+import timber.log.Timber;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +41,11 @@ import com.example.journey.R;
  */
 public class TravelPromptFragment extends Fragment {
 
+    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
+    List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+
+    private FragmentTravelPromptBinding binding;
+    private Button btAddLocation;
 
     public TravelPromptFragment() {
         // Required empty public constructor
@@ -27,7 +56,6 @@ public class TravelPromptFragment extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment TravelPromptFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static TravelPromptFragment newInstance() {
         TravelPromptFragment fragment = new TravelPromptFragment();
         return fragment;
@@ -44,4 +72,52 @@ public class TravelPromptFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_travel_prompt, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding = FragmentTravelPromptBinding.bind(view);
+        bindElements();
+        setupElements();
+    }
+
+
+    private void bindElements() {
+        btAddLocation = binding.btAddLocation;
+    }
+
+    private void setupElements() {
+        setupButtons();
+    }
+
+    private void setupButtons() {
+        btAddLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(getContext());
+                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                Timber.i("Place: " + place.getName() + ", " + place.getId());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Timber.i(status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
 }

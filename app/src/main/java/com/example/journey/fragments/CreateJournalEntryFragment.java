@@ -179,4 +179,8 @@ public class CreateJournalEntryFragment extends Fragment {
         fragmentManager.beginTransaction().replace(binding.flPromptHolder.getId(), currentPrompt.getPromptFragment()).commit();
         Timber.d("Loaded prompt: " + currentPrompt.getPromptId());
     }
+
+    public FragmentManager getCurrentFragmentManager() {
+        return fragmentManager;
+    }
 }
