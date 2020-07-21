@@ -24,6 +24,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -101,10 +104,21 @@ public class LoginActivity extends AppCompatActivity {
                             goToMainActivity();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Timber.w(task.getException(), "signInWithEmail:failure");
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                                try {
+                                    throw task.getException();
+                                } catch(FirebaseAuthWeakPasswordException e) {
+                                    etPassword.setError("Password must be at least 6 characters long.");
+                                    etPassword.requestFocus();
+                                } catch(FirebaseAuthInvalidCredentialsException e) {
+                                    etEmail.setError("Please use a valid email address.");
+                                    etEmail.requestFocus();
+                                } catch(FirebaseAuthUserCollisionException e) {
+                                    etEmail.setError("A user with that email already exists.");
+                                    etEmail.requestFocus();
+                                } catch(Exception e) {
+                                    Timber.e(e, "Unknown exception occured");
+                                }
+                            }
                     }
                 });
     }
