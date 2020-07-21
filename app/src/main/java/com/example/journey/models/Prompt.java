@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.journey.fragments.responses.CameraAndGalleryResponseFragment;
 import com.example.journey.helpers.DBQueryMapper;
+import com.google.firebase.firestore.Exclude;
 import com.google.protobuf.Any;
+import com.google.type.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +30,8 @@ public class Prompt implements Parcelable {
     private String question;
     private int promptId;
     private boolean completed = false;
-    private List<Parcelable> parcelableResponse = new ArrayList<>();
     private List<String> stringResponse = new ArrayList<>();
+    private List<Location> locationResponse = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -37,7 +39,6 @@ public class Prompt implements Parcelable {
         out.writeString(question);
         out.writeInt(promptId);
         out.writeBoolean(completed);
-        out.writeList(parcelableResponse);
         out.writeList(stringResponse);
     }
 
@@ -52,6 +53,7 @@ public class Prompt implements Parcelable {
     // After implementing the `Parcelable` interface, we need to create the
     // `Parcelable.Creator<MyParcelable> CREATOR` constant for our class;
     // Notice how it has our class specified as its type.
+    @Exclude
     public static final Parcelable.Creator<Prompt> CREATOR
             = new Parcelable.Creator<Prompt>() {
 
@@ -73,12 +75,12 @@ public class Prompt implements Parcelable {
     // Using the `in` variable, we can retrieve the values that
     // we originally wrote into the `Parcel`.  This constructor is usually
     // private so that only the `CREATOR` field can access.
+
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private Prompt(Parcel in) {
         question = in.readString();
         promptId = in.readInt();
         completed = in.readBoolean();
-        in.readList(parcelableResponse, DBQueryMapper.getResponseClassForPromptId(promptId).getClassLoader());
         in.readList(stringResponse, String.class.getClassLoader());
     }
 
@@ -89,45 +91,44 @@ public class Prompt implements Parcelable {
         this.question = question;
     }
 
-    public String getQuestion() {
-        return question;
-    }
-
+    @Exclude
     public Fragment getPromptFragment() {
         return DBQueryMapper.getFragmentForPrompt(this);
     }
 
+    @Exclude
     public Fragment getResponseFragment() {
         return DBQueryMapper.getResponseFragmentForPrompt(this);
     }
 
-    public <T extends Parcelable> void setParcelableResponse(List<T> response) {
-        completed = true;
-        this.parcelableResponse = (List<Parcelable>) response;
-    }
 
     public void setStringResponse(List<String> response) {
         completed = true;
         this.stringResponse = response;
     }
 
-
-    public List<Parcelable> getParcelableResponse() {
-        return parcelableResponse;
+    public void setLocationResponse(List<Location> response) {
+        completed = true;
+        this.locationResponse = response;
     }
 
-    public List<String> getStringResponse() {
-        return stringResponse;
-    }
-
-
-    public boolean hasBeenCompleted() {
-        return completed;
+    public String getQuestion() {
+        return question;
     }
 
     public int getPromptId() {
         return promptId;
     }
 
+    public boolean isCompleted() {
+        return completed;
+    }
 
+    public List<String> getStringResponse() {
+        return stringResponse;
+    }
+
+    public List<Location> getLocationResponse() {
+        return locationResponse;
+    }
 }

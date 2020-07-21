@@ -13,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.journey.R;
 import com.example.journey.databinding.FragmentCameraAndGalleryResponseBinding;
 import com.example.journey.models.Prompt;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,7 +84,8 @@ public class CameraAndGalleryResponseFragment extends Fragment {
     }
 
     private void setupElements() {
-        Bitmap image = (Bitmap) prompt.getParcelableResponse().get(0);
-        ivMedia.setImageBitmap(image);
+        List<String> downloadUrls = prompt.getStringResponse();
+        String firstUrl = downloadUrls.get(0);
+        Glide.with(getContext()).load(firstUrl).into(ivMedia);
     }
 }

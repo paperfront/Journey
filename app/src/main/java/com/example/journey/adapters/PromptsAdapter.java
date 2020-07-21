@@ -60,7 +60,7 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
 
         private void bind(Prompt prompt) {
 
-            if (!prompt.hasBeenCompleted()) {
+            if (!prompt.isCompleted()) {
                 return;
             }
 

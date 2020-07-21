@@ -164,11 +164,13 @@ public class LoginActivity extends AppCompatActivity {
         // Access a Cloud Firestore instance from your Activity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users")
-                .add(new User(currentUser.getEmail(), currentUser.getUid()))
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(currentUser.getUid())
+                .set(new User(currentUser.getEmail(), currentUser.getUid()))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Timber.d("DocumentSnapshot added with ID: " + documentReference.getId());
+                    public void onSuccess(Void aVoid) {
+                        Timber.d("Document set successfully.");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

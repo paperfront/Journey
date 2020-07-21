@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.journey.R;
 import com.example.journey.databinding.FragmentTravelResponseBinding;
+import com.example.journey.models.Location;
 import com.example.journey.models.Prompt;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -97,15 +98,13 @@ public class TravelResponseFragment extends Fragment implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
 
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        List<Parcelable> locations = prompt.getParcelableResponse();
-        Place firstPlace = (Place) locations.get(0);
-        for (Parcelable location : locations) {
-            Place place = (Place) location;
+        List<Location> locations = prompt.getLocationResponse();
+        Location firstLocation = locations.get(0);
+        for (Location location : locations) {
             googleMap.addMarker(new MarkerOptions()
-                    .position(place.getLatLng())
-                    .title(place.getName()));
+                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .title(location.getName()));
         }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstPlace.getLatLng(), 10));
-
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLocation.getLatitude(), firstLocation.getLongitude()), 10));
     }
 }

@@ -15,10 +15,21 @@ import android.view.ViewGroup;
 import com.example.journey.R;
 import com.example.journey.adapters.PromptsAdapter;
 import com.example.journey.databinding.FragmentEntryDetailBinding;
+import com.example.journey.helpers.FirestoreClient;
+import com.example.journey.models.Entry;
 import com.example.journey.models.Prompt;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,7 +65,7 @@ public class EntryDetailFragment extends Fragment {
     public static EntryDetailFragment newInstance(ArrayList<Prompt> prompts) {
         EntryDetailFragment fragment = new EntryDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(ARG_PROMPTS, prompts);
+        args.putSerializable(ARG_PROMPTS, prompts);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,7 +74,7 @@ public class EntryDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            prompts = getArguments().getParcelableArrayList(ARG_PROMPTS);
+            prompts = (List<Prompt>) getArguments().getSerializable(ARG_PROMPTS);
         }
     }
 
@@ -78,7 +89,6 @@ public class EntryDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentEntryDetailBinding.bind(view);
-
         bindElements();
         setupElements();
     }
@@ -98,4 +108,34 @@ public class EntryDetailFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    private void saveEntry() {
+        Entry entry = new Entry(prompts);
+        //todo replace hard coded journal name with current journal
+        String journalName = "first";
+        CollectionReference entryRef =  FirestoreClient.getReference().collection("users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .collection("journals")
+                .document(journalName)
+                .collection("entries");
+        entryRef.add(entry)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Timber.d("DocumentSnapshot written with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Timber.w(e, "Error adding document");
+                    }
+                });
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        saveEntry();
+    }
 }

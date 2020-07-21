@@ -25,10 +25,19 @@ import com.example.journey.databinding.FragmentCameraAndGalleryBinding;
 import com.example.journey.helpers.BitmapScaler;
 import com.example.journey.helpers.ImageUtils;
 import com.example.journey.models.Prompt;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -52,11 +61,12 @@ public class CameraAndGalleryPromptFragment extends Fragment {
 
     private FragmentCameraAndGalleryBinding binding;
     private File photoFile;
-    private List<Bitmap> allMedia = new ArrayList<>();
+    private List<String> mediaDownloads = new ArrayList<>();
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public final static int PICK_PHOTO_CODE = 1046;
     private static final String PHOTO_FILENAME = "photo.jpg";
+    private StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
 
     public CameraAndGalleryPromptFragment() {
@@ -129,6 +139,10 @@ public class CameraAndGalleryPromptFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // Create a reference to 'images/mountains.jpg'
+        StorageReference mountainImagesRef = storageRef.child("images/" + FirebaseAuth.getInstance().getUid() + "/ " +  ".jpg");
+
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
@@ -142,8 +156,7 @@ public class CameraAndGalleryPromptFragment extends Fragment {
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
                 ivMedia.setImageBitmap(takenImage);
-                allMedia.add(takenImage);
-                prompt.setParcelableResponse(allMedia);
+                uploadMedia(takenPhotoUri);
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
@@ -153,8 +166,7 @@ public class CameraAndGalleryPromptFragment extends Fragment {
             // Load the image located at photoUri into selectedImage
             Bitmap selectedImage = ImageUtils.loadFromUri(photoUri, getContext());
             ivMedia.setImageBitmap(selectedImage);
-            allMedia.add(selectedImage);
-            prompt.setParcelableResponse(allMedia);
+            uploadMedia(photoUri);
         }
 
     }
@@ -187,5 +199,27 @@ public class CameraAndGalleryPromptFragment extends Fragment {
             // Bring up gallery to select a photo
             startActivityForResult(intent, PICK_PHOTO_CODE);
         }
+    }
+
+    private void uploadMedia(Uri file) {
+        final StorageReference mediaRef = storageRef.child("images/" + FirebaseAuth.getInstance().getUid() + "/" + UUID.randomUUID().toString());
+        UploadTask uploadTask = mediaRef.putFile(file);
+
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                Timber.e(exception, "Failed to upload media.");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Timber.i("Successfully uploaded media");
+               String downloadUrl = mediaRef.getDownloadUrl().toString();
+               mediaDownloads.add(downloadUrl);
+               prompt.setStringResponse(mediaDownloads);
+            }
+        });
     }
 }

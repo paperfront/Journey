@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.journey.R;
 import com.example.journey.databinding.FragmentTravelPromptBinding;
 import com.example.journey.fragments.CreateJournalEntryFragment;
+import com.example.journey.models.Location;
 import com.example.journey.models.Prompt;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.model.Place;
@@ -25,6 +26,7 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.type.LatLng;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -48,7 +50,7 @@ public class TravelPromptFragment extends Fragment {
 
     private Prompt prompt;
 
-    private List<Place> places = new ArrayList<>();
+    private List<Location> places = new ArrayList<>();
 
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
@@ -123,8 +125,8 @@ public class TravelPromptFragment extends Fragment {
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                places.add(place);
-                prompt.setParcelableResponse(places);
+                places.add(new Location(place));
+                prompt.setLocationResponse(places);
                 tvLocations.append(place.getName() + "\n");
                 Timber.i("Place: " + place.getName() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
