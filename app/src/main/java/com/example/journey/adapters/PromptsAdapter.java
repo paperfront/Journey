@@ -52,6 +52,8 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
         private FrameLayout flPromptHolder;
         private ItemPromptBinding binding;
 
+
+        //todo create custom view holders for each prompt response instead of using fragments
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemPromptBinding.bind(itemView);
