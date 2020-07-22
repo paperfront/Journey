@@ -31,8 +31,8 @@ import timber.log.Timber;
 
 public class EntryTimelineActivity extends AppCompatActivity {
 
-    public static final String KEY_JOURNAL = "journal";
-    private Journal journal;
+    public static final String KEY_ENTRIES = "entries";
+    public static final String KEY_TITLE = "title";
     private ActivityEntryTimelineBinding binding;
     private ProgressBar pbLoading;
 
@@ -41,6 +41,7 @@ public class EntryTimelineActivity extends AppCompatActivity {
     private RecyclerView rvEntries;
     private EntriesAdapter adapter;
     private List<Entry> entries;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,8 @@ public class EntryTimelineActivity extends AppCompatActivity {
     }
 
     private void bindElements() {
-        journal = getIntent().getParcelableExtra(KEY_JOURNAL);
+        entries = getIntent().getParcelableArrayListExtra(KEY_ENTRIES);
+        title = getIntent().getStringExtra(KEY_TITLE);
         tvJournalName = binding.tvJournalName;
         rvEntries = binding.rvEntries;
         tvNoEntries = binding.tvNoEntries;
@@ -68,11 +70,10 @@ public class EntryTimelineActivity extends AppCompatActivity {
     }
 
     private void setupTextViews() {
-        tvJournalName.setText(journal.getTitle());
+        tvJournalName.setText(title);
     }
 
     private void setupRV() {
-        entries = new ArrayList<>();
         adapter = new EntriesAdapter(entries, this);
         rvEntries.setAdapter(adapter);
         rvEntries.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -80,7 +81,6 @@ public class EntryTimelineActivity extends AppCompatActivity {
     }
 
     private void loadEntries() {
-        entries.addAll(journal.getEntries());
         Collections.reverse(entries);
         if (entries.isEmpty()) {
             tvNoEntries.setVisibility(View.VISIBLE);

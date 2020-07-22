@@ -69,6 +69,7 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
             rootView = itemView;
         }
 
+
         private void bind(final Journal journal) {
             tvTitle.setText(journal.getTitle());
             tvTotalEntries.setText("Total Entries: " + Integer.toString(journal.getEntries().size()));

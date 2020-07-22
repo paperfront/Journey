@@ -133,7 +133,8 @@ public class TimelineFragment extends Fragment {
 
     public void goToEntryTimeline(Journal journal) {
         Intent i = new Intent(getContext(), EntryTimelineActivity.class);
-        i.putExtra(EntryTimelineActivity.KEY_JOURNAL, journal);
+        i.putParcelableArrayListExtra(EntryTimelineActivity.KEY_ENTRIES, new ArrayList<>(journal.getEntries()));
+        i.putExtra(EntryTimelineActivity.KEY_TITLE, journal.getTitle());
         startActivity(i);
     }
 }

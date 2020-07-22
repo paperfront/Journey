@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.journey.R;
+import com.example.journey.activities.EntryTimelineActivity;
 import com.example.journey.activities.JournalsActivity;
 import com.example.journey.databinding.FragmentMainPageBinding;
 import com.example.journey.helpers.FirestoreClient;
@@ -26,12 +27,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -126,7 +129,7 @@ public class MainPageFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void getEntriesFromDate(Date today, Date tomorrow) {
+    private void getEntriesFromDate(final Date today, Date tomorrow) {
         pbLoading.setVisibility(View.VISIBLE);
 
         FirestoreClient.getUserRef().collection("allEntries")
@@ -136,15 +139,17 @@ public class MainPageFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        int found = queryDocumentSnapshots.getDocuments().size();
+                        ArrayList<Entry> entries = new ArrayList<>();
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            entries.add(document.toObject(Entry.class));
+                        }
                         Timber.i(queryDocumentSnapshots.getQuery().toString());
-                        Toast.makeText(getContext(), "Successfully queried calendar for a total of " + found + " documents.", Toast.LENGTH_SHORT).show();
                         pbLoading.setVisibility(View.INVISIBLE);
+                        goToEntryTimelineActivity(entries, "Entries From " + today.toString());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Failed to query documents", Toast.LENGTH_SHORT).show();
                 Timber.e(e, "Failed to query calendar.");
                 pbLoading.setVisibility(View.INVISIBLE);
             }
@@ -156,6 +161,13 @@ public class MainPageFragment extends Fragment {
 
     private void goToJournalsActivity() {
         Intent i = new Intent(getContext(), JournalsActivity.class);
+        startActivity(i);
+    }
+
+    private void goToEntryTimelineActivity(ArrayList<Entry> entries, String title) {
+        Intent i = new Intent(getContext(), EntryTimelineActivity.class);
+        i.putParcelableArrayListExtra(EntryTimelineActivity.KEY_ENTRIES, entries);
+        i.putExtra(EntryTimelineActivity.KEY_TITLE, title);
         startActivity(i);
     }
 
