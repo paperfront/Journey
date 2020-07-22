@@ -7,7 +7,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FirestoreClient {
-    
+
     public static FirebaseFirestore getReference() {
         return FirebaseFirestore.getInstance();
     }

@@ -104,9 +104,14 @@ public class TimelineFragment extends Fragment {
         docRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
                 if (task.isSuccessful()) {
                     tvNoJournals.setVisibility(View.GONE);
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+                    QuerySnapshot snapshot = task.getResult();
+                    if (snapshot.isEmpty()) {
+                        tvNoJournals.setVisibility(View.VISIBLE);
+                    }
+                    for (QueryDocumentSnapshot document : snapshot) {
                         Timber.d(document.getId() + " => " + document.getData());
                         Journal journal = document.toObject(Journal.class);
                         journals.add(journal);
