@@ -34,6 +34,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
@@ -51,8 +52,17 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
         this.context = context;
         this.activity = activity;
         this.fragmentManager = activity.getSupportFragmentManager();
-        this.prompts = prompts;
         this.rv = rv;
+        getValidPrompts(prompts);
+    }
+
+    private void getValidPrompts(List<Prompt> prompts) {
+        this.prompts = new ArrayList<>();
+        for (Prompt prompt : prompts) {
+            if (prompt.isCompleted()) {
+                this.prompts.add(prompt);
+            }
+        }
     }
 
     @Override
@@ -85,7 +95,7 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return prompts.size();
+        return  prompts.size();
     }
 
     public abstract class ViewHolder extends RecyclerView.ViewHolder {
@@ -93,17 +103,20 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
         private FrameLayout flPromptHolder;
         private ItemPromptBinding binding;
         private Prompt prompt;
+        private View rootView;
 
 
         //todo create custom view holders for each prompt response instead of using fragments
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            rootView = itemView;
             binding = ItemPromptBinding.bind(itemView);
             flPromptHolder = binding.flPromptHolder;
         }
 
         private void bind(Prompt prompt) {
             if (!prompt.isCompleted()) {
+                rootView.setVisibility(View.GONE);
                 return;
             }
             this.prompt = prompt;
@@ -145,7 +158,6 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
     public class TravelViewHolder extends ViewHolder implements OnMapReadyCallback {
 
         private ItemTravelBinding binding;
-        private MapView mapView;
         private ImageView transparentImageView;
 
         public TravelViewHolder(@NonNull View itemView) {
