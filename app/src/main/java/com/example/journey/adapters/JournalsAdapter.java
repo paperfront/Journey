@@ -56,17 +56,20 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
         private ItemJournalBinding binding;
 
         private TextView tvTitle;
+        private TextView tvTotalEntries;
         private View rootView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemJournalBinding.bind(itemView);
             tvTitle = binding.tvTitle;
+            tvTotalEntries = binding.tvTotalEntries;
             rootView = itemView;
         }
 
         private void bind(final Journal journal) {
             tvTitle.setText(journal.getTitle());
+            tvTotalEntries.setText("Total Entries: " + Integer.toString(journal.getEntries().size()));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

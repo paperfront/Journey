@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,12 +22,17 @@ import com.example.journey.fragments.CreateJournalFragment;
 import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Journal;
 import com.example.journey.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +61,7 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
 
     private void setupRV() {
         journals = new ArrayList<>();
+        journalTitles = new ArrayList<>();
         adapter = new JournalsAdapter(this, this, journals);
         rvJournals.setAdapter(adapter);
         rvJournals.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -103,30 +110,21 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
 
     private void loadJournals() {
         pbLoading.setVisibility(View.VISIBLE);
-        DocumentReference docRef = FirestoreClient.getUserRef();
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        CollectionReference docRef = FirestoreClient.getUserRef().collection("journals");
+        docRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                User currentUser = documentSnapshot.toObject(User.class);
-
-                if (currentUser.getJournalNames() == null) {
-                    journalTitles = new ArrayList<>();
-                    FirestoreClient.getUserRef().update("journalNames", new ArrayList<String>());
-                    return;
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Timber.d(document.getId() + " => " + document.getData());
+                        Journal journal = document.toObject(Journal.class);
+                        journals.add(journal);
+                        journalTitles.add(journal.getTitle());
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Timber.e(task.getException(),"Error getting documents: ");
                 }
-
-                for (String journalName : currentUser.getJournalNames()) {
-                    journals.add(new Journal(journalName));
-                }
-                journalTitles = currentUser.getJournalNames();
-                adapter.notifyDataSetChanged();
-                pbLoading.setVisibility(View.GONE);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Timber.e("Failed to load journals.");
                 pbLoading.setVisibility(View.GONE);
             }
         });

@@ -8,6 +8,8 @@ public class Journal {
     private String title;
     private List<Entry> entries;
 
+    public Journal(){}
+
     public Journal(String title) {
         this.title = title;
         this.entries = new ArrayList<>();
