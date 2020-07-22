@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.AnalysisFragment">
 
     <LinearLayout
@@ -33,7 +33,11 @@
                 android:layout_margin="16dp"
                 android:layout_gravity="center"
                 android:contentDescription="Start Journal Analysis"
-                android:src="@drawable/ic_baseline_memory_24"/>
+                android:id="@+id/btBeginAnalysis"
+                android:src="@drawable/ic_baseline_memory_24"
+                app:backgroundTint="@color/colorPrimary"
+                android:tint="@color/places_text_white_alpha_26"
+                app:tint="@color/quantum_white_divider"/>/>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <TextView

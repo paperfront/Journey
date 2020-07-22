@@ -1,14 +1,23 @@
 package com.example.journey.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.journey.R;
+import com.example.journey.activities.BeginAnalysisActivity;
+import com.example.journey.databinding.FragmentAnalysisBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,14 +26,9 @@ import com.example.journey.R;
  */
 public class AnalysisFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentAnalysisBinding binding;
+    private FloatingActionButton btBeginAnalysis;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public AnalysisFragment() {
         // Required empty public constructor
@@ -34,11 +38,8 @@ public class AnalysisFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment AnalysisFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static AnalysisFragment newInstance() {
         AnalysisFragment fragment = new AnalysisFragment();
         return fragment;
@@ -54,5 +55,37 @@ public class AnalysisFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_analysis, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding = FragmentAnalysisBinding.bind(view);
+        bindElements();
+        setupElements();
+    }
+
+    private void bindElements() {
+        btBeginAnalysis = binding.btBeginAnalysis;
+    }
+
+    private void setupElements() {
+        setupButtons();
+        setupRV();
+    }
+
+    private void setupButtons() {
+        btBeginAnalysis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Timber.i("Begin analysis button clicked.");
+                Intent i = new Intent(getContext(), BeginAnalysisActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+
+    private void setupRV() {
+
     }
 }
