@@ -1,5 +1,6 @@
 package com.example.journey.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.journey.R;
+import com.example.journey.activities.EntryTimelineActivity;
 import com.example.journey.adapters.JournalsAdapter;
 import com.example.journey.databinding.ActivityJournalsBinding;
 import com.example.journey.databinding.FragmentTimelineBinding;
@@ -90,6 +92,7 @@ public class TimelineFragment extends Fragment {
             @Override
             public void setOnClick(Journal journal) {
                 Timber.d("Going to entries list for journal: " + journal.getTitle());
+                goToEntryTimeline(journal);
             }
         };
         adapter = new JournalsAdapter(getContext(), journals, onClick);
@@ -128,7 +131,9 @@ public class TimelineFragment extends Fragment {
         });
     }
 
-    public void goToCreateJournalEntryActivity(Journal journal) {
-
+    public void goToEntryTimeline(Journal journal) {
+        Intent i = new Intent(getContext(), EntryTimelineActivity.class);
+        i.putExtra(EntryTimelineActivity.KEY_JOURNAL, journal);
+        startActivity(i);
     }
 }

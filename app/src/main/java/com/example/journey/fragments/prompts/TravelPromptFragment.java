@@ -2,33 +2,25 @@ package com.example.journey.fragments.prompts;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.journey.R;
 import com.example.journey.databinding.FragmentTravelPromptBinding;
-import com.example.journey.fragments.CreateJournalEntryFragment;
 import com.example.journey.models.Location;
 import com.example.journey.models.Prompt;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import com.google.type.LatLng;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,14 +39,10 @@ import static android.app.Activity.RESULT_OK;
 public class TravelPromptFragment extends Fragment {
 
     private static final String ARG_PROMPT = "prompt";
-
-    private Prompt prompt;
-
-    private List<Location> places = new ArrayList<>();
-
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
-
+    private Prompt prompt;
+    private List<Location> places = new ArrayList<>();
     private FragmentTravelPromptBinding binding;
     private Button btAddLocation;
     private TextView tvLocations;
@@ -66,6 +54,7 @@ public class TravelPromptFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment TravelPromptFragment.
      */
     public static TravelPromptFragment newInstance(Prompt prompt) {

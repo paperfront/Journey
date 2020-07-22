@@ -5,31 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tvJournalName"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:id="@+id/tvDateCreated"
             android:layout_margin="16dp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Journal Name Here"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/tvTotalEntries"
-            android:layout_margin="16dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:text="Total Entries Here"
-            android:textAlignment="center"/>
+            tools:text="Date Created Here"
+            android:textStyle="bold"
+            android:fontFamily="@font/delius"/>
 
 
-    </LinearLayout>
+    </FrameLayout>
 
 
 
