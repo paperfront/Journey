@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import timber.log.Timber;
@@ -36,6 +37,7 @@ public class EntryTimelineActivity extends AppCompatActivity {
     private ProgressBar pbLoading;
 
     private TextView tvJournalName;
+    private TextView tvNoEntries;
     private RecyclerView rvEntries;
     private EntriesAdapter adapter;
     private List<Entry> entries;
@@ -55,6 +57,8 @@ public class EntryTimelineActivity extends AppCompatActivity {
         journal = getIntent().getParcelableExtra(KEY_JOURNAL);
         tvJournalName = binding.tvJournalName;
         rvEntries = binding.rvEntries;
+        tvNoEntries = binding.tvNoEntries;
+        tvNoEntries.setVisibility(View.GONE);
         pbLoading = binding.pbLoading;
     }
 
@@ -71,12 +75,16 @@ public class EntryTimelineActivity extends AppCompatActivity {
         entries = new ArrayList<>();
         adapter = new EntriesAdapter(entries, this);
         rvEntries.setAdapter(adapter);
-        rvEntries.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, true));
+        rvEntries.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         loadEntries();
     }
 
     private void loadEntries() {
         entries.addAll(journal.getEntries());
+        Collections.reverse(entries);
+        if (entries.isEmpty()) {
+            tvNoEntries.setVisibility(View.VISIBLE);
+        }
         adapter.notifyDataSetChanged();
     }
 }
