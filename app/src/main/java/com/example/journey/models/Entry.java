@@ -25,6 +25,7 @@ public class Entry implements Parcelable {
             return new Entry[size];
         }
     };
+
     private Date dateCreated;
     private List<Prompt> prompts;
 

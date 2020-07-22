@@ -165,8 +165,12 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
         CollectionReference entryRef =
                 FirestoreClient.getUserRef()
                         .collection("journals");
+        CollectionReference allEntries =
+                FirestoreClient.getUserRef()
+                        .collection("allEntries");
         DocumentReference docRef = entryRef.document(journal.getTitle());
         docRef.update("entries", FieldValue.arrayUnion(entry));
+        allEntries.add(entry);
     }
 
 }

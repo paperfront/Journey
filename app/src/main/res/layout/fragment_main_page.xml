@@ -17,12 +17,21 @@
         android:text="Browse Past Entries"
         android:textSize="24sp" />
 
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_below="@id/tvTitle"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
 
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitle"
+        android:layout_below="@id/pbLoading"
         android:layout_margin="16dp" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
