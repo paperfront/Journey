@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.libraries.places.api.model.Place;
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.GeoPoint;
 
 public class Location implements Parcelable {
@@ -23,6 +24,7 @@ public class Location implements Parcelable {
         point = new GeoPoint(in.readDouble(), in.readDouble());
     }
 
+    @Exclude
     public static final Creator<Location> CREATOR = new Creator<Location>() {
         @Override
         public Location createFromParcel(Parcel in) {
@@ -43,8 +45,12 @@ public class Location implements Parcelable {
         return point;
     }
 
+
+
+    @Exclude
     public double getLatitude() {return point.getLatitude();}
 
+    @Exclude
     public double getLongitude() {return point.getLongitude();}
 
     @Override
