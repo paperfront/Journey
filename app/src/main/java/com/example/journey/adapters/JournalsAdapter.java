@@ -1,8 +1,6 @@
 package com.example.journey.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.journey.R;
-import com.example.journey.activities.CreateJournalEntryActivity;
-import com.example.journey.activities.JournalsActivity;
 import com.example.journey.databinding.ItemJournalBinding;
-import com.example.journey.fragments.CreateJournalEntryFragment;
 import com.example.journey.models.Journal;
-import com.example.journey.models.Track;
 
 import java.util.List;
-
-import timber.log.Timber;
 
 public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHolder> {
 

@@ -11,11 +11,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.journey.R;
 import com.example.journey.databinding.ActivityCreateJournalEntryBinding;
-import com.example.journey.databinding.FragmentCreateJournalEntryBinding;
-import com.example.journey.fragments.EntryDetailFragment;
-import com.example.journey.fragments.MainPageFragment;
 import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Entry;
 import com.example.journey.models.Journal;
