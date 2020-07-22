@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -27,8 +26,6 @@ import com.example.journey.models.Prompt;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -73,7 +70,8 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_prompt, parent, false);;
+        View view = LayoutInflater.from(context).inflate(R.layout.item_prompt, parent, false);
+        ;
         switch (viewType) {
             case Prompt.CAMERA_AND_GALLERY:
                 return new CameraAndGalleryViewHolder(view);
@@ -95,7 +93,7 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return  prompts.size();
+        return prompts.size();
     }
 
     public abstract class ViewHolder extends RecyclerView.ViewHolder {

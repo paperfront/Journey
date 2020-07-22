@@ -242,8 +242,6 @@ public class CameraAndGalleryPromptFragment extends Fragment {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
-                    System.out.println("Upload " + downloadUri);
-                    Toast.makeText(getContext(), "Successfully received download URL", Toast.LENGTH_SHORT).show();
                     if (downloadUri != null) {
                         String photoStringLink = downloadUri.toString(); //YOU WILL GET THE DOWNLOAD URL HERE !!!!
                         mediaDownloads.add(photoStringLink);
