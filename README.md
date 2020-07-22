@@ -33,12 +33,12 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 - [X] Create functionality for making new journal entries
     - [X] Setup prompts data model with firestore
     - [X] Implement the transition between different prompts
-    - [ ] Implement the aggregation of data amongst all answered prompts
+    - [X] Implement the aggregation of data amongst all answered prompts
 - [X] Implement basic entry detail generation
     - [X] Handle the aggregation of geotags
     - [X] Handle the display of saved media
-- [ ] Setup all recyclerviews to populate now that data is available
-    - [ ] Setup timeline RV
+- [X] Setup all recyclerviews to populate now that data is available
+    - [X] Setup timeline RV
 - [ ] Review and update the design of analysis entries to prepare for week 3
     - [ ] Decide upon/implement the optimal data model to handle analysis
     - [ ] Setup the RV for analysis
@@ -52,13 +52,13 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 - [ ] Create analysis feature
 - [ ] Implement detail views
     - [ ] Detail view for analysis
-    - [ ] Detail view for entries
+    - [X] Detail view for entries
 - [ ] Add gesture recognizer for favoriting entries by double tapping them
 - [ ] Add any extra journaling "tracks"
 
 # Week 4
 - [ ] Implement 3 full tracks
-- [ ] Allow users to create new journals
+- [X] Allow users to create new journals
 - [ ] Extra visual polish
 - [ ] Add extra polish to UX
 - [ ] Stretch Goals
