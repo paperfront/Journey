@@ -24,6 +24,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
     private void getPrompts(Track track) {
         FirebaseFirestore db = FirestoreClient.getReference();
         startLoading();
-        db.collection(track.getKey()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(track.getKey()).orderBy("promptId", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {

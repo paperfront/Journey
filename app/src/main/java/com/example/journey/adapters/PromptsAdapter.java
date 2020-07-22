@@ -83,6 +83,8 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
                 return new StringResponseViewHolder(view);
             case Prompt.MOOD:
                 return new StringResponseViewHolder(view);
+            case Prompt.ANYTHING:
+                return new StringResponseViewHolder(view);
             default:
                 Timber.e("Invalid view type selected");
                 return null;

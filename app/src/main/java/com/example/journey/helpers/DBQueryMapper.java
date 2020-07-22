@@ -23,6 +23,8 @@ public class DBQueryMapper {
                return AddStringsPromptFragment.newInstance(prompt);
            case Prompt.MOOD:
                return SliderPromptFragment.newInstance(prompt);
+           case Prompt.ANYTHING:
+               return AddStringsPromptFragment.newInstance(prompt);
            default:
                Timber.e("No Fragment Found for that prompt ID");
                return null;

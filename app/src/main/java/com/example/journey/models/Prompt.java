@@ -20,6 +20,7 @@ public class Prompt implements Parcelable {
     public static final int TRAVEL = 1;
     public static final int PROUD = 2;
     public static final int MOOD = 3;
+    public static final int ANYTHING = 4;
 
 
     private String question;
