@@ -1,20 +1,32 @@
 package com.example.journey.models;
 
-import android.media.Image;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;;
-import java.util.Set;
+import java.util.List;
 
-public class Entry {
+;
+
+public class Entry implements Parcelable {
+    public static final Creator<Entry> CREATOR = new Creator<Entry>() {
+        @Override
+        public Entry createFromParcel(Parcel in) {
+            return new Entry(in);
+        }
+
+        @Override
+        public Entry[] newArray(int size) {
+            return new Entry[size];
+        }
+    };
     private Date dateCreated;
     private List<Prompt> prompts;
 
-    public Entry() {}
+    public Entry() {
+    }
 
     public Entry(List<Prompt> prompts) {
         this.dateCreated = Calendar.getInstance().getTime();
@@ -27,6 +39,11 @@ public class Entry {
 
     }
 
+    protected Entry(Parcel in) {
+        dateCreated = (Date) in.readValue(Date.class.getClassLoader());
+        in.readTypedList(prompts, Prompt.CREATOR);
+    }
+
     public Date getDateCreated() {
         return dateCreated;
     }
@@ -36,4 +53,14 @@ public class Entry {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeValue(dateCreated);
+        parcel.writeTypedList(prompts);
+    }
 }

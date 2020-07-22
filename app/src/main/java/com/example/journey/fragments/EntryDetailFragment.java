@@ -40,9 +40,10 @@ public class EntryDetailFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PROMPTS = "prompts";
+    private static final String ARG_ENTRY = "entry";
 
     // TODO: Rename and change types of parameters
+    private Entry entry;
     private List<Prompt> prompts;
 
     private FragmentEntryDetailBinding binding;
@@ -62,10 +63,10 @@ public class EntryDetailFragment extends Fragment {
      * @return A new instance of fragment EntryDetailFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EntryDetailFragment newInstance(ArrayList<Prompt> prompts) {
+    public static EntryDetailFragment newInstance(Entry entry) {
         EntryDetailFragment fragment = new EntryDetailFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PROMPTS, prompts);
+        args.putParcelable(ARG_ENTRY, entry);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,7 +75,8 @@ public class EntryDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            prompts = (List<Prompt>) getArguments().getSerializable(ARG_PROMPTS);
+            entry = getArguments().getParcelable(ARG_ENTRY);
+            prompts = entry.getPrompts();
         }
     }
 
@@ -109,7 +111,6 @@ public class EntryDetailFragment extends Fragment {
     }
 
     private void saveEntry() {
-        Entry entry = new Entry(prompts);
         //todo replace hard coded journal name with current journal
         String journalName = "first";
         CollectionReference entryRef =  FirestoreClient.getReference().collection("users")

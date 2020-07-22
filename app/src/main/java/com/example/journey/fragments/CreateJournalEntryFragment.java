@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.journey.R;
 import com.example.journey.databinding.FragmentCreateJournalEntryBinding;
 import com.example.journey.helpers.FirestoreClient;
+import com.example.journey.models.Entry;
 import com.example.journey.models.Prompt;
 import com.example.journey.models.Track;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -188,13 +189,14 @@ public class CreateJournalEntryFragment extends Fragment {
     }
 
     private void goToDetailPage() {
+        Entry entry = new Entry(prompts);
         getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentHolder, MainPageFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentHolder, EntryDetailFragment.newInstance(prompts))
+                .replace(R.id.fragmentHolder, EntryDetailFragment.newInstance(entry))
                 .addToBackStack(null)
                 .commit();
 
