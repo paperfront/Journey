@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp">
@@ -23,19 +24,36 @@
         android:layout_marginVertical="16dp"
         android:src="@drawable/ic_baseline_menu_book_24"/>
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+    <com.google.android.material.textfield.TextInputLayout
         android:hint="Email"
-        android:inputType="textEmailAddress" />
-
-    <EditText
-        android:id="@+id/etPassword"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="50dp">
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textEmailAddress" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:hint="Password"
-        android:inputType="textPassword" />
+        app:endIconMode="password_toggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <Button
         android:id="@+id/btSignIn"
