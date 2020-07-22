@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.journey.R;
 import com.example.journey.adapters.JournalsAdapter;
@@ -43,6 +44,7 @@ public class TimelineFragment extends Fragment {
     private List<Journal> journals;
     private List<String> journalTitles;
     private ProgressBar pbLoading;
+    private TextView tvNoJournals;
 
     public TimelineFragment() {
         // Required empty public constructor
@@ -77,6 +79,7 @@ public class TimelineFragment extends Fragment {
         binding = FragmentTimelineBinding.bind(view);
         rvJournals = binding.rvJournals;
         pbLoading = binding.pbLoading;
+        tvNoJournals = binding.tvNoJournals;
         setupRV();
     }
 
@@ -102,6 +105,7 @@ public class TimelineFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    tvNoJournals.setVisibility(View.GONE);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Timber.d(document.getId() + " => " + document.getData());
                         Journal journal = document.toObject(Journal.class);
@@ -111,8 +115,10 @@ public class TimelineFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 } else {
                     Timber.e(task.getException(),"Error getting documents: ");
+                    tvNoJournals.setVisibility(View.VISIBLE);
                 }
                 pbLoading.setVisibility(View.GONE);
+
             }
         });
     }

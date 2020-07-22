@@ -7,13 +7,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FirestoreClient {
-
-    private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static final DocumentReference userRef = FirestoreClient.getReference().collection("users").document(FirebaseAuth.getInstance().getUid());
-
+    
     public static FirebaseFirestore getReference() {
-        return db;
+        return FirebaseFirestore.getInstance();
     }
 
-    public static DocumentReference getUserRef() {return userRef;}
+    public static DocumentReference getUserRef() {return FirestoreClient.getReference().collection("users").document(FirebaseAuth.getInstance().getUid());}
 }
