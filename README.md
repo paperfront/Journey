@@ -44,6 +44,9 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
     - [ ] Setup the RV for analysis
     - [ ] Setup analysis data in firestore
 - [X] Implement log out button
+- [ ] Setup calendar on main page
+    - [ ] Get prompts from selected day
+    - [ ] Open list view for prompts from selected day
 
 
 # Week 3
