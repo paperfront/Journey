@@ -1,5 +1,6 @@
 package com.example.journey.fragments.prompts;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +26,8 @@ import com.example.journey.databinding.FragmentCameraAndGalleryBinding;
 import com.example.journey.helpers.BitmapScaler;
 import com.example.journey.helpers.ImageUtils;
 import com.example.journey.models.Prompt;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -58,6 +61,7 @@ public class CameraAndGalleryPromptFragment extends Fragment {
     private TextView tvLaunchCamera;
     private TextView tvOpenGallery;
     private ImageView ivMedia;
+    private ProgressDialog pd;
 
     private FragmentCameraAndGalleryBinding binding;
     private File photoFile;
@@ -114,6 +118,10 @@ public class CameraAndGalleryPromptFragment extends Fragment {
         tvLaunchCamera = binding.tvLaunchCamera;
         tvOpenGallery = binding.tvOpenGallery;
         ivMedia = binding.ivMedia;
+        pd = new ProgressDialog(getContext());
+        pd.setTitle("Loading...");
+        pd.setMessage("Please wait.");
+        pd.setCancelable(false);
     }
     private void setupElements(){
         setupTextViews();
@@ -203,8 +211,8 @@ public class CameraAndGalleryPromptFragment extends Fragment {
 
     private void uploadMedia(Uri file) {
         final StorageReference mediaRef = storageRef.child("images/" + FirebaseAuth.getInstance().getUid() + "/" + UUID.randomUUID().toString());
+        pd.show();
         UploadTask uploadTask = mediaRef.putFile(file);
-
         // Register observers to listen for when the download is done or if it fails
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -216,9 +224,37 @@ public class CameraAndGalleryPromptFragment extends Fragment {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Timber.i("Successfully uploaded media");
-               String downloadUrl = mediaRef.getDownloadUrl().toString();
-               mediaDownloads.add(downloadUrl);
-               prompt.setStringResponse(mediaDownloads);
+            }
+        });
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return mediaRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    System.out.println("Upload " + downloadUri);
+                    Toast.makeText(getContext(), "Successfully received download URL", Toast.LENGTH_SHORT).show();
+                    if (downloadUri != null) {
+                        String photoStringLink = downloadUri.toString(); //YOU WILL GET THE DOWNLOAD URL HERE !!!!
+                        mediaDownloads.add(photoStringLink);
+                        prompt.setStringResponse(mediaDownloads);
+
+                    }
+
+                } else {
+                    Timber.e("An error occured on completion of task.");
+                }
+                pd.dismiss();
             }
         });
     }

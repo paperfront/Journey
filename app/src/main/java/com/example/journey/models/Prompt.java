@@ -1,20 +1,14 @@
 package com.example.journey.models;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import com.example.journey.fragments.responses.CameraAndGalleryResponseFragment;
 import com.example.journey.helpers.DBQueryMapper;
 import com.google.firebase.firestore.Exclude;
-import com.google.protobuf.Any;
-import com.google.type.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,11 +88,6 @@ public class Prompt implements Parcelable {
     @Exclude
     public Fragment getPromptFragment() {
         return DBQueryMapper.getFragmentForPrompt(this);
-    }
-
-    @Exclude
-    public Fragment getResponseFragment() {
-        return DBQueryMapper.getResponseFragmentForPrompt(this);
     }
 
 
