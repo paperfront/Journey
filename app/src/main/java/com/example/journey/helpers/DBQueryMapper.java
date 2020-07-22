@@ -3,9 +3,9 @@ package com.example.journey.helpers;
 import androidx.fragment.app.Fragment;
 
 import com.example.journey.fragments.prompts.CameraAndGalleryPromptFragment;
-import com.example.journey.fragments.prompts.MoodPromptFragment;
+import com.example.journey.fragments.prompts.SliderPromptFragment;
 import com.example.journey.fragments.prompts.AddStringsPromptFragment;
-import com.example.journey.fragments.prompts.TravelPromptFragment;
+import com.example.journey.fragments.prompts.PlacesPromptFragment;
 import com.example.journey.models.Prompt;
 
 import timber.log.Timber;
@@ -18,11 +18,11 @@ public class DBQueryMapper {
            case Prompt.CAMERA_AND_GALLERY:
                return CameraAndGalleryPromptFragment.newInstance(prompt);
            case Prompt.TRAVEL:
-               return TravelPromptFragment.newInstance(prompt);
+               return PlacesPromptFragment.newInstance(prompt);
            case Prompt.PROUD:
                return AddStringsPromptFragment.newInstance(prompt);
            case Prompt.MOOD:
-               return MoodPromptFragment.newInstance(prompt);
+               return SliderPromptFragment.newInstance(prompt);
            default:
                Timber.e("No Fragment Found for that prompt ID");
                return null;

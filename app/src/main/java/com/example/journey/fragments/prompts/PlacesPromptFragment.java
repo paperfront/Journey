@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.journey.R;
-import com.example.journey.databinding.FragmentTravelPromptBinding;
+import com.example.journey.databinding.FragmentPlacesPromptBinding;
 import com.example.journey.models.Location;
 import com.example.journey.models.Prompt;
 import com.google.android.gms.common.api.Status;
@@ -33,21 +33,21 @@ import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TravelPromptFragment#newInstance} factory method to
+ * Use the {@link PlacesPromptFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TravelPromptFragment extends Fragment {
+public class PlacesPromptFragment extends Fragment {
 
     private static final String ARG_PROMPT = "prompt";
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
     private Prompt prompt;
     private List<Location> places = new ArrayList<>();
-    private FragmentTravelPromptBinding binding;
+    private FragmentPlacesPromptBinding binding;
     private Button btAddLocation;
     private TextView tvLocations;
 
-    public TravelPromptFragment() {
+    public PlacesPromptFragment() {
         // Required empty public constructor
     }
 
@@ -57,8 +57,8 @@ public class TravelPromptFragment extends Fragment {
      *
      * @return A new instance of fragment TravelPromptFragment.
      */
-    public static TravelPromptFragment newInstance(Prompt prompt) {
-        TravelPromptFragment fragment = new TravelPromptFragment();
+    public static PlacesPromptFragment newInstance(Prompt prompt) {
+        PlacesPromptFragment fragment = new PlacesPromptFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PROMPT, prompt);
         fragment.setArguments(args);
@@ -77,13 +77,13 @@ public class TravelPromptFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_travel_prompt, container, false);
+        return inflater.inflate(R.layout.fragment_places_prompt, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = FragmentTravelPromptBinding.bind(view);
+        binding = FragmentPlacesPromptBinding.bind(view);
         bindElements();
         setupElements();
     }

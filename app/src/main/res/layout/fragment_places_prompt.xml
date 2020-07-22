@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".fragments.prompts.TravelPromptFragment">
+    tools:context=".fragments.prompts.PlacesPromptFragment">
 
     <TextView
         android:layout_margin="8dp"

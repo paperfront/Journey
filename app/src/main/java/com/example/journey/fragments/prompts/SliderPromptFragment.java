@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.journey.R;
-import com.example.journey.databinding.FragmentMoodPromptBinding;
+import com.example.journey.databinding.FragmentSliderPromptBinding;
 import com.example.journey.models.Prompt;
 import com.google.android.material.slider.Slider;
 
@@ -20,20 +20,20 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MoodPromptFragment#newInstance} factory method to
+ * Use the {@link SliderPromptFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MoodPromptFragment extends Fragment {
+public class SliderPromptFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PROMPT = "prompt";
 
     private Prompt prompt;
     private Slider slMood;
-    private FragmentMoodPromptBinding binding;
+    private FragmentSliderPromptBinding binding;
     private List<String> mood = new ArrayList<>();
 
-    public MoodPromptFragment() {
+    public SliderPromptFragment() {
         // Required empty public constructor
     }
 
@@ -44,8 +44,8 @@ public class MoodPromptFragment extends Fragment {
      * @return A new instance of fragment MoodPromptFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MoodPromptFragment newInstance(Prompt promt) {
-        MoodPromptFragment fragment = new MoodPromptFragment();
+    public static SliderPromptFragment newInstance(Prompt promt) {
+        SliderPromptFragment fragment = new SliderPromptFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PROMPT, promt);
         fragment.setArguments(args);
@@ -64,13 +64,13 @@ public class MoodPromptFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mood_prompt, container, false);
+        return inflater.inflate(R.layout.fragment_slider_prompt, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = FragmentMoodPromptBinding.bind(view);
+        binding = FragmentSliderPromptBinding.bind(view);
         slMood = binding.slMood;
         setupSlider();
     }
