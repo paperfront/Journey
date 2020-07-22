@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,7 @@ import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -44,10 +47,12 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
     private FragmentActivity activity;
     private FragmentManager fragmentManager;
     private RecyclerView rv;
+    private Fragment fragment;
 
-    public PromptsAdapter(Context context, FragmentActivity activity, List<Prompt> prompts, RecyclerView rv) {
+    public PromptsAdapter(Context context, FragmentActivity activity, Fragment fragment, List<Prompt> prompts, RecyclerView rv) {
         this.context = context;
         this.activity = activity;
+        this.fragment = fragment;
         this.fragmentManager = activity.getSupportFragmentManager();
         this.rv = rv;
         getValidPrompts(prompts);
@@ -178,13 +183,13 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
                         case MotionEvent.ACTION_DOWN:
 
                         case MotionEvent.ACTION_MOVE:
-                            // Disallow ScrollView to intercept touch events.
+                            // Disallow RV to intercept touch events.
                             rv.requestDisallowInterceptTouchEvent(true);
                             // Disable touch on transparent view
                             return false;
 
                         case MotionEvent.ACTION_UP:
-                            // Allow ScrollView to intercept touch events.
+                            // Allow RV to intercept touch events.
                             rv.requestDisallowInterceptTouchEvent(false);
                             return true;
 
@@ -207,17 +212,18 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
+
 
             googleMap.getUiSettings().setZoomControlsEnabled(true);
             List<Location> locations = getPrompt().getLocationResponse();
             Location firstLocation = locations.get(0);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLocation.getLatitude(), firstLocation.getLongitude()), 10));
             for (Location location : locations) {
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(location.getLatitude(), location.getLongitude()))
                         .title(location.getName()));
             }
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLocation.getLatitude(), firstLocation.getLongitude()), 10));
+
 
         }
     }
