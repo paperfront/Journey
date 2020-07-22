@@ -37,7 +37,7 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:contentDescription="New Journal Entry"
-            android:src="@drawable/shoe_tracks" />
+            android:src="@drawable/ic_baseline_menu_book_24" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </RelativeLayout>

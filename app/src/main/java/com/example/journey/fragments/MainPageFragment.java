@@ -1,5 +1,6 @@
 package com.example.journey.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.journey.R;
+import com.example.journey.activities.JournalsActivity;
 import com.example.journey.databinding.FragmentMainPageBinding;
 import com.example.journey.models.Track;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -78,13 +80,22 @@ public class MainPageFragment extends Fragment {
             public void onClick(View view) {
                 Timber.d("Compose Entry button clicked.");
 
-                //todo replace hardcoded track with the users current track
-                CreateJournalEntryFragment fragment = CreateJournalEntryFragment.newInstance(Track.GENERAL);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentHolder, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                goToJournalsActivity();
             }
         });
+    }
+
+    private void goToJournalsActivity() {
+        Intent i = new Intent(getContext(), JournalsActivity.class);
+        startActivity(i);
+    }
+
+    private void goToCreateJournalEntryFragment() {
+        //todo replace hardcoded track with the users current track
+        CreateJournalEntryFragment fragment = CreateJournalEntryFragment.newInstance(Track.GENERAL);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentHolder, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
