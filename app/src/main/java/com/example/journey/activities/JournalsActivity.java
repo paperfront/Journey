@@ -111,6 +111,9 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
         if (journalTitles.contains(title)) {
             Toast.makeText(this, "A journal with that name already exists", Toast.LENGTH_SHORT).show();
             return;
+        } else if (title.isEmpty()) {
+            Toast.makeText(this, "Journal must be given a title to be created", Toast.LENGTH_SHORT).show();
+            return;
         }
         journalTitles.add(title);
         Journal newJournal = new Journal(title);
