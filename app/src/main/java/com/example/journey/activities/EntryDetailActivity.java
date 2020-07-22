@@ -42,19 +42,15 @@ public class EntryDetailActivity extends AppCompatActivity {
     private RecyclerView rvPrompts;
 
     private PromptsAdapter adapter;
-    private Journal journal;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEntryDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         entry = (Entry) getIntent().getParcelableExtra(KEY_ENTRY);
-        journal = getIntent().getParcelableExtra(KEY_JOURNAL);
         prompts = entry.getPrompts();
         bindElements();
         setupElements();
-        saveEntry();
     }
 
     private void bindElements(){
@@ -73,13 +69,6 @@ public class EntryDetailActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void saveEntry() {
 
-        CollectionReference entryRef =
-                FirestoreClient.getUserRef()
-                .collection("journals");
-        DocumentReference docRef = entryRef.document(journal.getTitle());
-        docRef.update("entries", FieldValue.arrayUnion(entry));
-    }
 
 }

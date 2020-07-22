@@ -23,7 +23,10 @@ import com.example.journey.models.Prompt;
 import com.example.journey.models.Track;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -149,6 +152,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
 
     private void goToDetailPage() {
         Entry entry = new Entry(prompts);
+        saveEntry(entry);
         Intent i = new Intent(this, EntryDetailActivity.class);
         i.putExtra(EntryDetailActivity.KEY_ENTRY, entry);
         i.putExtra(EntryDetailActivity.KEY_JOURNAL, journal);
@@ -158,6 +162,14 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
         setResult(RESULT_OK, data);
         startActivity(i);
         finish();
+    }
+
+    private void saveEntry(Entry entry) {
+        CollectionReference entryRef =
+                FirestoreClient.getUserRef()
+                        .collection("journals");
+        DocumentReference docRef = entryRef.document(journal.getTitle());
+        docRef.update("entries", FieldValue.arrayUnion(entry));
     }
 
 }

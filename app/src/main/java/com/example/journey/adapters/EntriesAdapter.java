@@ -1,6 +1,7 @@
 package com.example.journey.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.journey.R;
+import com.example.journey.activities.EntryDetailActivity;
 import com.example.journey.databinding.ItemEntryBinding;
 import com.example.journey.models.Entry;
 
@@ -57,12 +59,16 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             rootView = binding.getRoot();
         }
 
-        private void bind(Entry entry) {
+        private void bind(final Entry entry) {
             tvDateCreated.setText(entry.getDateCreated().toString());
             rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Timber.i("Entry clicked at position: " + getAdapterPosition());
+                    Intent i = new Intent(context, EntryDetailActivity.class);
+                    i.putExtra(EntryDetailActivity.KEY_ENTRY, entry);
+                    context.startActivity(i);
+
                 }
             });
         }
