@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
-    tools:context=".fragments.prompts.ProudPromptFragment">
+    tools:context=".fragments.prompts.AddStringsPromptFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <EditText

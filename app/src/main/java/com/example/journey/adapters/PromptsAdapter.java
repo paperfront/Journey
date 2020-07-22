@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,17 +21,15 @@ import com.example.journey.R;
 import com.example.journey.databinding.ItemCameraAndGalleryBinding;
 import com.example.journey.databinding.ItemMoodBinding;
 import com.example.journey.databinding.ItemPromptBinding;
-import com.example.journey.databinding.ItemProudBinding;
+import com.example.journey.databinding.ItemStringResponsesBinding;
 import com.example.journey.databinding.ItemTravelBinding;
 import com.example.journey.models.Location;
 import com.example.journey.models.Prompt;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -83,9 +80,9 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
             case Prompt.TRAVEL:
                 return new TravelViewHolder(view);
             case Prompt.PROUD:
-                return new ProudViewHolder(view);
+                return new StringResponseViewHolder(view);
             case Prompt.MOOD:
-                return new MoodViewHolder(view);
+                return new StringResponseViewHolder(view);
             default:
                 Timber.e("Invalid view type selected");
                 return null;
@@ -230,19 +227,19 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
         }
     }
 
-    public class ProudViewHolder extends ViewHolder {
+    public class StringResponseViewHolder extends ViewHolder {
 
-        private ItemProudBinding binding;
+        private ItemStringResponsesBinding binding;
 
         private TextView tvPrompt;
-        private TextView tvProud;
+        private TextView tvBody;
 
-        public ProudViewHolder(@NonNull View itemView) {
+        public StringResponseViewHolder(@NonNull View itemView) {
             super(itemView);
-            View view = View.inflate(context, R.layout.item_proud, getFlPromptHolder());
-            binding = ItemProudBinding.bind(view);
+            View view = View.inflate(context, R.layout.item_string_responses, getFlPromptHolder());
+            binding = ItemStringResponsesBinding.bind(view);
             tvPrompt = binding.tvPrompt;
-            tvProud = binding.tvProud;
+            tvBody = binding.tvBody;
         }
 
         @Override
@@ -250,7 +247,7 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
             tvPrompt.setText(getPrompt().getQuestion());
             List<String> responses = getPrompt().getStringResponse();
             for (String response : responses) {
-                tvProud.append(" - " + response + "\n");
+                tvBody.append(" - " + response + "\n");
             }
         }
     }

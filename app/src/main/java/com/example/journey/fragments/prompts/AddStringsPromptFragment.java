@@ -15,10 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.journey.R;
-import com.example.journey.databinding.FragmentProudPromptBinding;
+import com.example.journey.databinding.FragmentAddStringsPromptBinding;
 import com.example.journey.models.Prompt;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +25,10 @@ import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ProudPromptFragment#newInstance} factory method to
+ * Use the {@link AddStringsPromptFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProudPromptFragment extends Fragment {
+public class AddStringsPromptFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,11 +39,11 @@ public class ProudPromptFragment extends Fragment {
 
     private EditText etEntry;
     private Button btAdd;
-    private FragmentProudPromptBinding binding;
+    private FragmentAddStringsPromptBinding binding;
     private TextView tvList;
     private List<String> entries = new ArrayList<>();
 
-    public ProudPromptFragment() {
+    public AddStringsPromptFragment() {
         // Required empty public constructor
     }
 
@@ -56,8 +54,8 @@ public class ProudPromptFragment extends Fragment {
      * @return A new instance of fragment ProudPromptFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProudPromptFragment newInstance(Prompt prompt) {
-        ProudPromptFragment fragment = new ProudPromptFragment();
+    public static AddStringsPromptFragment newInstance(Prompt prompt) {
+        AddStringsPromptFragment fragment = new AddStringsPromptFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PROMPT, prompt);
         fragment.setArguments(args);
@@ -76,13 +74,13 @@ public class ProudPromptFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_proud_prompt, container, false);
+        return inflater.inflate(R.layout.fragment_add_strings_prompt, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = FragmentProudPromptBinding.bind(view);
+        binding = FragmentAddStringsPromptBinding.bind(view);
         bindElements();
         setupElements();
     }

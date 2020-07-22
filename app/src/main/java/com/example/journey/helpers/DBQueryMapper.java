@@ -1,15 +1,12 @@
 package com.example.journey.helpers;
 
-import android.media.Image;
-
 import androidx.fragment.app.Fragment;
 
 import com.example.journey.fragments.prompts.CameraAndGalleryPromptFragment;
 import com.example.journey.fragments.prompts.MoodPromptFragment;
-import com.example.journey.fragments.prompts.ProudPromptFragment;
+import com.example.journey.fragments.prompts.AddStringsPromptFragment;
 import com.example.journey.fragments.prompts.TravelPromptFragment;
 import com.example.journey.models.Prompt;
-import com.google.android.libraries.places.api.model.Place;
 
 import timber.log.Timber;
 
@@ -23,7 +20,7 @@ public class DBQueryMapper {
            case Prompt.TRAVEL:
                return TravelPromptFragment.newInstance(prompt);
            case Prompt.PROUD:
-               return ProudPromptFragment.newInstance(prompt);
+               return AddStringsPromptFragment.newInstance(prompt);
            case Prompt.MOOD:
                return MoodPromptFragment.newInstance(prompt);
            default:
