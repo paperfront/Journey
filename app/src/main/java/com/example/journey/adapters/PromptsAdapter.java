@@ -49,10 +49,9 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
     private RecyclerView rv;
     private Fragment fragment;
 
-    public PromptsAdapter(Context context, FragmentActivity activity, Fragment fragment, List<Prompt> prompts, RecyclerView rv) {
+    public PromptsAdapter(Context context, FragmentActivity activity, List<Prompt> prompts, RecyclerView rv) {
         this.context = context;
         this.activity = activity;
-        this.fragment = fragment;
         this.fragmentManager = activity.getSupportFragmentManager();
         this.rv = rv;
         getValidPrompts(prompts);

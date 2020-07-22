@@ -34,6 +34,7 @@ public class Prompt implements Parcelable {
         out.writeInt(promptId);
         out.writeBoolean(completed);
         out.writeList(stringResponse);
+        out.writeList(locationResponse);
     }
 
     // In the vast majority of cases you can simply return 0 for this.
@@ -75,7 +76,8 @@ public class Prompt implements Parcelable {
         question = in.readString();
         promptId = in.readInt();
         completed = in.readBoolean();
-        in.readList(stringResponse, String.class.getClassLoader());
+        stringResponse = in.readArrayList(String.class.getClassLoader());
+        locationResponse = in.readArrayList(Location.class.getClassLoader());
     }
 
 

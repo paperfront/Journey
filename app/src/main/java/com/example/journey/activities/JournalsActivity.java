@@ -55,7 +55,7 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
 
     private void setupRV() {
         journals = new ArrayList<>();
-        adapter = new JournalsAdapter(this, journals);
+        adapter = new JournalsAdapter(this, this, journals);
         rvJournals.setAdapter(adapter);
         rvJournals.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         loadJournals();

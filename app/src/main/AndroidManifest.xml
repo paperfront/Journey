@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.JournalsActivity"></activity>
+        <activity android:name=".activities.EntryDetailActivity"></activity>
+        <activity android:name=".activities.CreateJournalEntryActivity" />
+        <activity android:name=".activities.JournalsActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -1,7 +1,10 @@
 package com.example.journey.models;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,9 +42,13 @@ public class Entry implements Parcelable {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected Entry(Parcel in) {
         dateCreated = (Date) in.readValue(Date.class.getClassLoader());
-        in.readTypedList(prompts, Prompt.CREATOR);
+        prompts = in.readArrayList(Prompt.class.getClassLoader());
+        if (prompts == null) {
+            prompts = new ArrayList<>();
+        }
     }
 
     public Date getDateCreated() {
@@ -58,9 +65,10 @@ public class Entry implements Parcelable {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeValue(dateCreated);
-        parcel.writeTypedList(prompts);
+        parcel.writeList(prompts);
     }
 }

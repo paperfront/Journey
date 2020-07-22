@@ -1,6 +1,8 @@
 package com.example.journey.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.journey.R;
+import com.example.journey.activities.CreateJournalEntryActivity;
+import com.example.journey.activities.JournalsActivity;
 import com.example.journey.databinding.ItemJournalBinding;
+import com.example.journey.fragments.CreateJournalEntryFragment;
 import com.example.journey.models.Journal;
+import com.example.journey.models.Track;
 
 import java.util.List;
 
@@ -19,10 +25,12 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
 
 
     private Context context;
+    private JournalsActivity activity;
     private List<Journal> journals;
 
-    public JournalsAdapter(Context context, List<Journal> journals) {
+    public JournalsAdapter(Context context, JournalsActivity activity, List<Journal> journals) {
         this.context = context;
+        this.activity = activity;
         this.journals = journals;
     }
 
@@ -48,15 +56,30 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
         private ItemJournalBinding binding;
 
         private TextView tvTitle;
+        private View rootView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemJournalBinding.bind(itemView);
             tvTitle = binding.tvTitle;
+            rootView = itemView;
         }
 
-        private void bind(Journal journal) {
+        private void bind(final Journal journal) {
             tvTitle.setText(journal.getTitle());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goToCreateJournalEntryActivity(journal);
+                }
+            });
+        }
+
+        private void goToCreateJournalEntryActivity(Journal journal) {
+            //todo replace hardcoded track with the users current track
+            Intent i = new Intent(context, CreateJournalEntryActivity.class);
+            i.putExtra(CreateJournalEntryActivity.KEY_JOURNAL, journal.getTitle());
+            context.startActivity(i);
         }
     }
 }

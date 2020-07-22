@@ -82,7 +82,6 @@ public class CameraAndGalleryPromptFragment extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment CameraAndGalleryFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static CameraAndGalleryPromptFragment newInstance(Prompt prompt) {
         CameraAndGalleryPromptFragment fragment = new CameraAndGalleryPromptFragment();
         Bundle args = new Bundle();

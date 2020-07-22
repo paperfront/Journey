@@ -38,11 +38,9 @@ import timber.log.Timber;
  */
 public class EntryDetailFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_ENTRY = "entry";
 
-    // TODO: Rename and change types of parameters
     private Entry entry;
     private List<Prompt> prompts;
 
@@ -62,7 +60,6 @@ public class EntryDetailFragment extends Fragment {
      *
      * @return A new instance of fragment EntryDetailFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static EntryDetailFragment newInstance(Entry entry) {
         EntryDetailFragment fragment = new EntryDetailFragment();
         Bundle args = new Bundle();
@@ -104,14 +101,13 @@ public class EntryDetailFragment extends Fragment {
     }
 
     private void setupRV() {
-        adapter = new PromptsAdapter(getContext(), getActivity(), this, prompts, rvPrompts);
+        adapter = null;//new PromptsAdapter(getContext(), getActivity(), this, prompts, rvPrompts);
         rvPrompts.setAdapter(adapter);
         rvPrompts.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         adapter.notifyDataSetChanged();
     }
 
     private void saveEntry() {
-        //todo replace hard coded journal name with current journal
         String journalName = "first";
         CollectionReference entryRef =  FirestoreClient.getReference().collection("users")
                 .document(FirebaseAuth.getInstance().getUid())
