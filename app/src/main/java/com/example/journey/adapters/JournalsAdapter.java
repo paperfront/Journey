@@ -21,17 +21,26 @@ import com.example.journey.models.Track;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHolder> {
 
 
+
+    public static final int MODE_CREATE = 0;
+    public static final int MODE_TIMELINE = 1;
+    private JournalOnClick onClick;
     private Context context;
-    private JournalsActivity activity;
     private List<Journal> journals;
 
-    public JournalsAdapter(Context context, JournalsActivity activity, List<Journal> journals) {
+    public JournalsAdapter(Context context, List<Journal> journals, JournalOnClick onClick) {
         this.context = context;
-        this.activity = activity;
         this.journals = journals;
+        this.onClick = onClick;
+    }
+
+    public interface JournalOnClick {
+        public void setOnClick(Journal journal);
     }
 
     @NonNull
@@ -59,6 +68,7 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
         private TextView tvTotalEntries;
         private View rootView;
 
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemJournalBinding.bind(itemView);
@@ -70,19 +80,14 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
         private void bind(final Journal journal) {
             tvTitle.setText(journal.getTitle());
             tvTotalEntries.setText("Total Entries: " + Integer.toString(journal.getEntries().size()));
-            itemView.setOnClickListener(new View.OnClickListener() {
+            rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    goToCreateJournalEntryActivity(journal);
+                    onClick.setOnClick(journal);
                 }
             });
         }
 
-        private void goToCreateJournalEntryActivity(Journal journal) {
-            //todo replace hardcoded track with the users current track
-            Intent i = new Intent(context, CreateJournalEntryActivity.class);
-            i.putExtra(CreateJournalEntryActivity.KEY_JOURNAL, journal.getTitle());
-            context.startActivity(i);
-        }
+
     }
 }

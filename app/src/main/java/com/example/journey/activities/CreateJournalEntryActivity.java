@@ -151,12 +151,13 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
         Entry entry = new Entry(prompts);
         Intent i = new Intent(this, EntryDetailActivity.class);
         i.putExtra(EntryDetailActivity.KEY_ENTRY, entry);
-        i.putExtra(EntryDetailActivity.KEY_JOURNAL_TITLE, journal.getTitle());
+        i.putExtra(EntryDetailActivity.KEY_JOURNAL, journal);
+        Intent data = new Intent();
+        journal.getEntries().add(entry);
+        data.putExtra(JournalsActivity.KEY_JOURNAL, journal);
+        setResult(RESULT_OK, data);
         startActivity(i);
         finish();
     }
 
-    public Journal getJournal() {
-        return journal;
-    }
 }

@@ -2,13 +2,33 @@ package com.example.journey.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.journey.R;
+import com.example.journey.adapters.JournalsAdapter;
+import com.example.journey.databinding.ActivityJournalsBinding;
+import com.example.journey.databinding.FragmentTimelineBinding;
+import com.example.journey.helpers.FirestoreClient;
+import com.example.journey.models.Journal;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,14 +37,12 @@ import com.example.journey.R;
  */
 public class TimelineFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentTimelineBinding binding;
+    private RecyclerView rvJournals;
+    private JournalsAdapter adapter;
+    private List<Journal> journals;
+    private List<String> journalTitles;
+    private ProgressBar pbLoading;
 
     public TimelineFragment() {
         // Required empty public constructor
@@ -34,11 +52,8 @@ public class TimelineFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment TimelineFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static TimelineFragment newInstance() {
         TimelineFragment fragment = new TimelineFragment();
         return fragment;
@@ -54,5 +69,55 @@ public class TimelineFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_timeline, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding = FragmentTimelineBinding.bind(view);
+        rvJournals = binding.rvJournals;
+        pbLoading = binding.pbLoading;
+        setupRV();
+    }
+
+    private void setupRV() {
+        journals = new ArrayList<>();
+        journalTitles = new ArrayList<>();
+        JournalsAdapter.JournalOnClick onClick = new JournalsAdapter.JournalOnClick() {
+            @Override
+            public void setOnClick(Journal journal) {
+                Timber.d("Going to entries list for journal: " + journal.getTitle());
+            }
+        };
+        adapter = new JournalsAdapter(getContext(), journals, onClick);
+        rvJournals.setAdapter(adapter);
+        rvJournals.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        loadJournals();
+    }
+
+    private void loadJournals() {
+        pbLoading.setVisibility(View.VISIBLE);
+        CollectionReference docRef = FirestoreClient.getUserRef().collection("journals");
+        docRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Timber.d(document.getId() + " => " + document.getData());
+                        Journal journal = document.toObject(Journal.class);
+                        journals.add(journal);
+                        journalTitles.add(journal.getTitle());
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Timber.e(task.getException(),"Error getting documents: ");
+                }
+                pbLoading.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void goToCreateJournalEntryActivity(Journal journal) {
+
     }
 }

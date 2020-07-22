@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CpuUsageInfo;
 
 import com.example.journey.R;
 import com.example.journey.adapters.PromptsAdapter;
@@ -20,6 +22,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.List;
 
@@ -28,7 +32,7 @@ import timber.log.Timber;
 public class EntryDetailActivity extends AppCompatActivity {
 
     public static final String KEY_ENTRY = "entry";
-    public static final String KEY_JOURNAL_TITLE = "journal";
+    public static final String KEY_JOURNAL = "journal";
 
     private Entry entry;
     private List<Prompt> prompts;
@@ -38,7 +42,7 @@ public class EntryDetailActivity extends AppCompatActivity {
     private RecyclerView rvPrompts;
 
     private PromptsAdapter adapter;
-    private String journalTitle;
+    private Journal journal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,7 @@ public class EntryDetailActivity extends AppCompatActivity {
         binding = ActivityEntryDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         entry = (Entry) getIntent().getParcelableExtra(KEY_ENTRY);
-        journalTitle = getIntent().getStringExtra(KEY_JOURNAL_TITLE);
+        journal = getIntent().getParcelableExtra(KEY_JOURNAL);
         prompts = entry.getPrompts();
         bindElements();
         setupElements();
@@ -70,24 +74,12 @@ public class EntryDetailActivity extends AppCompatActivity {
     }
 
     private void saveEntry() {
-        CollectionReference entryRef =  FirestoreClient.getReference().collection("users")
-                .document(FirebaseAuth.getInstance().getUid())
-                .collection("journals")
-                .document(journalTitle)
-                .collection("entries");
-        entryRef.add(entry)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Timber.d("DocumentSnapshot written with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Timber.w(e, "Error adding document");
-                    }
-                });
 
+        CollectionReference entryRef =
+                FirestoreClient.getUserRef()
+                .collection("journals");
+        DocumentReference docRef = entryRef.document(journal.getTitle());
+        docRef.update("entries", FieldValue.arrayUnion(entry));
     }
+
 }

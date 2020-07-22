@@ -1,6 +1,7 @@
 package com.example.journey.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,6 +49,9 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
     private List<String> journalTitles;
     private ProgressBar pbLoading;
 
+    public static final int FINISH_MAKING_POST = 121;
+    public static final String KEY_JOURNAL = "journal";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +66,15 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
     private void setupRV() {
         journals = new ArrayList<>();
         journalTitles = new ArrayList<>();
-        adapter = new JournalsAdapter(this, this, journals);
+
+        JournalsAdapter.JournalOnClick onClick = new JournalsAdapter.JournalOnClick() {
+            @Override
+            public void setOnClick(Journal journal) {
+                goToCreateJournalEntryActivity(journal);
+            }
+        };
+
+        adapter = new JournalsAdapter(this, journals, onClick);
         rvJournals.setAdapter(adapter);
         rvJournals.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         loadJournals();
@@ -134,5 +146,30 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
         DocumentReference userRef = FirestoreClient.getUserRef();
         userRef.update("journalNames", FieldValue.arrayUnion(journal.getTitle()));
         userRef.collection("journals").document(journal.getTitle()).set(journal);
+    }
+
+    public void goToCreateJournalEntryActivity(Journal journal) {
+        //todo replace hardcoded track with the users current track
+        Intent i = new Intent(this, CreateJournalEntryActivity.class);
+        i.putExtra(CreateJournalEntryActivity.KEY_JOURNAL, journal);
+        startActivityForResult(i, FINISH_MAKING_POST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FINISH_MAKING_POST) {
+            Timber.d("Received result: " + resultCode);
+            if (resultCode == RESULT_OK) {
+                Journal journal = data.getParcelableExtra(KEY_JOURNAL);
+                for (int i = 0; i < journals.size(); i++) {
+                    if (journals.get(i).getTitle().equals(journal.getTitle())) {
+                        journals.set(i, journal);
+                        adapter.notifyItemChanged(i);
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
