@@ -90,12 +90,5 @@ public class MainPageFragment extends Fragment {
         startActivity(i);
     }
 
-    private void goToCreateJournalEntryFragment() {
-        //todo replace hardcoded track with the users current track
-        CreateJournalEntryFragment fragment = CreateJournalEntryFragment.newInstance(Track.GENERAL);
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentHolder, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
+
 }

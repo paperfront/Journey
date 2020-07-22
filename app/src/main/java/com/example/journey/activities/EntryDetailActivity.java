@@ -12,7 +12,6 @@ import android.os.CpuUsageInfo;
 import com.example.journey.R;
 import com.example.journey.adapters.PromptsAdapter;
 import com.example.journey.databinding.ActivityEntryDetailBinding;
-import com.example.journey.databinding.FragmentEntryDetailBinding;
 import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Entry;
 import com.example.journey.models.Journal;
