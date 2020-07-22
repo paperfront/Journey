@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.journey.R;
@@ -48,6 +49,7 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
     private List<Journal> journals;
     private List<String> journalTitles;
     private ProgressBar pbLoading;
+    private TextView tvNoJournals;
 
     public static final int FINISH_MAKING_POST = 121;
     public static final String KEY_JOURNAL = "journal";
@@ -59,6 +61,7 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
         setContentView(binding.getRoot());
         rvJournals = binding.rvJournals;
         pbLoading = binding.pbLoading;
+        tvNoJournals = binding.tvNoJournals;
         setupRV();
     }
 
@@ -130,6 +133,11 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    tvNoJournals.setVisibility(View.GONE);
+                    QuerySnapshot snapshot = task.getResult();
+                    if (snapshot.isEmpty()) {
+                        tvNoJournals.setVisibility(View.VISIBLE);
+                    }
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Timber.d(document.getId() + " => " + document.getData());
                         Journal journal = document.toObject(Journal.class);
@@ -138,6 +146,7 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
                     }
                     adapter.notifyDataSetChanged();
                 } else {
+                    tvNoJournals.setVisibility(View.VISIBLE);
                     Timber.e(task.getException(),"Error getting documents: ");
                 }
                 pbLoading.setVisibility(View.GONE);
@@ -146,6 +155,7 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
     }
 
     private void saveJournal(Journal journal) {
+        tvNoJournals.setVisibility(View.GONE);
         DocumentReference userRef = FirestoreClient.getUserRef();
         userRef.update("journalNames", FieldValue.arrayUnion(journal.getTitle()));
         userRef.collection("journals").document(journal.getTitle()).set(journal);
