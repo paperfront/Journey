@@ -49,6 +49,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvDateCreated;
+        private TextView tvPromptsAnswered;
         private ItemEntryBinding binding;
         private View rootView;
 
@@ -56,11 +57,13 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             super(itemView);
             binding = ItemEntryBinding.bind(itemView);
             tvDateCreated = binding.tvDateCreated;
+            tvPromptsAnswered = binding.tvPromptsAnswered;
             rootView = binding.getRoot();
         }
 
         private void bind(final Entry entry) {
             tvDateCreated.setText(entry.getDateCreated().toString());
+            tvPromptsAnswered.setText("Prompts Answered: " + Integer.toString(entry.getPrompts().size()));
             rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
