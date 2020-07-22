@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.journey.R;
 import com.example.journey.databinding.ItemCameraAndGalleryBinding;
+import com.example.journey.databinding.ItemMoodBinding;
 import com.example.journey.databinding.ItemPromptBinding;
 import com.example.journey.databinding.ItemProudBinding;
 import com.example.journey.databinding.ItemTravelBinding;
@@ -83,6 +84,8 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
                 return new TravelViewHolder(view);
             case Prompt.PROUD:
                 return new ProudViewHolder(view);
+            case Prompt.MOOD:
+                return new MoodViewHolder(view);
             default:
                 Timber.e("Invalid view type selected");
                 return null;
@@ -249,6 +252,25 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
             for (String response : responses) {
                 tvProud.append(" - " + response + "\n");
             }
+        }
+    }
+
+    public class MoodViewHolder extends ViewHolder {
+
+        private TextView tvMood;
+        private ItemMoodBinding binding;
+
+        public MoodViewHolder(@NonNull View itemView) {
+            super(itemView);
+            View view = View.inflate(context, R.layout.item_mood, getFlPromptHolder());
+            binding = ItemMoodBinding.bind(view);
+            tvMood = binding.tvMood;
+        }
+
+
+        @Override
+        void handleUI() {
+            tvMood.setText(getPrompt().getStringResponse().get(0));
         }
     }
 }

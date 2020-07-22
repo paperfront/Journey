@@ -5,6 +5,7 @@ import android.media.Image;
 import androidx.fragment.app.Fragment;
 
 import com.example.journey.fragments.prompts.CameraAndGalleryPromptFragment;
+import com.example.journey.fragments.prompts.MoodPromptFragment;
 import com.example.journey.fragments.prompts.ProudPromptFragment;
 import com.example.journey.fragments.prompts.TravelPromptFragment;
 import com.example.journey.models.Prompt;
@@ -23,23 +24,12 @@ public class DBQueryMapper {
                return TravelPromptFragment.newInstance(prompt);
            case Prompt.PROUD:
                return ProudPromptFragment.newInstance(prompt);
+           case Prompt.MOOD:
+               return MoodPromptFragment.newInstance(prompt);
            default:
                Timber.e("No Fragment Found for that prompt ID");
                return null;
        }
     }
 
-    public static Class getResponseClassForPromptId(int id) {
-        switch (id) {
-            case Prompt.CAMERA_AND_GALLERY:
-                return Image.class;
-            case Prompt.TRAVEL:
-                return Place.class;
-            case Prompt.PROUD:
-                return String.class;
-            default:
-                Timber.e("No Fragment Found for that prompt ID");
-                return null;
-        }
-    }
 }

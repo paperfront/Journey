@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.prompts.MoodPromptFragment"
+    android:layout_gravity="center"
+    android:layout_margin="16dp">
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slMood"
+        android:stepSize="1.0"
+        android:valueFrom="0.0"
+        android:value="5.0"
+        android:valueTo="10.0"
+        app:labelBehavior="floating"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
+
+</FrameLayout>
