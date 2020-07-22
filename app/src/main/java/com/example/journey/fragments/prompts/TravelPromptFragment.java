@@ -113,7 +113,7 @@ public class TravelPromptFragment extends Fragment {
         btAddLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
                         .build(getContext());
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
