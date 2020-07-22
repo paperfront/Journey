@@ -30,13 +30,13 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 - [X] Setup Google Maps SDK
 
 # Week 2
-- [ ] Create functionality for making new journal entries
+- [X] Create functionality for making new journal entries
     - [X] Setup prompts data model with firestore
     - [X] Implement the transition between different prompts
     - [ ] Implement the aggregation of data amongst all answered prompts
-- [ ] Implement basic report generation
-    - [ ] Handle the aggregation of geotags
-    - [ ] Handle the display of saved media
+- [X] Implement basic entry detail generation
+    - [X] Handle the aggregation of geotags
+    - [X] Handle the display of saved media
 - [ ] Setup all recyclerviews to populate now that data is available
     - [ ] Setup timeline RV
 - [ ] Review and update the design of analysis entries to prepare for week 3
