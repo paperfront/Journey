@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,14 +45,19 @@ public class AnalysisAdapter extends RecyclerView.Adapter<AnalysisAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ItemAnalysisBinding binding;
+        private TextView tvTitle;
+        private TextView tvDateCreated;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemAnalysisBinding.bind(itemView);
+            tvTitle = binding.tvTitle;
+            tvDateCreated = binding.tvDateCreated;
         }
 
         private void bind(Analysis analysis) {
-
+            tvTitle.setText(analysis.getTitle());
+            tvDateCreated.setText(analysis.getDateCreated().toString());
         }
     }
 }
