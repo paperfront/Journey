@@ -39,10 +39,10 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
     - [X] Handle the display of saved media
 - [X] Setup all recyclerviews to populate now that data is available
     - [X] Setup timeline RV
-- [ ] Review and update the design of analysis entries to prepare for week 3
-    - [ ] Decide upon/implement the optimal data model to handle analysis
-    - [ ] Setup the RV for analysis
-    - [ ] Setup analysis data in firestore
+- [X] Review and update the design of analysis entries to prepare for week 3
+    - [X] Decide upon/implement the optimal data model to handle analysis
+    - [X] Setup the RV for analysis
+    - [X] Setup analysis data in firestore
 - [X] Implement log out button
 - [X] Setup calendar on main page
     - [X] Get prompts from selected day
