@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +16,12 @@ import android.widget.Button;
 
 import com.example.journey.R;
 import com.example.journey.activities.BeginAnalysisActivity;
+import com.example.journey.adapters.AnalysisAdapter;
 import com.example.journey.databinding.FragmentAnalysisBinding;
+import com.example.journey.models.Analysis;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -28,6 +34,10 @@ public class AnalysisFragment extends Fragment {
 
     private FragmentAnalysisBinding binding;
     private FloatingActionButton btBeginAnalysis;
+    private RecyclerView rvAnalysis;
+
+    private AnalysisAdapter adapter;
+    private List<Analysis> analysisList;
 
 
     public AnalysisFragment() {
@@ -67,6 +77,7 @@ public class AnalysisFragment extends Fragment {
 
     private void bindElements() {
         btBeginAnalysis = binding.btBeginAnalysis;
+        rvAnalysis = binding.rvAnalysis;
     }
 
     private void setupElements() {
@@ -86,6 +97,13 @@ public class AnalysisFragment extends Fragment {
     }
 
     private void setupRV() {
+        adapter = new AnalysisAdapter(getContext(), analysisList);
+        rvAnalysis.setAdapter(adapter);
+        rvAnalysis.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        loadAnalysisList();
+    }
+
+    private void loadAnalysisList() {
 
     }
 }
