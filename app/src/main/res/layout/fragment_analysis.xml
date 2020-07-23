@@ -48,6 +48,16 @@
             android:textAlignment="center"
             android:textSize="24sp"/>
 
+        <TextView
+            android:id="@+id/tvNoAnalysis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:text="You have not performed any analysis yet."/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAnalysis"
             android:paddingTop="8dp"

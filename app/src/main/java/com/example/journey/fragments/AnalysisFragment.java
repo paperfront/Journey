@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.journey.R;
 import com.example.journey.activities.BeginAnalysisActivity;
@@ -36,6 +37,7 @@ public class AnalysisFragment extends Fragment {
     private FragmentAnalysisBinding binding;
     private FloatingActionButton btBeginAnalysis;
     private RecyclerView rvAnalysis;
+    private TextView tvNoAnalysis;
 
     private AnalysisAdapter adapter;
     private List<Analysis> analysisList;
@@ -79,6 +81,7 @@ public class AnalysisFragment extends Fragment {
     private void bindElements() {
         btBeginAnalysis = binding.btBeginAnalysis;
         rvAnalysis = binding.rvAnalysis;
+        tvNoAnalysis = binding.tvNoAnalysis;
     }
 
     private void setupElements() {
@@ -106,6 +109,10 @@ public class AnalysisFragment extends Fragment {
     }
 
     private void loadAnalysisList() {
-
+        if (analysisList.isEmpty()) {
+            tvNoAnalysis.setVisibility(View.VISIBLE);
+        } else {
+            tvNoAnalysis.setVisibility(View.GONE);
+        }
     }
 }

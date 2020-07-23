@@ -83,7 +83,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
             Timber.d("Map Setting Enabled: " + mapEnabled);
             Timber.d("Key Entries Setting Enabled: " + keyEntriesEnabled);
             Timber.d("Mood Setting Enabled: " + moodEnabled);
-            
+
         } else {
             Toast.makeText(this, "Please enter a title for your analysis first.", Toast.LENGTH_SHORT).show();
             etTitle.setError("Title cannot be empty");
