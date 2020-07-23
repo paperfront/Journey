@@ -21,6 +21,7 @@ import com.example.journey.databinding.FragmentAnalysisBinding;
 import com.example.journey.models.Analysis;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
@@ -97,6 +98,7 @@ public class AnalysisFragment extends Fragment {
     }
 
     private void setupRV() {
+        analysisList = new ArrayList<>();
         adapter = new AnalysisAdapter(getContext(), analysisList);
         rvAnalysis.setAdapter(adapter);
         rvAnalysis.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
