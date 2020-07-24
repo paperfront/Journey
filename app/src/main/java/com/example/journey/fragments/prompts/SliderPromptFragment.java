@@ -33,6 +33,8 @@ public class SliderPromptFragment extends Fragment {
     private FragmentSliderPromptBinding binding;
     private List<String> mood = new ArrayList<>();
 
+    //todo update mood slider to show what each end means
+
     public SliderPromptFragment() {
         // Required empty public constructor
     }

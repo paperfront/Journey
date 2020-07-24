@@ -13,19 +13,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your Journals"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:textSize="36dp"
+        style="@style/titleStyle"
         android:layout_marginTop="16dp"/>
 
     <TextView
         android:id="@+id/tvNoJournals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:visibility="gone"
-        android:textSize="20dp"
-        android:textAlignment="center"
+        style="@style/headerStyle"
         android:text="You have no journals."/>
 
     <ProgressBar

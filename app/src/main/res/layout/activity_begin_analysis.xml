@@ -13,10 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter a title for this analysis: "
-        android:textSize="30sp"
-        android:fontFamily="@font/delius"
-        android:layout_gravity="center"
-        android:textAlignment="center"/>
+        style="@style/titleStyle"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -37,10 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Analysis Settings: "
-        android:textSize="30sp"
-        android:fontFamily="@font/delius"
-        android:layout_gravity="center"
-        android:textAlignment="center"/>
+        style="@style/headerStyle"/>
 
     <TextView
         android:id="@+id/tvDateRange"

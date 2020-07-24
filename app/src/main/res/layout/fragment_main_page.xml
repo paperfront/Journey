@@ -12,10 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_margin="16dp"
-        android:fontFamily="@font/delius"
-        android:text="Browse Past Entries"
-        android:textSize="24sp" />
+        style="@style/titleStyle"
+        android:text="Browse Past Entries" />
 
     <ProgressBar
         android:id="@+id/pbLoading"

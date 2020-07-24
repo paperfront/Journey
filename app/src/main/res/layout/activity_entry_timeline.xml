@@ -13,9 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Journal Title Here"
-        android:textSize="30sp"
-        android:layout_gravity="center"
-        android:fontFamily="@font/delius"
+        style="@style/titleStyle"
         />
 
     <ProgressBar
@@ -30,11 +28,9 @@
         android:id="@+id/tvNoEntries"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible"
-        android:textSize="20dp"
-        android:textAlignment="center"
+        style="@style/headerStyle"
         android:text="You have no entries in this journal."/>
 
     <androidx.recyclerview.widget.RecyclerView

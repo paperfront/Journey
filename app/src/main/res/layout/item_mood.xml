@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <LinearLayout android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,9 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your Mood Level:"
-            android:textStyle="bold"
-            android:fontFamily="@font/delius"
-            android:textSize="30sp"
+            style="@style/titleStyle"
             />
 
         <TextView
@@ -24,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="8/10"
+            tools:layout_width="match_parent"
             android:textSize="20sp"/>
 
 

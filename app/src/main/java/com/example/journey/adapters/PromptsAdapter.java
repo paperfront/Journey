@@ -246,7 +246,11 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
 
         @Override
         void handleUI() {
-            tvPrompt.setText(getPrompt().getQuestion());
+            if (getPrompt().getPromptHeader() == null) {
+                tvPrompt.setText(getPrompt().getQuestion());
+            } else {
+                tvPrompt.setText(getPrompt().getPromptHeader());
+            }
             List<String> responses = getPrompt().getStringResponse();
             for (String response : responses) {
                 tvBody.append(" - " + response + "\n");

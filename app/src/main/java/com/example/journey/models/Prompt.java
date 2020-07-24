@@ -24,6 +24,7 @@ public class Prompt implements Parcelable {
 
 
     private String question;
+    private String promptHeader;
     private int promptId;
     private boolean completed = false;
     private List<String> stringResponse = new ArrayList<>();
@@ -33,6 +34,7 @@ public class Prompt implements Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(question);
+        out.writeString(promptHeader);
         out.writeInt(promptId);
         out.writeBoolean(completed);
         out.writeList(stringResponse);
@@ -76,6 +78,7 @@ public class Prompt implements Parcelable {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private Prompt(Parcel in) {
         question = in.readString();
+        promptHeader = in.readString();
         promptId = in.readInt();
         completed = in.readBoolean();
         stringResponse = in.readArrayList(String.class.getClassLoader());
@@ -123,5 +126,9 @@ public class Prompt implements Parcelable {
 
     public List<Location> getLocationResponse() {
         return locationResponse;
+    }
+
+    public String getPromptHeader() {
+        return promptHeader;
     }
 }

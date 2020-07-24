@@ -17,9 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Begin Analysis"
-            android:fontFamily="@font/delius"
-            android:textAlignment="center"
-            android:textSize="24sp"/>
+            style="@style/titleStyle"/>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
@@ -37,25 +35,21 @@
                 android:src="@drawable/ic_baseline_memory_24"
                 app:backgroundTint="@color/colorPrimary"
                 android:tint="@color/places_text_white_alpha_26"
-                app:tint="@color/quantum_white_divider"/>/>
+                app:tint="@color/quantum_white_divider"/>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Past Analyses"
-            android:fontFamily="@font/delius"
-            android:textAlignment="center"
-            android:textSize="24sp"/>
+            style="@style/titleStyle"/>
 
         <TextView
             android:id="@+id/tvNoAnalysis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:visibility="gone"
-            android:textSize="20dp"
-            android:textAlignment="center"
+            style="@style/headerStyle"
             android:text="You have not performed any analysis yet."/>
 
         <androidx.recyclerview.widget.RecyclerView
