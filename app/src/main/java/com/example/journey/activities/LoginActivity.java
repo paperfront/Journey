@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
@@ -173,7 +174,10 @@ public class LoginActivity extends AppCompatActivity {
             String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
             handleErrorCode(errorCode);
 
-        } else {
+        } else if (e instanceof FirebaseTooManyRequestsException) {
+            Toast.makeText(this, "Too many requests have been made. Please wait and try again soon.", Toast.LENGTH_SHORT).show();
+        }
+        else {
             showNetworkError();
         }
     }
