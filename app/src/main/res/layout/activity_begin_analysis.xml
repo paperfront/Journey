@@ -80,8 +80,6 @@
             android:text="Mood Graph"/>
 
 
-        <material
-
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton

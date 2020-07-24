@@ -1,7 +1,9 @@
 package com.example.journey.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +15,14 @@ import com.example.journey.R;
 import com.example.journey.databinding.ActivityBeginAnalysisBinding;
 import com.example.journey.models.Analysis;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.TimeZone;
 
 import timber.log.Timber;
 
@@ -29,6 +38,9 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     private SwitchMaterial swFullMap;
     private SwitchMaterial swImportantEntries;
     private SwitchMaterial swMoodGraph;
+
+    private Date startDate;
+    private Date endDate;
 
     boolean moodEnabled;
     boolean mapEnabled;
@@ -102,6 +114,51 @@ public class BeginAnalysisActivity extends AppCompatActivity {
 
     private void setDateFilterClicked() {
         Timber.d("Set Date Filter Button Clicked.");
+        MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
+        MaterialDatePicker<Pair<Long, Long>> picker = builder.build();
+        picker.show(getSupportFragmentManager(), picker.toString());
+        picker.addOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                Timber.d("Date Picker Cancelled.");
+            }
+        });
+        picker.addOnNegativeButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Timber.d("Negative button was clicked");
+            }
+        });
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
+            @Override
+            public void onPositiveButtonClick(Pair<Long, Long> selection) {
+                Timber.d("On Positive button clicked. ");
+                if (selection.first == null || selection.second == null) {
+                    Toast.makeText(BeginAnalysisActivity.this, "Please select a start and end date.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                TimeZone local = TimeZone.getDefault();
+                long start = selection.first;
+                long end = selection.second;
+                int offsetStart = local.getOffset(start);
+                int offsetEnd = local.getOffset(end);
+                startDate = new Date(start - offsetStart);
+                endDate = new Date(end - offsetEnd);
+
+                Timber.d("Start Date: " + startDate.toString());
+                Timber.d("End Date: " + endDate.toString());
+                setTvDateRange(startDate, endDate);
+            }
+        });
+    }
+
+    private void setTvDateRange(Date start, Date end) {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        String startDateText = format.format(start);
+        String endDateText = format.format(end);
+
+        tvDateRange.setText(startDateText + " to " + endDateText);
     }
 
     /**
