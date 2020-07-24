@@ -17,9 +17,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvPrompt"
             tools:text="What are you proud of today?"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:fontFamily="@font/delius"
+            style="@style/headerStyle"
+            android:textAlignment="textStart"
             />
         <TextView
             android:layout_marginTop="8dp"

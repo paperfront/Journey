@@ -67,17 +67,17 @@
             android:id="@+id/swFullMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Full Map"/>
+            android:text="Places Visited"/>
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/swImportantEntries"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Find Important Entries"/>
+            android:text="Important Entries"/>
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/swMoodGraph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Mood Graph"/>
+            android:text="Mood Graph"/>
 
 
     </LinearLayout>

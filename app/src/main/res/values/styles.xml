@@ -25,4 +25,12 @@
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
+    <style name="promptHeaderStyle">
+        <item name="android:fontFamily">@font/delius</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
 </resources>

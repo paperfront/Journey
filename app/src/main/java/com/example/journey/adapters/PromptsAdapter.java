@@ -141,6 +141,7 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
     public class CameraAndGalleryViewHolder extends ViewHolder {
 
         private ImageView ivMedia;
+        private TextView tvHeader;
         private ItemCameraAndGalleryBinding binding;
 
 
@@ -149,10 +150,16 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
             View view = View.inflate(context, R.layout.item_camera_and_gallery, getFlPromptHolder());
             binding = ItemCameraAndGalleryBinding.bind(view);
             ivMedia = binding.ivMedia;
+            tvHeader = binding.tvHeader;
         }
 
         @Override
         void handleUI() {
+            if (getPrompt().getPromptHeader() == null) {
+                tvHeader.setText(getPrompt().getQuestion());
+            } else {
+                tvHeader.setText(getPrompt().getPromptHeader());
+            }
             List<String> downloadUrls = getPrompt().getStringResponse();
             String firstUrl = downloadUrls.get(0);
             Glide.with(context).load(firstUrl).into(ivMedia);
@@ -163,17 +170,25 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
 
         private ItemTravelBinding binding;
         private ImageView transparentImageView;
+        private TextView tvHeader;
 
         public TravelViewHolder(@NonNull View itemView) {
             super(itemView);
             View view = View.inflate(context, R.layout.item_travel, getFlPromptHolder());
             binding = ItemTravelBinding.bind(view);
             transparentImageView = binding.transparentImage;
+            tvHeader = binding.tvHeader;
         }
 
         @SuppressLint("ClickableViewAccessibility")
         @Override
         void handleUI() {
+
+            if (getPrompt().getPromptHeader() == null) {
+                tvHeader.setText(getPrompt().getQuestion());
+            } else {
+                tvHeader.setText(getPrompt().getPromptHeader());
+            }
 
             transparentImageView.setOnTouchListener(new View.OnTouchListener() {
 
