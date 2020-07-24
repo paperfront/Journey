@@ -136,7 +136,6 @@ public class LoginActivity extends AppCompatActivity {
                             goToMainActivity();
                         } else {
                             handleFirebaseError(task);
-
                         }
 
                     }

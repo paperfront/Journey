@@ -128,7 +128,6 @@ public class MainPageFragment extends Fragment {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void getEntriesFromDate(final Date today, Date tomorrow) {
         pbLoading.setVisibility(View.VISIBLE);
 
