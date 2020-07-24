@@ -2,6 +2,7 @@ package com.example.journey.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityBeginAnalysisBinding;
+import com.example.journey.models.Analysis;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -27,6 +29,11 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     private SwitchMaterial swFullMap;
     private SwitchMaterial swImportantEntries;
     private SwitchMaterial swMoodGraph;
+
+    boolean moodEnabled;
+    boolean mapEnabled;
+    boolean keyThemesEnabled;
+    boolean keyEntriesEnabled;
 
 
 
@@ -75,14 +82,16 @@ public class BeginAnalysisActivity extends AppCompatActivity {
         Timber.d("Start Analysis Button Clicked.");
         if (validateEntries()) {
             //todo run analysis
-            boolean moodEnabled = swMoodGraph.isChecked();
-            boolean mapEnabled = swFullMap.isChecked();
-            boolean keyThemesEnabled = swKeyThemes.isChecked();
-            boolean keyEntriesEnabled = swImportantEntries.isChecked();
+            moodEnabled = swMoodGraph.isChecked();
+            mapEnabled = swFullMap.isChecked();
+            keyThemesEnabled = swKeyThemes.isChecked();
+            keyEntriesEnabled = swImportantEntries.isChecked();
             Timber.d("Key Theme Setting Enabled: " + keyThemesEnabled);
             Timber.d("Map Setting Enabled: " + mapEnabled);
             Timber.d("Key Entries Setting Enabled: " + keyEntriesEnabled);
             Timber.d("Mood Setting Enabled: " + moodEnabled);
+            performAnalysis();
+
 
         } else {
             Toast.makeText(this, "Please enter a title for your analysis first.", Toast.LENGTH_SHORT).show();
@@ -102,6 +111,19 @@ public class BeginAnalysisActivity extends AppCompatActivity {
      */
     private boolean validateEntries() {
         return !etTitle.getText().toString().isEmpty();
+    }
+
+    private void performAnalysis() {
+        Timber.i("Performing Analysis...");
+        Analysis analysis = new Analysis();
+        goToAnalysisDetailActivity(analysis);
+    }
+
+    private void goToAnalysisDetailActivity(Analysis analysis) {
+        Intent i = new Intent(this, AnalysisDetailActivity.class);
+        i.putExtra(AnalysisDetailActivity.KEY_ANALYSIS, analysis);
+        startActivity(i);
+        finish();
     }
 
 

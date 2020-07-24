@@ -6,10 +6,14 @@ import android.os.Bundle;
 
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityAnalysisDetailBinding;
+import com.example.journey.models.Analysis;
 
 public class AnalysisDetailActivity extends AppCompatActivity {
 
     private ActivityAnalysisDetailBinding binding;
+
+    public static final String KEY_ANALYSIS = "analysis";
+    private Analysis analysis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +25,7 @@ public class AnalysisDetailActivity extends AppCompatActivity {
     }
 
     private void bindElements() {
-
+        analysis = getIntent().getParcelableExtra(KEY_ANALYSIS);
     }
 
     private void setupElements() {
