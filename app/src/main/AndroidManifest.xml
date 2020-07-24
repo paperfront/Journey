@@ -15,7 +15,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.BeginAnalysisActivity"></activity>
+        <activity android:name=".activities.AnalysisDetailActivity"></activity>
+        <activity android:name=".activities.BeginAnalysisActivity" />
         <activity android:name=".activities.EntryTimelineActivity" />
         <activity android:name=".activities.EntryDetailActivity" />
         <activity android:name=".activities.CreateJournalEntryActivity" />

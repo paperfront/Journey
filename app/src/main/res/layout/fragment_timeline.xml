@@ -13,10 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your Journals"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:textSize="36dp"
-        android:layout_marginTop="16dp"/>
+        style="@style/titleStyle"/>
 
     <ProgressBar
         android:id="@+id/pbLoading"
@@ -31,9 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:textSize="20dp"
-        android:textAlignment="center"
-        android:text="You have no journals. Try making one from the home page!"/>
+        style="@style/headerStyle"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvJournals"
