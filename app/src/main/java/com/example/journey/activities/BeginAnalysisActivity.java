@@ -117,12 +117,12 @@ public class BeginAnalysisActivity extends AppCompatActivity {
 
     private void startAnalysisClicked() {
         Timber.d("Start Analysis Button Clicked.");
+        moodEnabled = swMoodGraph.isChecked();
+        mapEnabled = swFullMap.isChecked();
+        wordCloudEnabled = swWordCloud.isChecked();
+        keyEntriesEnabled = swImportantEntries.isChecked();
         if (validateEntries()) {
             //todo run analysis
-            moodEnabled = swMoodGraph.isChecked();
-            mapEnabled = swFullMap.isChecked();
-            wordCloudEnabled = swWordCloud.isChecked();
-            keyEntriesEnabled = swImportantEntries.isChecked();
             Timber.d("Word Cloud Enabled: " + wordCloudEnabled);
             Timber.d("Map Setting Enabled: " + mapEnabled);
             Timber.d("Key Entries Setting Enabled: " + keyEntriesEnabled);
@@ -130,10 +130,12 @@ public class BeginAnalysisActivity extends AppCompatActivity {
             setupAnalysis();
 
 
-        } else {
+        } else if (etTitle.getText().toString().isEmpty()){
             Toast.makeText(this, "Please enter a title for your analysis first.", Toast.LENGTH_SHORT).show();
             etTitle.setError("Title cannot be empty");
             etTitle.requestFocus();
+        } else {
+            Toast.makeText(this, "Please select at least 1 feature to include in your analysis.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -193,7 +195,8 @@ public class BeginAnalysisActivity extends AppCompatActivity {
      * if the field is not empty.
      */
     private boolean validateEntries() {
-        return !etTitle.getText().toString().isEmpty();
+        return !etTitle.getText().toString().isEmpty()
+                && (moodEnabled || mapEnabled || wordCloudEnabled || keyEntriesEnabled);
     }
 
     private void performAnalysis(List<Entry> entries) {

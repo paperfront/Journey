@@ -80,6 +80,7 @@ public class Entry implements Parcelable {
         for (Prompt prompt : prompts) {
             if (!prompt.getStringResponse().isEmpty() && prompt.isTextPrompt()) {
                 responses.addAll(prompt.getStringResponse());
+
             }
         }
         return responses;

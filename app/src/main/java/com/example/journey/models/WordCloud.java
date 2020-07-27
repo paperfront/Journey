@@ -34,6 +34,7 @@ public class WordCloud {
         
     }
 
+
     private void fitWords(List<Word> wordList) {
         if (wordList.isEmpty()) {
             return;
