@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     private SwitchMaterial swFullMap;
     private SwitchMaterial swImportantEntries;
     private SwitchMaterial swMoodGraph;
+    private ProgressBar pbLoading;
 
     private Date startDate;
     private Date endDate;
@@ -89,6 +91,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
         swImportantEntries = binding.swImportantEntries;
         swMoodGraph = binding.swMoodGraph;
         etTitle = binding.etTitle;
+        pbLoading = binding.pbLoading;
     }
 
     private void setupElements() {
@@ -201,6 +204,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
 
     private void setupAnalysis() {
         Timber.i("Setting up analysis");
+        pbLoading.setVisibility(View.VISIBLE);
         loadStopwords();
         loadEntries();
     }
@@ -259,6 +263,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     }
 
     private void goToAnalysisDetailActivity(Analysis analysis) {
+        pbLoading.setVisibility(View.INVISIBLE);
         Intent i = new Intent(this, AnalysisDetailActivity.class);
         i.putExtra(AnalysisDetailActivity.KEY_ANALYSIS, analysis);
         startActivity(i);
