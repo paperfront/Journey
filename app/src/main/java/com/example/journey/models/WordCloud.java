@@ -12,19 +12,24 @@ import java.util.List;
 public class WordCloud {
     private int height = 300;
     private int width = 300;
-    private int maxFontSize = 40;
-    private int minFontSize = Word.BASE_FONT_SIZE;
+    private float maxFontSize = 40;
     private int largestCount;
     private HashMap<String, Integer> wordCounts;
 
 
     public WordCloud(HashMap<String, Integer> wordCounts) {
         this.wordCounts = wordCounts;
+        this.maxFontSize = getMaxFontSize();
+    }
+
+    private float getMaxFontSize() {
+        int totalCount = 0;
         largestCount = 0;
-        for (Iterator<Integer> it = wordCounts.values().iterator(); it.hasNext(); ) {
-            Integer count = it.next();
+        for (int count : wordCounts.values()) {
+            totalCount += count;
             largestCount = count > largestCount ? count : largestCount;
         }
+        return Math.min(maxFontSize, height / (totalCount / largestCount));
     }
 
     public Bitmap createBitmap() {
@@ -43,7 +48,7 @@ public class WordCloud {
 
     private float getWordSize(int wordCount) {
         float calculatedSize = maxFontSize * (wordCount / largestCount);
-        return  calculatedSize > minFontSize ? calculatedSize : minFontSize;
+        return  calculatedSize;
     }
 
 
