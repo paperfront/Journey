@@ -20,7 +20,14 @@
             tools:text="Title Here"
             style="@style/titleStyle"/>
 
+        <FrameLayout
+            android:id="@+id/flWordCloudHolder"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="300dp"/>
 
     </LinearLayout>
+
+
 
 </ScrollView>

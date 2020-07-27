@@ -70,7 +70,6 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     boolean keyEntriesEnabled;
 
     private List<String> stopwords;
-    private HashMap<String, Integer> wordCounter = new HashMap<>();
 
 
 
@@ -199,8 +198,13 @@ public class BeginAnalysisActivity extends AppCompatActivity {
 
     private void performAnalysis(List<Entry> entries) {
         Timber.i("Performing Analysis...");
-        getSignificantWordsFromPosts(entries);
         Analysis analysis = new Analysis(etTitle.getText().toString(), entries);
+
+        if (wordCloudEnabled) {
+            HashMap<String, Integer> wordCounts = getSignificantWordsFromPosts(entries);
+            analysis.setWordCounts(wordCounts);
+        }
+
         goToAnalysisDetailActivity(analysis);
 
     }
@@ -243,7 +247,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
         stopwords = Arrays.asList(getResources().getStringArray(R.array.english_stopwords));
     }
 
-    private void updateWordCount(List<String> words) {
+    private void updateWordCount(List<String> words, HashMap<String, Integer> wordCounter) {
         for (String word : words) {
             if (wordCounter.containsKey(word)) {
                 wordCounter.put(word, wordCounter.get(word) + 1);
@@ -253,7 +257,10 @@ public class BeginAnalysisActivity extends AppCompatActivity {
         }
     }
 
-    private void getSignificantWordsFromPosts(List<Entry> entries) {
+    private HashMap<String, Integer> getSignificantWordsFromPosts(List<Entry> entries) {
+
+        HashMap<String, Integer> wordCounter = new HashMap<>();
+
         for (Entry entry : entries) {
             List<String> currentResponses = entry.getAllStringResponses();
             if (currentResponses.isEmpty()) {
@@ -264,11 +271,10 @@ public class BeginAnalysisActivity extends AppCompatActivity {
                         Arrays.asList(response.toLowerCase().replaceAll("\\p{Punct}","").split(" "));
                 allWords = new ArrayList<>(allWords);
                 allWords.removeAll(stopwords);
-                updateWordCount(allWords);
+                updateWordCount(allWords, wordCounter);
             }
         }
-
-        Timber.i(wordCounter.toString());
+        return wordCounter;
     }
 
     private void goToAnalysisDetailActivity(Analysis analysis) {
