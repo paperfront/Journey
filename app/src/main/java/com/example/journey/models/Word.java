@@ -16,10 +16,10 @@ public class Word {
     public static final int BASE_FONT_SIZE = 10;
     public static final int FONT_ADDER = 2;
 
-    public Word(String word, int wordCount) {
+    public Word(String word, int wordCount, float wordSize) {
         this.word = word;
         this.wordCount = wordCount;
-        this.wordSize = BASE_FONT_SIZE + (wordCount * FONT_ADDER);
+        this.wordSize = wordSize;
         this.wordRectangle = new Rect();
         calculateBoundingRectangle();
     }
