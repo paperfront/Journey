@@ -66,10 +66,10 @@
         >
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/swKeyThemes"
+            android:id="@+id/swWordCloud"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Key Themes"/>
+            android:text="Word Cloud"/>
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/swFullMap"
             android:layout_width="wrap_content"

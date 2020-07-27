@@ -54,7 +54,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     private EditText etTitle;
     private MaterialButton btSetDateFilter;
     private MaterialButton btStartAnalysis;
-    private SwitchMaterial swKeyThemes;
+    private SwitchMaterial swWordCloud;
     private SwitchMaterial swFullMap;
     private SwitchMaterial swImportantEntries;
     private SwitchMaterial swMoodGraph;
@@ -66,7 +66,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     boolean dateFilterEnabled = false;
     boolean moodEnabled;
     boolean mapEnabled;
-    boolean keyThemesEnabled;
+    boolean wordCloudEnabled;
     boolean keyEntriesEnabled;
 
     private List<String> stopwords;
@@ -88,7 +88,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
         tvDateRange = binding.tvDateRange;
         btSetDateFilter = binding.btSetDateFilter;
         btStartAnalysis = binding.btStartAnalysis;
-        swKeyThemes = binding.swKeyThemes;
+        swWordCloud = binding.swWordCloud;
         swFullMap = binding.swFullMap;
         swImportantEntries = binding.swImportantEntries;
         swMoodGraph = binding.swMoodGraph;
@@ -122,9 +122,9 @@ public class BeginAnalysisActivity extends AppCompatActivity {
             //todo run analysis
             moodEnabled = swMoodGraph.isChecked();
             mapEnabled = swFullMap.isChecked();
-            keyThemesEnabled = swKeyThemes.isChecked();
+            wordCloudEnabled = swWordCloud.isChecked();
             keyEntriesEnabled = swImportantEntries.isChecked();
-            Timber.d("Key Theme Setting Enabled: " + keyThemesEnabled);
+            Timber.d("Word Cloud Enabled: " + wordCloudEnabled);
             Timber.d("Map Setting Enabled: " + mapEnabled);
             Timber.d("Key Entries Setting Enabled: " + keyEntriesEnabled);
             Timber.d("Mood Setting Enabled: " + moodEnabled);
@@ -200,7 +200,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     private void performAnalysis(List<Entry> entries) {
         Timber.i("Performing Analysis...");
         getSignificantWordsFromPosts(entries);
-        Analysis analysis = new Analysis();
+        Analysis analysis = new Analysis(etTitle.getText().toString(), entries);
         goToAnalysisDetailActivity(analysis);
 
     }
@@ -251,7 +251,6 @@ public class BeginAnalysisActivity extends AppCompatActivity {
                 wordCounter.put(word, 1);
             }
         }
-
     }
 
     private void getSignificantWordsFromPosts(List<Entry> entries) {
