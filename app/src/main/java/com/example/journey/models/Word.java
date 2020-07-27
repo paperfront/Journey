@@ -32,4 +32,24 @@ public class Word {
         wordPaint.getTextBounds(word, 0, word.length(), wordRectangle);
         wordRectangle.offsetTo(0, 0);
     }
+
+    public String getWord() {
+        return word;
+    }
+
+    public int getWordCount() {
+        return wordCount;
+    }
+
+    public float getWordSize() {
+        return wordSize;
+    }
+
+    public Paint getWordPaint() {
+        return wordPaint;
+    }
+
+    public Rect getWordRectangle() {
+        return wordRectangle;
+    }
 }
