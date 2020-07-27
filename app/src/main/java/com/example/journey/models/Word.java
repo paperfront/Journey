@@ -25,7 +25,7 @@ public class Word {
     }
 
     private void calculateBoundingRectangle() {
-        this.wordPaint = new Paint();
+        this.wordPaint = new Paint(Paint.LINEAR_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
         wordPaint.setTextSize(wordSize);
         wordPaint.setStyle(Paint.Style.FILL);
         wordPaint.setTextAlign(Paint.Align.LEFT);
