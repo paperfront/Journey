@@ -6,6 +6,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,7 +45,6 @@ public class Entry implements Parcelable {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected Entry(Parcel in) {
         dateCreated = (Date) in.readValue(Date.class.getClassLoader());
         prompts = in.readArrayList(Prompt.class.getClassLoader());
@@ -72,4 +73,16 @@ public class Entry implements Parcelable {
         parcel.writeValue(dateCreated);
         parcel.writeList(prompts);
     }
+
+    @Exclude
+    public List<String> getAllStringResponses() {
+        List<String> responses = new ArrayList<>();
+        for (Prompt prompt : prompts) {
+            if (!prompt.getStringResponse().isEmpty() && prompt.isTextPrompt()) {
+                responses.addAll(prompt.getStringResponse());
+            }
+        }
+        return responses;
+    }
+
 }

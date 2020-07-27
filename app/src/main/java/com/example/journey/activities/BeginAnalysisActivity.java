@@ -1,10 +1,13 @@
 package com.example.journey.activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -13,16 +16,31 @@ import android.widget.Toast;
 
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityBeginAnalysisBinding;
+import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Analysis;
+import com.example.journey.models.Entry;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import timber.log.Timber;
 
@@ -46,6 +64,9 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     boolean mapEnabled;
     boolean keyThemesEnabled;
     boolean keyEntriesEnabled;
+
+    private List<String> stopwords;
+    private HashMap<String, Integer> wordCounter = new HashMap<>();
 
 
 
@@ -102,7 +123,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
             Timber.d("Map Setting Enabled: " + mapEnabled);
             Timber.d("Key Entries Setting Enabled: " + keyEntriesEnabled);
             Timber.d("Mood Setting Enabled: " + moodEnabled);
-            performAnalysis();
+            setupAnalysis();
 
 
         } else {
@@ -170,10 +191,71 @@ public class BeginAnalysisActivity extends AppCompatActivity {
         return !etTitle.getText().toString().isEmpty();
     }
 
-    private void performAnalysis() {
+    private void performAnalysis(List<Entry> entries) {
         Timber.i("Performing Analysis...");
+        getSignificantWordsFromPosts(entries);
         Analysis analysis = new Analysis();
         goToAnalysisDetailActivity(analysis);
+
+    }
+
+    private void setupAnalysis() {
+        Timber.i("Setting up analysis");
+        loadStopwords();
+        loadEntries();
+    }
+
+    private void loadEntries() {
+        FirestoreClient.getUserRef().collection("allEntries")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        ArrayList<Entry> entries = new ArrayList<>();
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            entries.add(document.toObject(Entry.class));
+                        }
+                        performAnalysis(entries);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Timber.e(e, "Failed to get all entries.");
+            }
+        });
+    }
+
+    private void loadStopwords() {
+        stopwords = Arrays.asList(getResources().getStringArray(R.array.english_stopwords));
+    }
+
+    private void updateWordCount(List<String> words) {
+        for (String word : words) {
+            if (wordCounter.containsKey(word)) {
+                wordCounter.put(word, wordCounter.get(word) + 1);
+            } else {
+                wordCounter.put(word, 1);
+            }
+        }
+
+    }
+
+    private void getSignificantWordsFromPosts(List<Entry> entries) {
+        for (Entry entry : entries) {
+            List<String> currentResponses = entry.getAllStringResponses();
+            if (currentResponses.isEmpty()) {
+                continue;
+            }
+            for (String response : currentResponses) {
+                List<String> allWords =
+                        Arrays.asList(response.toLowerCase().replaceAll("\\p{Punct}","").split(" "));
+                allWords = new ArrayList<>(allWords);
+                allWords.removeAll(stopwords);
+                updateWordCount(allWords);
+            }
+        }
+
+        Timber.i(wordCounter.toString());
     }
 
     private void goToAnalysisDetailActivity(Analysis analysis) {

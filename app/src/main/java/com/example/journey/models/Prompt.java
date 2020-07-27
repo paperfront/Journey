@@ -131,4 +131,9 @@ public class Prompt implements Parcelable {
     public String getPromptHeader() {
         return promptHeader;
     }
+
+    @Exclude
+    public boolean isTextPrompt() {
+        return promptId == 2 || promptId == 4;
+    }
 }

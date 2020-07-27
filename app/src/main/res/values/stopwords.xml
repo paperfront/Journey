@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="english_stopwords">
+
+        <item>i</item>
+        <item>me
+</item>
+        <item>my
+</item>
+        <item>myself</item>
+        <item>we</item>
+        <item>our</item>
+        <item>ours</item>
+        <item>ourselves</item>
+        <item>you</item>
+        <item>your
+</item>
+        <item>yours
+</item>
+        <item>yourself
+</item>
+        <item>yourselves
+</item>
+        <item>he
+</item>
+        <item>him
+</item>
+        <item>his
+</item>
+        <item>himself
+</item>
+        <item>she
+</item>
+        <item>her
+</item>
+        <item>hers
+</item>
+        <item>herself
+</item>
+        <item>it
+</item>
+        <item>its
+</item>
+        <item>itself
+</item>
+        <item>they
+</item>
+        <item>them
+</item>
+        <item>their
+</item>
+        <item>theirs
+</item>
+        <item>themselves
+</item>
+        <item>what
+</item>
+        <item>which
+</item>
+        <item>who
+</item>
+        <item>whom
+</item>
+        <item>this
+</item>
+        <item>that
+</item>
+        <item>these
+</item>
+        <item>those
+</item>
+        <item>am
+</item>
+        <item>is
+</item>
+        <item>are
+</item>
+        <item>was
+</item>
+        <item>were
+</item>
+        <item>be
+</item>
+        <item>been
+</item>
+        <item>being
+</item>
+        <item>have
+</item>
+        <item>has
+</item>
+        <item>had
+</item>
+        <item>having
+</item>
+        <item>do
+</item>
+        <item>does
+</item>
+        <item>did
+</item>
+        <item>doing
+</item>
+        <item>a
+</item>
+        <item>an
+</item>
+        <item>the
+</item>
+        <item>and
+</item>
+        <item>but
+</item>
+        <item>if
+</item>
+        <item>or
+</item>
+        <item>because
+</item>
+        <item>as
+</item>
+        <item>until
+</item>
+        <item>while
+</item>
+        <item>of
+</item>
+        <item>at
+</item>
+        <item>by
+</item>
+        <item>for
+</item>
+        <item>with
+</item>
+        <item>about
+</item>
+        <item>against
+</item>
+        <item>between
+</item>
+        <item>into
+</item>
+        <item>through
+</item>
+        <item>during
+</item>
+        <item>before
+</item>
+        <item>after
+</item>
+        <item>above
+</item>
+        <item>below
+</item>
+        <item>to
+</item>
+        <item>from
+</item>
+        <item>up
+</item>
+        <item>down
+</item>
+        <item>in
+</item>
+        <item>out
+</item>
+        <item>on
+</item>
+        <item>off
+</item>
+        <item>over
+</item>
+        <item>under
+</item>
+        <item>again
+</item>
+        <item>further
+</item>
+        <item>then
+</item>
+        <item>once
+</item>
+        <item>here
+</item>
+        <item>there
+</item>
+        <item>when
+</item>
+        <item>where
+</item>
+        <item>why
+</item>
+        <item>how
+</item>
+        <item>all
+</item>
+        <item>any
+</item>
+        <item>both
+</item>
+        <item>each
+</item>
+        <item>few
+</item>
+        <item>more
+</item>
+        <item>most
+</item>
+        <item>other
+</item>
+        <item>some
+</item>
+        <item>such
+</item>
+        <item>no
+</item>
+        <item>nor
+</item>
+        <item>not
+</item>
+        <item>only
+</item>
+        <item>own
+</item>
+        <item>same
+</item>
+        <item>so
+</item>
+        <item>than
+</item>
+        <item>too
+</item>
+        <item>very
+</item>
+        <item>s
+</item>
+        <item>t
+</item>
+        <item>can
+</item>
+        <item>will
+</item>
+        <item>just
+</item>
+        <item>don
+</item>
+        <item>should
+</item>
+        <item>now
+</item>
+
+    </string-array>
+</resources>
+    
