@@ -27,6 +27,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     private Date startDate;
     private Date endDate;
 
+    boolean dateFilterEnabled = false;
     boolean moodEnabled;
     boolean mapEnabled;
     boolean keyThemesEnabled;
@@ -138,6 +140,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
 
     private void setDateFilterClicked() {
         Timber.d("Set Date Filter Button Clicked.");
+        dateFilterEnabled = true;
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
         MaterialDatePicker<Pair<Long, Long>> picker = builder.build();
         picker.show(getSupportFragmentManager(), picker.toString());
@@ -210,8 +213,15 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     }
 
     private void loadEntries() {
-        FirestoreClient.getUserRef().collection("allEntries")
-                .get()
+
+        Query query;
+        if (dateFilterEnabled) {
+            query = FirestoreClient.getEntriesBetweenQuery(startDate, endDate);
+        } else {
+            query = FirestoreClient.getAllEntriesRef();
+        }
+
+        query.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

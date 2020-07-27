@@ -131,9 +131,7 @@ public class MainPageFragment extends Fragment {
     private void getEntriesFromDate(final Date today, Date tomorrow) {
         pbLoading.setVisibility(View.VISIBLE);
 
-        FirestoreClient.getUserRef().collection("allEntries")
-                .whereGreaterThan("dateCreated", today)
-                .whereLessThan("dateCreated", tomorrow)
+        FirestoreClient.getEntriesBetweenQuery(today, tomorrow)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
