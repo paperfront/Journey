@@ -53,6 +53,9 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 - [ ] Visual polish
     - [ ] Include an animation when signing in
 - [ ] Create analysis feature
+    - [ ] Extract key themes
+    - [ ] Full map of all locations
+    - [ ] ** Implememt word map (tally occurence of each significant word, and make word size proportional to frequency of occurence. Make sure words don't overlap, etc.)
 - [ ] Implement detail views
     - [ ] Detail view for analysis
     - [X] Detail view for entries
