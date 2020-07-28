@@ -16,6 +16,8 @@ public class WordCloud {
     private int height = 300;
     private int width = 300;
     private float maxFontSize = 40;
+    private int paddingX = 3;
+    private int paddingY = 3;
     private int largestCount;
     private HashMap<String, Integer> wordCounts;
 
@@ -44,7 +46,7 @@ public class WordCloud {
         Bitmap canvasBitmap =  Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(canvasBitmap);
         for (Word word : wordList) {
-            canvas.drawText(word.getWord(), word.getWordRectangle().left, word.getWordRectangle().top, word.getWordPaint());
+            canvas.drawText(word.getWord(), word.getX(), word.getY(), word.getWordPaint());
         }
         return canvasBitmap;
     }
@@ -60,20 +62,20 @@ public class WordCloud {
             return;
         }
 
-        int currentX = wordList.get(0).getX();
-        int currentY = wordList.get(0).getY();
+        int currentX = wordList.get(0).getWordRectangle().width();
+        int currentY = wordList.get(0).getWordRectangle().height();
 
         for (int i = 1; i < wordList.size(); i++) {
 
             Word currentWord = wordList.get(i);
             Rect currentRect = currentWord.getWordRectangle();
-            if (currentX + currentRect.width() > width) {
-                currentRect.offsetTo(0, currentY);
-                currentY += currentRect.height();
+            if (currentX + currentRect.width() + paddingX > width) {
+                currentRect.offsetTo(0, currentY + paddingY);
+                currentY += currentRect.height() + paddingY;
                 currentX = currentRect.width();
             } else {
-                currentRect.offsetTo(currentX, currentRect.height());
-                currentX += currentRect.width();
+                currentRect.offsetTo(currentX + paddingX, currentRect.height());
+                currentX += currentRect.width() + paddingX;
             }
             Rect intersect = intersectingRectangle(currentWord, wordList);
             if (intersect == null) {
@@ -104,6 +106,9 @@ public class WordCloud {
 
 
                 }
+
+                currentRect.offsetTo(currentRect.left,
+                        currentRect.top + paddingY);
             }
         }
     }
