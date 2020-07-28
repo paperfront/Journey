@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.journey.R;
@@ -22,7 +23,7 @@ public class AnalysisDetailActivity extends AppCompatActivity {
     public static final String KEY_ANALYSIS = "analysis";
     private TextView tvTitle;
     private Analysis analysis;
-    private FrameLayout flWordCloudHolder;
+    private ImageView ivWordCloudHolder;
 
 
     @Override
@@ -36,7 +37,7 @@ public class AnalysisDetailActivity extends AppCompatActivity {
 
     private void bindElements() {
         analysis = getIntent().getParcelableExtra(KEY_ANALYSIS);
-        flWordCloudHolder = binding.flWordCloudHolder;
+        ivWordCloudHolder = binding.ivWordCloudHolder;
         tvTitle = binding.tvTitle;
     }
 
@@ -51,8 +52,8 @@ public class AnalysisDetailActivity extends AppCompatActivity {
 
     private void setupWordCloud() {
         WordCloud wordCloud = new WordCloud(analysis.getWordCounts());
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), wordCloud.createBitmap());
-        flWordCloudHolder.setBackground(bitmapDrawable);
+        Bitmap bitmap = wordCloud.createBitmap();
+        ivWordCloudHolder.setImageBitmap(bitmap);
     }
 
     private void setupTitle() {

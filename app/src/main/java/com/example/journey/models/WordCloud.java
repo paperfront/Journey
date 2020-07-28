@@ -2,12 +2,15 @@ package com.example.journey.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class WordCloud {
     private int height = 300;
@@ -48,7 +51,7 @@ public class WordCloud {
 
     private float getWordSize(int wordCount) {
         float calculatedSize = maxFontSize * (wordCount / largestCount);
-        return  calculatedSize;
+        return calculatedSize;
     }
 
 
@@ -57,8 +60,41 @@ public class WordCloud {
             return;
         }
         for (int i = 1; i < wordList.size(); i++) {
-            wordList.get(i).getWordRectangle().offsetTo(0, wordList.get(i - 1).getWordRectangle().bottom);
+
+            Word currentWord = wordList.get(i);
+            Rect currentRect = currentWord.getWordRectangle();
+            Rect intersect = intersectingRectangle(currentWord, wordList);
+            if (intersect == null) {
+                continue;
+            } else {
+                while (intersect != null) {
+                    int newX = intersect.right;
+                    if (newX + currentRect.width() > width) {
+                        int newY = intersect.bottom;
+                        if (newY + currentRect.height() > height) {
+                            // Word does not fit anywhere
+                            Timber.e("Failed to correctly populate word cloud.");
+                            return;
+                        } else {
+                            currentRect.offsetTo(currentWord.getX(), newY);
+                        }
+                    } else {
+                        currentRect.offsetTo(newX, currentWord.getY());
+                    }
+                    intersect = intersectingRectangle(currentWord, wordList);
+                }
+            }
         }
     }
+
+    private Rect intersectingRectangle(Word currentWord, List<Word> allWords) {
+        for (Word word : allWords) {
+            if (!currentWord.equals(word) && Rect.intersects(currentWord.getWordRectangle(), word.getWordRectangle())) {
+                return word.getWordRectangle();
+            }
+        }
+        return null;
+    }
+
 
 }

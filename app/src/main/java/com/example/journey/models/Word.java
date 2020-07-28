@@ -30,11 +30,19 @@ public class Word {
         wordPaint.setStyle(Paint.Style.FILL);
         wordPaint.setTextAlign(Paint.Align.LEFT);
         wordPaint.getTextBounds(word, 0, word.length(), wordRectangle);
-        wordRectangle.offsetTo(0, 0);
+        wordRectangle.offsetTo(0, wordRectangle.height());
     }
 
     public String getWord() {
         return word;
+    }
+
+    public int getY() {
+        return wordRectangle.top;
+    }
+
+    public int getX() {
+        return wordRectangle.left;
     }
 
     public int getWordCount() {
@@ -51,5 +59,12 @@ public class Word {
 
     public Rect getWordRectangle() {
         return wordRectangle;
+    }
+
+    public void setTextSize(float textSize) {
+        this.wordSize = textSize;
+        this.wordPaint.setTextSize(this.wordSize);
+        this.wordPaint.getTextBounds(word, 0, word.length(), wordRectangle);
+        wordRectangle.offsetTo(0, wordRectangle.height());
     }
 }
