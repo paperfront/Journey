@@ -3,6 +3,9 @@ package com.example.journey.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.firestore.Exclude;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,8 +16,11 @@ public class Analysis implements Parcelable {
     private String title;
     private Date dateCreated;
     private List<Entry> entries;
-    private HashMap<String, String> data;
+    private HashMap<String, Boolean> data;
     private HashMap<String, Integer> wordCounts;
+
+    public static final String SETTING_MAPS = "maps";
+    public static final String SETTING_WORD_CLOUD = "word cloud";
 
     public Analysis(){}
 
@@ -22,6 +28,7 @@ public class Analysis implements Parcelable {
         this.title = title;
         this.dateCreated = Calendar.getInstance().getTime();
         this.entries = entries;
+        this.data = new HashMap<>();
     }
 
 
@@ -72,7 +79,7 @@ public class Analysis implements Parcelable {
         return entries;
     }
 
-    public HashMap<String, String> getData() {
+    public HashMap<String, Boolean> getData() {
         return data;
     }
 
@@ -80,9 +87,36 @@ public class Analysis implements Parcelable {
         return wordCounts;
     }
 
-    public void setData(HashMap<String, String> data) {
-        this.data = data;
+    @Exclude
+    public HashMap<Location, Integer> getLocations() {
+        HashMap<Location, Integer> locations = new HashMap<>();
+        for (Entry entry : entries) {
+            List<Prompt> prompts = entry.getPrompts();
+            for (Prompt prompt : prompts) {
+                if (prompt.getLocationResponse() != null) {
+                    for (Location location : prompt.getLocationResponse()) {
+                        if (locations.containsKey(location)) {
+                            locations.put(location, locations.get(location) + 1);
+                        } else {
+                            locations.put(location, 1);
+                        }
+                    }
+                }
+            }
+        }
+        return locations;
     }
+
+    @Exclude
+    public void addData(String setting) {
+        data.put(setting, true);
+    }
+
+    @Exclude
+    public boolean isSettingEnabled(String setting) {
+        return data.containsKey(setting);
+    }
+
 
     public void setWordCounts(HashMap<String, Integer> wordCounts) {
         this.wordCounts = wordCounts;

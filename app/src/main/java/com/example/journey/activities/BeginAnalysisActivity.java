@@ -205,6 +205,11 @@ public class BeginAnalysisActivity extends AppCompatActivity {
         if (wordCloudEnabled) {
             HashMap<String, Integer> wordCounts = getSignificantWordsFromPosts(entries);
             analysis.setWordCounts(wordCounts);
+            analysis.addData(Analysis.SETTING_WORD_CLOUD);
+        }
+
+        if (mapEnabled) {
+            analysis.addData(Analysis.SETTING_MAPS);
         }
 
         goToAnalysisDetailActivity(analysis);

@@ -8,6 +8,7 @@ public class Word {
 
     private String word;
     private int wordCount;
+    private int yOffset;
     private float wordSize;
     private Paint wordPaint;
     private Rect wordRectangle;
@@ -30,6 +31,7 @@ public class Word {
         wordPaint.setStyle(Paint.Style.FILL);
         wordPaint.setTextAlign(Paint.Align.LEFT);
         wordPaint.getTextBounds(word, 0, word.length(), wordRectangle);
+        this.yOffset = Math.abs(wordRectangle.top);
         wordRectangle.offsetTo(0, wordRectangle.height());
     }
 
@@ -38,7 +40,7 @@ public class Word {
     }
 
     public int getY() {
-        return wordRectangle.top;
+        return wordRectangle.top + yOffset;
     }
 
     public int getX() {
