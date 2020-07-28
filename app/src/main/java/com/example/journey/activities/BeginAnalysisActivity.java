@@ -240,6 +240,10 @@ public class BeginAnalysisActivity extends AppCompatActivity {
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                             entries.add(document.toObject(Entry.class));
                         }
+                        if (entries.isEmpty()) {
+                            Toast.makeText(BeginAnalysisActivity.this, "No entries were found to analyze.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         performAnalysis(entries);
                     }
                 }).addOnFailureListener(new OnFailureListener() {

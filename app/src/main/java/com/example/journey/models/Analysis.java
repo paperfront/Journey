@@ -21,6 +21,8 @@ public class Analysis implements Parcelable {
 
     public static final String SETTING_MAPS = "maps";
     public static final String SETTING_WORD_CLOUD = "word cloud";
+    public static final String SETTING_IMPORTANT_ENTRIES = "important entries";
+    public static final String SETTING_MOOD_GRAPH = "mood graph";
 
     public Analysis(){}
 
@@ -105,6 +107,19 @@ public class Analysis implements Parcelable {
             }
         }
         return locations;
+    }
+
+
+    /**
+     * Algorithm to select 1 entry as the most important. First considers the number
+     * of prompts answered in each entry, and chooses from those that are tied for the most
+     * prompts answered. If no tie exists, the entry with the most prompts answered is returned.
+     * If a tie exists, the tie is broken by first considering the amount of items added
+     * to each prompt. If a tie still exists, an entry will be chosen at random.
+     */
+    @Exclude
+    public void getImportantEntry() {
+        Entry longestEntry = entries.get(0);
     }
 
     @Exclude
