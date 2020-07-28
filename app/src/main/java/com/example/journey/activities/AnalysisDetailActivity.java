@@ -66,11 +66,11 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
     private void setupElements() {
         setupTitle();
 
-        if (analysis.isSettingEnabled(Analysis.SETTING_MAPS)) {
+        if (analysis.isSettingEnabled(Analysis.SETTING_WORD_CLOUD)) {
             setupWordCloud();
         }
 
-        if (analysis.isSettingEnabled(Analysis.SETTING_WORD_CLOUD)) {
+        if (analysis.isSettingEnabled(Analysis.SETTING_MAPS)) {
             setupMap();
         }
 
