@@ -30,7 +30,6 @@ public class Prompt implements Parcelable {
     private List<String> stringResponse = new ArrayList<>();
     private List<Location> locationResponse = new ArrayList<>();
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(question);
@@ -58,7 +57,6 @@ public class Prompt implements Parcelable {
 
         // This simply calls our new constructor (typically private) and
         // passes along the unmarshalled `Parcel`, and then returns the new object!
-        @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public Prompt createFromParcel(Parcel in) {
             return new Prompt(in);
@@ -75,7 +73,6 @@ public class Prompt implements Parcelable {
     // we originally wrote into the `Parcel`.  This constructor is usually
     // private so that only the `CREATOR` field can access.
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     private Prompt(Parcel in) {
         question = in.readString();
         promptHeader = in.readString();
