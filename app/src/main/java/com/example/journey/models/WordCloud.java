@@ -50,7 +50,7 @@ public class WordCloud {
     }
 
     private float getWordSize(int wordCount) {
-        float calculatedSize = maxFontSize * (wordCount / largestCount);
+        float calculatedSize = maxFontSize * ((float) wordCount / largestCount);
         return calculatedSize;
     }
 
@@ -59,15 +59,28 @@ public class WordCloud {
         if (wordList.isEmpty()) {
             return;
         }
+
+        int currentX = wordList.get(0).getX();
+        int currentY = wordList.get(0).getY();
+
         for (int i = 1; i < wordList.size(); i++) {
 
             Word currentWord = wordList.get(i);
             Rect currentRect = currentWord.getWordRectangle();
+            if (currentX + currentRect.width() > width) {
+                currentRect.offsetTo(0, currentY);
+                currentY += currentRect.height();
+                currentX = currentRect.width();
+            } else {
+                currentRect.offsetTo(currentX, currentRect.height());
+                currentX += currentRect.width();
+            }
             Rect intersect = intersectingRectangle(currentWord, wordList);
             if (intersect == null) {
                 continue;
             } else {
                 while (intersect != null) {
+                    /*
                     int newX = intersect.right;
                     if (newX + currentRect.width() > width) {
                         int newY = intersect.bottom;
@@ -82,6 +95,14 @@ public class WordCloud {
                         currentRect.offsetTo(newX, currentWord.getY());
                     }
                     intersect = intersectingRectangle(currentWord, wordList);
+                     */
+
+                    int diffY = Math.abs(intersect.bottom - currentRect.top);
+                    currentRect.offsetTo(currentRect.left,
+                            currentRect.top + diffY);
+                    intersect = intersectingRectangle(currentWord, wordList);
+
+
                 }
             }
         }
