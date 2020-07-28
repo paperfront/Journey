@@ -52,11 +52,11 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 # Week 3
 - [ ] Visual polish
     - [ ] Include an animation when signing in
-- [ ] Create analysis feature
+- [X] Create analysis feature
     - [X] Full map of all locations
     - [X] ** Implememt word map (tally occurence of each significant word, and make word size proportional to frequency of occurence. Make sure words don't overlap, etc.)
-    - [ ] Implement important entries feature
-    - [ ] Implement mood graph feature
+    - [X] Implement important entries feature
+    - [X] Implement mood graph feature
 - [X] Implement detail views
     - [X] Detail view for analysis
     - [X] Detail view for entries
