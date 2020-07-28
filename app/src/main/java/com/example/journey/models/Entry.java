@@ -13,9 +13,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-;
+;import timber.log.Timber;
 
-public class Entry implements Parcelable {
+public class Entry implements Parcelable, Comparable<Entry> {
     public static final Creator<Entry> CREATOR = new Creator<Entry>() {
         @Override
         public Entry createFromParcel(Parcel in) {
@@ -80,10 +80,25 @@ public class Entry implements Parcelable {
         for (Prompt prompt : prompts) {
             if (!prompt.getStringResponse().isEmpty() && prompt.isTextPrompt()) {
                 responses.addAll(prompt.getStringResponse());
-
             }
         }
         return responses;
+    }
+
+    @Exclude
+    public int getMood() {
+        for (Prompt prompt : prompts) {
+            if (prompt.getPromptId() == Prompt.MOOD) {
+                return (int) Float.parseFloat(prompt.getStringResponse().get(0));
+            }
+        }
+        Timber.e("Failed to find mood prompt");
+        return 0;
+    }
+
+    @Override
+    public int compareTo(Entry o) {
+        return getDateCreated().compareTo(o.getDateCreated());
     }
 
 }
