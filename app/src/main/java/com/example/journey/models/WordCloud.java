@@ -6,9 +6,15 @@ import android.graphics.Rect;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import timber.log.Timber;
 
@@ -38,8 +44,14 @@ public class WordCloud {
     }
 
     public Bitmap createBitmap() {
+
+        wordCounts = getTopNWords(15, wordCounts);
+
         List<Word> wordList = new ArrayList<>();
-        for (String word : wordCounts.keySet()) {
+
+        List<String> wordKeys = new ArrayList<>(wordCounts.keySet());
+        Collections.shuffle(wordKeys);
+        for (String word : wordKeys) {
             wordList.add(new Word(word, wordCounts.get(word), getWordSize(wordCounts.get(word))));
         }
         fitWords(wordList);
@@ -49,6 +61,32 @@ public class WordCloud {
             canvas.drawText(word.getWord(), word.getX(), word.getY(), word.getWordPaint());
         }
         return canvasBitmap;
+    }
+
+    private HashMap<String, Integer> getTopNWords(int n, HashMap<String, Integer> wordCounts) {
+        List<Map.Entry<String, Integer> > list =
+                new LinkedList<Map.Entry<String, Integer> >(wordCounts.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2)
+            {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        int counter = 0;
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            if (counter >= n) {
+                break;
+            }
+            temp.put(aa.getKey(), aa.getValue());
+            counter += 1;
+        }
+        return temp;
     }
 
     private float getWordSize(int wordCount) {
@@ -74,14 +112,11 @@ public class WordCloud {
                 currentY += currentRect.height() + paddingY;
                 currentX = currentRect.width();
             } else {
-                currentRect.offsetTo(currentX + paddingX, currentRect.height());
+                currentRect.offsetTo(currentX + paddingX, currentRect.top);
                 currentX += currentRect.width() + paddingX;
             }
             Rect intersect = intersectingRectangle(currentWord, wordList);
-            if (intersect == null) {
-                continue;
-            } else {
-                while (intersect != null) {
+            while (intersect != null) {
                     /*
                     int newX = intersect.right;
                     if (newX + currentRect.width() > width) {
@@ -106,10 +141,8 @@ public class WordCloud {
 
 
                 }
-
                 currentRect.offsetTo(currentRect.left,
                         currentRect.top + paddingY);
-            }
         }
     }
 
