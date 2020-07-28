@@ -26,6 +26,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -220,7 +221,7 @@ public class BeginAnalysisActivity extends AppCompatActivity {
             analysis.addData(Analysis.SETTING_MOOD_GRAPH);
         }
 
-        goToAnalysisDetailActivity(analysis);
+        saveAnalysis(analysis);
 
     }
 
@@ -302,6 +303,23 @@ public class BeginAnalysisActivity extends AppCompatActivity {
         i.putExtra(AnalysisDetailActivity.KEY_ANALYSIS, analysis);
         startActivity(i);
         finish();
+    }
+
+    private void saveAnalysis(final Analysis analysis) {
+        FirestoreClient.getAnalysisRef().add(analysis).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Timber.i("Successfully saved analysis.");
+                goToAnalysisDetailActivity(analysis);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Timber.e("Failed to save analysis");
+                Toast.makeText(BeginAnalysisActivity.this,
+                        "Failed to save analysis. Please ensure you are connected to internet and try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

@@ -26,5 +26,9 @@ public class FirestoreClient {
                 .whereLessThan("dateCreated", end);
     }
 
+    public static CollectionReference getAnalysisRef() {
+        return FirestoreClient.getUserRef().collection("analysis");
+    }
+
 
 }
