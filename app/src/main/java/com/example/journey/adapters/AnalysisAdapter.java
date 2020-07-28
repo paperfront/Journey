@@ -1,6 +1,7 @@
 package com.example.journey.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.journey.R;
+import com.example.journey.activities.AnalysisDetailActivity;
 import com.example.journey.databinding.ItemAnalysisBinding;
 import com.example.journey.models.Analysis;
 
@@ -45,6 +47,7 @@ public class AnalysisAdapter extends RecyclerView.Adapter<AnalysisAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ItemAnalysisBinding binding;
+        private View rootView;
         private TextView tvTitle;
         private TextView tvDateCreated;
 
@@ -53,11 +56,20 @@ public class AnalysisAdapter extends RecyclerView.Adapter<AnalysisAdapter.ViewHo
             binding = ItemAnalysisBinding.bind(itemView);
             tvTitle = binding.tvTitle;
             tvDateCreated = binding.tvDateCreated;
+            rootView = binding.getRoot();
         }
 
-        private void bind(Analysis analysis) {
+        private void bind(final Analysis analysis) {
             tvTitle.setText(analysis.getTitle());
             tvDateCreated.setText(analysis.getDateCreated().toString());
+            rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, AnalysisDetailActivity.class);
+                    i.putExtra(AnalysisDetailActivity.KEY_ANALYSIS, analysis);
+                    context.startActivity(i);
+                }
+            });
         }
     }
 }
