@@ -2,6 +2,7 @@ package com.example.journey.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -29,6 +30,7 @@ import com.anychart.graphics.vector.Stroke;
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityAnalysisDetailBinding;
 import com.example.journey.databinding.ItemEntryBinding;
+import com.example.journey.fragments.AnalysisFragment;
 import com.example.journey.models.Analysis;
 import com.example.journey.models.Entry;
 import com.example.journey.models.Location;
@@ -54,7 +56,10 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
 
     private ActivityAnalysisDetailBinding binding;
 
+
     public static final String KEY_ANALYSIS = "analysis";
+    public static final String KEY_NEW_ANALYSIS = "new analysis";
+    private boolean newAnalysis = false;
     private ScrollView svRoot;
     private TextView tvTitle;
     private Analysis analysis;
@@ -79,6 +84,8 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
 
     private void bindElements() {
         analysis = getIntent().getParcelableExtra(KEY_ANALYSIS);
+        newAnalysis = getIntent().getBooleanExtra(KEY_NEW_ANALYSIS, false);
+
         svRoot = binding.svRoot;
         ivWordCloudHolder = binding.ivWordCloudHolder;
         tvTitle = binding.tvTitle;
@@ -177,7 +184,6 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
                 Intent i = new Intent(AnalysisDetailActivity.this, EntryDetailActivity.class);
                 i.putExtra(EntryDetailActivity.KEY_ENTRY, keyEntry);
                 startActivity(i);
-
             }
         });
     }

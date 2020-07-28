@@ -1,10 +1,12 @@
 package com.example.journey.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityBeginAnalysisBinding;
+import com.example.journey.fragments.AnalysisFragment;
 import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Analysis;
 import com.example.journey.models.Entry;
@@ -71,7 +74,6 @@ public class BeginAnalysisActivity extends AppCompatActivity {
     boolean keyEntriesEnabled;
 
     private List<String> stopwords;
-
 
 
 
@@ -301,7 +303,11 @@ public class BeginAnalysisActivity extends AppCompatActivity {
         pbLoading.setVisibility(View.INVISIBLE);
         Intent i = new Intent(this, AnalysisDetailActivity.class);
         i.putExtra(AnalysisDetailActivity.KEY_ANALYSIS, analysis);
+        i.putExtra(AnalysisDetailActivity.KEY_NEW_ANALYSIS, true);
         startActivity(i);
+        Intent result = new Intent();
+        result.putExtra(AnalysisFragment.KEY_NEW_ANALYSIS, analysis);
+        setResult(Activity.RESULT_OK, result);
         finish();
     }
 
@@ -321,6 +327,5 @@ public class BeginAnalysisActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }
