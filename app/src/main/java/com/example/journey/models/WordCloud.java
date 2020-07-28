@@ -22,8 +22,9 @@ public class WordCloud {
     private int height = 300;
     private int width = 300;
     private float maxFontSize = 40;
-    private int paddingX = 3;
-    private int paddingY = 3;
+    private static final int paddingX = 3;
+    private static final int paddingY = 3;
+    private static final int numWords = 15;
     private int largestCount;
     private HashMap<String, Integer> wordCounts;
 
@@ -45,7 +46,7 @@ public class WordCloud {
 
     public Bitmap createBitmap() {
 
-        wordCounts = getTopNWords(15, wordCounts);
+        wordCounts = getTopNWords(numWords, wordCounts);
 
         List<Word> wordList = new ArrayList<>();
 

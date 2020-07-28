@@ -1,33 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    tools:context=".fragments.prompts.AddStringsPromptFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <EditText
-        android:id="@+id/etEntry"
+    <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Type here..." />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        tools:context=".fragments.prompts.AddStringsPromptFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="- Entry # 1"
-        android:layout_below="@id/etEntry"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/tvList"/>
+        <!-- TODO: Update blank fragment layout -->
+        <EditText
+            android:id="@+id/etEntry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Type here..." />
 
-    <Button
-        android:id="@+id/btAdd"
-        android:layout_below="@id/tvList"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Add" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="- Entry # 1"
+            android:layout_below="@id/etEntry"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/tvList"/>
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/btAdd"
+            android:layout_below="@id/tvList"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Add" />
+
+    </RelativeLayout>
+
+</ScrollView>
