@@ -212,6 +212,14 @@ public class BeginAnalysisActivity extends AppCompatActivity {
             analysis.addData(Analysis.SETTING_MAPS);
         }
 
+        if (keyEntriesEnabled) {
+            analysis.addData(Analysis.SETTING_IMPORTANT_ENTRIES);
+        }
+
+        if (moodEnabled) {
+            analysis.addData(Analysis.SETTING_MOOD_GRAPH);
+        }
+
         goToAnalysisDetailActivity(analysis);
 
     }

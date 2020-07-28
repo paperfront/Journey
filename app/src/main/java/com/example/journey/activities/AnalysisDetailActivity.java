@@ -2,6 +2,7 @@ package com.example.journey.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -15,7 +16,9 @@ import android.widget.TextView;
 
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityAnalysisDetailBinding;
+import com.example.journey.databinding.ItemEntryBinding;
 import com.example.journey.models.Analysis;
+import com.example.journey.models.Entry;
 import com.example.journey.models.Location;
 import com.example.journey.models.WordCloud;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,6 +33,8 @@ import org.w3c.dom.Text;
 import java.util.HashMap;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class AnalysisDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private ActivityAnalysisDetailBinding binding;
@@ -41,7 +46,9 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
     private ImageView ivWordCloudHolder;
     private LinearLayout llWordCloud;
     private LinearLayout llMap;
+    private LinearLayout llKeyEntries;
     private ImageView ivTransparentImage;
+    private ItemEntryBinding entryBinding;
 
 
     @Override
@@ -61,6 +68,8 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
         llMap = binding.llMap;
         llWordCloud = binding.llWordCloud;
         ivTransparentImage = binding.transparentImage;
+        llKeyEntries = binding.llImportantEntry;
+        entryBinding = binding.itemEntry;
     }
 
     private void setupElements() {
@@ -74,6 +83,26 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
             setupMap();
         }
 
+        if (analysis.isSettingEnabled(Analysis.SETTING_IMPORTANT_ENTRIES)) {
+            setupKeyEntries();
+        }
+
+    }
+
+    private void setupKeyEntries() {
+        llKeyEntries.setVisibility(View.VISIBLE);
+        final Entry keyEntry = analysis.getImportantEntry();
+        entryBinding.tvDateCreated.setText(keyEntry.getDateCreated().toString());
+        entryBinding.tvPromptsAnswered.setText("Prompts Answered: " + Integer.toString(keyEntry.getPrompts().size()));
+        entryBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(AnalysisDetailActivity.this, EntryDetailActivity.class);
+                i.putExtra(EntryDetailActivity.KEY_ENTRY, keyEntry);
+                startActivity(i);
+
+            }
+        });
     }
 
     private void setupWordCloud() {
@@ -84,7 +113,6 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
     }
 
     private void setupMap() {
-
         ivTransparentImage.setOnTouchListener(new View.OnTouchListener() {
 
             @Override

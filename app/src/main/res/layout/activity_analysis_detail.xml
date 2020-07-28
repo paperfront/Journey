@@ -83,6 +83,27 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/llImportantEntry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                style="@style/headerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Memorable Entry" />
+
+            <include
+                layout="@layout/item_entry"
+                android:id="@+id/itemEntry"/>
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

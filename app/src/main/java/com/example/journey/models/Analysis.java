@@ -116,10 +116,19 @@ public class Analysis implements Parcelable {
      * prompts answered. If no tie exists, the entry with the most prompts answered is returned.
      * If a tie exists, the tie is broken by first considering the amount of items added
      * to each prompt. If a tie still exists, an entry will be chosen at random.
+     *
+     * Currently, any ties in the longest entry are resolved randomly. Expanded functionality
+     * as described above is a todo feature.
      */
     @Exclude
-    public void getImportantEntry() {
+    public Entry getImportantEntry() {
         Entry longestEntry = entries.get(0);
+        for (int i = 1; i < entries.size(); i++) {
+            if (entries.get(i).getPrompts().size() > longestEntry.getPrompts().size()) {
+                longestEntry = entries.get(i);
+            }
+        }
+        return longestEntry;
     }
 
     @Exclude
