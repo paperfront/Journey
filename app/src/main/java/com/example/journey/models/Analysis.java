@@ -3,6 +3,7 @@ package com.example.journey.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.journey.helpers.DateCreatedFormatter;
 import com.google.firebase.firestore.Exclude;
 
 import java.util.ArrayList;
@@ -129,6 +130,11 @@ public class Analysis implements Parcelable {
             }
         }
         return longestEntry;
+    }
+
+    @Exclude
+    public String getDateCreatedString() {
+        return DateCreatedFormatter.formatDate(getDateCreated());
     }
 
     @Exclude

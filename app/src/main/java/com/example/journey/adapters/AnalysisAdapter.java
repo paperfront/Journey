@@ -61,7 +61,7 @@ public class AnalysisAdapter extends RecyclerView.Adapter<AnalysisAdapter.ViewHo
 
         private void bind(final Analysis analysis) {
             tvTitle.setText(analysis.getTitle());
-            tvDateCreated.setText(analysis.getDateCreated().toString());
+            tvDateCreated.setText(analysis.getDateCreatedString());
             rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

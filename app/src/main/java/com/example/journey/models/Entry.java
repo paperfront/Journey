@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.journey.helpers.DateCreatedFormatter;
 import com.google.firebase.firestore.Exclude;
 
 import java.util.ArrayList;
@@ -55,6 +56,11 @@ public class Entry implements Parcelable, Comparable<Entry> {
 
     public Date getDateCreated() {
         return dateCreated;
+    }
+
+    @Exclude
+    public String getDateCreatedString() {
+        return DateCreatedFormatter.formatDate(getDateCreated());
     }
 
     public List<Prompt> getPrompts() {

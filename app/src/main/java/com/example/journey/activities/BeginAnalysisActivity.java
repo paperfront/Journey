@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityBeginAnalysisBinding;
 import com.example.journey.fragments.AnalysisFragment;
+import com.example.journey.helpers.DateCreatedFormatter;
 import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Analysis;
 import com.example.journey.models.Entry;
@@ -183,10 +184,9 @@ public class BeginAnalysisActivity extends AppCompatActivity {
         });
     }
 
-    private void setTvDateRange(Date start, Date end) {
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        String startDateText = format.format(start);
-        String endDateText = format.format(end);
+    private void setTvDateRange(Date start, Date end) { ;
+        String startDateText = DateCreatedFormatter.formatDate(start);
+        String endDateText = DateCreatedFormatter.formatDate(end);
 
         tvDateRange.setText(startDateText + " to " + endDateText);
     }
