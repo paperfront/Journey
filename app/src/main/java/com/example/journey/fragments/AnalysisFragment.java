@@ -125,7 +125,7 @@ public class AnalysisFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                pbLoading.setVisibility(View.INVISIBLE);
+                pbLoading.setVisibility(View.GONE);
                 Timber.i("Successfully got analysis.");
                 List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot document : documents) {
@@ -140,7 +140,7 @@ public class AnalysisFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                pbLoading.setVisibility(View.INVISIBLE);
+                pbLoading.setVisibility(View.GONE);
                 tvNoAnalysis.setVisibility(View.VISIBLE);
                 Timber.e("Failed to get analysis list.");
             }
