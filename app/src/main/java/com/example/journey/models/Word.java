@@ -32,7 +32,7 @@ public class Word {
         wordPaint.setTextAlign(Paint.Align.LEFT);
         wordPaint.getTextBounds(word, 0, word.length(), wordRectangle);
         this.yOffset = Math.abs(wordRectangle.top);
-        wordRectangle.offsetTo(0, wordRectangle.height());
+        wordRectangle.offsetTo(0, 0);
     }
 
     public String getWord() {
