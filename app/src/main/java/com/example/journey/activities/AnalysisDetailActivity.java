@@ -114,7 +114,9 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
         }
 
         if (analysis.isSettingEnabled(Analysis.SETTING_MOOD_GRAPH)) {
-            setupMoodGraph();
+            // note firebase has issues, uncomment when bugs are fixed
+            // https://github.com/firebase/firebase-android-sdk/issues/361#issuecomment-664593540
+            //setupMoodGraph();
         }
 
     }
