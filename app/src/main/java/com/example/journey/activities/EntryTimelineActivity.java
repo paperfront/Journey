@@ -2,9 +2,12 @@ package com.example.journey.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +47,7 @@ public class EntryTimelineActivity extends AppCompatActivity {
     private EntriesAdapter adapter;
     private List<Entry> entries;
     private String title;
+    private boolean favoriteEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,19 @@ public class EntryTimelineActivity extends AppCompatActivity {
 
         if (id == R.id.action_favorite) {
             Timber.d("Favorite button clicked");
+            if (!favoriteEnabled) {
+                Drawable heart = item.getIcon();
+                heart = DrawableCompat.wrap(heart);
+                DrawableCompat.setTint(heart, ContextCompat.getColor(this, R.color.quantum_googred));
+                item.setIcon(heart);
+            } else {
+                Drawable heart = item.getIcon();
+                heart = DrawableCompat.wrap(heart);
+                DrawableCompat.setTint(heart, ContextCompat.getColor(this, R.color.quantum_white_100));
+                item.setIcon(heart);
+            }
+            favoriteEnabled = !favoriteEnabled;
+
         }
         return super.onOptionsItemSelected(item);
     }
