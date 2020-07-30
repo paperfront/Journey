@@ -45,7 +45,8 @@ public class EntryTimelineActivity extends AppCompatActivity {
     private TextView tvNoEntries;
     private RecyclerView rvEntries;
     private EntriesAdapter adapter;
-    private List<Entry> entries;
+    private List<Entry> shownEntries;
+    private List<Entry> allEntries;
     private String title;
     private boolean favoriteEnabled = false;
 
@@ -61,7 +62,7 @@ public class EntryTimelineActivity extends AppCompatActivity {
     }
 
     private void bindElements() {
-        entries = getIntent().getParcelableArrayListExtra(KEY_ENTRIES);
+        allEntries = getIntent().getParcelableArrayListExtra(KEY_ENTRIES);
         title = getIntent().getStringExtra(KEY_TITLE);
         tvJournalName = binding.tvJournalName;
         rvEntries = binding.rvEntries;
@@ -80,15 +81,17 @@ public class EntryTimelineActivity extends AppCompatActivity {
     }
 
     private void setupRV() {
-        adapter = new EntriesAdapter(entries, this);
+        shownEntries = new ArrayList<>();
+        shownEntries.addAll(allEntries);
+        adapter = new EntriesAdapter(shownEntries, this);
         rvEntries.setAdapter(adapter);
         rvEntries.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         loadEntries();
     }
 
     private void loadEntries() {
-        Collections.reverse(entries);
-        if (entries.isEmpty()) {
+        Collections.reverse(shownEntries);
+        if (shownEntries.isEmpty()) {
             tvNoEntries.setVisibility(View.VISIBLE);
         }
         adapter.notifyDataSetChanged();
@@ -113,15 +116,24 @@ public class EntryTimelineActivity extends AppCompatActivity {
                 heart = DrawableCompat.wrap(heart);
                 DrawableCompat.setTint(heart, ContextCompat.getColor(this, R.color.quantum_googred));
                 item.setIcon(heart);
+                shownEntries.clear();
+                for (Entry entry : allEntries) {
+                    if (entry.isFavorite()) {
+                        shownEntries.add(entry);
+                    }
+                }
             } else {
                 Drawable heart = item.getIcon();
                 heart = DrawableCompat.wrap(heart);
                 DrawableCompat.setTint(heart, ContextCompat.getColor(this, R.color.quantum_white_100));
                 item.setIcon(heart);
+                shownEntries.clear();
+                shownEntries.addAll(allEntries);
             }
             favoriteEnabled = !favoriteEnabled;
-
+            adapter.notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
