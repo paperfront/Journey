@@ -31,11 +31,13 @@ public class Entry implements Parcelable, Comparable<Entry> {
 
     private Date dateCreated;
     private List<Prompt> prompts;
+    private boolean favorite;
 
     public Entry() {
     }
 
     public Entry(List<Prompt> prompts) {
+        this.favorite = false;
         this.dateCreated = Calendar.getInstance().getTime();
         this.prompts = new ArrayList<>();
         for (Prompt prompt : prompts) {
@@ -47,6 +49,7 @@ public class Entry implements Parcelable, Comparable<Entry> {
     }
 
     protected Entry(Parcel in) {
+        favorite = in.readBoolean();
         dateCreated = (Date) in.readValue(Date.class.getClassLoader());
         prompts = in.readArrayList(Prompt.class.getClassLoader());
         if (prompts == null) {
@@ -76,6 +79,7 @@ public class Entry implements Parcelable, Comparable<Entry> {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeBoolean(favorite);
         parcel.writeValue(dateCreated);
         parcel.writeList(prompts);
     }
@@ -100,6 +104,10 @@ public class Entry implements Parcelable, Comparable<Entry> {
         }
         Timber.e("Failed to find mood prompt");
         return 0;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
     }
 
     @Override
