@@ -83,7 +83,13 @@ public class EntryTimelineActivity extends AppCompatActivity {
     private void setupRV() {
         shownEntries = new ArrayList<>();
         Collections.reverse(allEntries);
-        adapter = new EntriesAdapter(shownEntries, this, title);
+        EntriesAdapter.ListUpdater updater = new EntriesAdapter.ListUpdater() {
+            @Override
+            public void updateItems(boolean toggle) {
+                updateShownItems(toggle);
+            }
+        };
+        adapter = new EntriesAdapter(shownEntries, this, title, updater);
         rvEntries.setAdapter(adapter);
         rvEntries.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         loadEntries();
@@ -111,11 +117,33 @@ public class EntryTimelineActivity extends AppCompatActivity {
 
         if (id == R.id.action_favorite) {
             Timber.d("Favorite button clicked");
+            handleFavorites(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void handleFavorites(MenuItem item) {
+        if (!favoriteEnabled) {
+            Drawable heart = getDrawable(R.drawable.ic_baseline_favorite_24);
+            heart = DrawableCompat.wrap(heart);
+            DrawableCompat.setTint(heart, ContextCompat.getColor(this, R.color.quantum_googred));
+            item.setIcon(heart);
+
+        } else {
+            Drawable heart = getDrawable(R.drawable.ic_baseline_favorite_24);
+            heart = DrawableCompat.wrap(heart);
+            DrawableCompat.setTint(heart, ContextCompat.getColor(this, R.color.quantum_white_100));
+            item.setIcon(heart);
+        }
+
+        updateShownItems(true);
+
+    }
+
+    private void updateShownItems(boolean toggle) {
+
+        if (toggle) {
             if (!favoriteEnabled) {
-                Drawable heart = item.getIcon();
-                heart = DrawableCompat.wrap(heart);
-                DrawableCompat.setTint(heart, ContextCompat.getColor(this, R.color.quantum_googred));
-                item.setIcon(heart);
                 shownEntries.clear();
                 for (Entry entry : allEntries) {
                     if (entry.isFavorite()) {
@@ -123,17 +151,31 @@ public class EntryTimelineActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                Drawable heart = item.getIcon();
-                heart = DrawableCompat.wrap(heart);
-                DrawableCompat.setTint(heart, ContextCompat.getColor(this, R.color.quantum_white_100));
-                item.setIcon(heart);
                 shownEntries.clear();
                 shownEntries.addAll(allEntries);
             }
+            Collections.sort(shownEntries);
+            Collections.reverse(shownEntries);
             favoriteEnabled = !favoriteEnabled;
-            adapter.notifyDataSetChanged();
+        } else {
+            if (favoriteEnabled) {
+                shownEntries.clear();
+                for (Entry entry : allEntries) {
+                    if (entry.isFavorite()) {
+                        shownEntries.add(entry);
+                    }
+                }
+            } else {
+                shownEntries.clear();
+                shownEntries.addAll(allEntries);
+            }
+            Collections.sort(shownEntries);
+            Collections.reverse(shownEntries);
         }
-        return super.onOptionsItemSelected(item);
+        adapter.notifyDataSetChanged();
     }
+
+
+
 
 }

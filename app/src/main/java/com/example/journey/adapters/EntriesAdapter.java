@@ -24,6 +24,8 @@ import com.example.journey.databinding.ItemEntryBinding;
 import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Entry;
 import com.example.journey.models.Journal;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.List;
@@ -35,11 +37,17 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
     private List<Entry> entries;
     private Context context;
     private String journalTitle;
+    private ListUpdater updater;
 
-    public EntriesAdapter(List<Entry> entries, Context context, String journalTitle) {
+    public EntriesAdapter(List<Entry> entries, Context context, String journalTitle, ListUpdater updater) {
         this.entries = entries;
         this.context = context;
         this.journalTitle = journalTitle;
+        this.updater = updater;
+    }
+
+    public interface ListUpdater {
+        public void updateItems(boolean toggle);
     }
 
     @NonNull
@@ -105,8 +113,6 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
                                     .playOn(ivPopupHeart);
                         }
 
-
-
                         handleLikeAction(entry);
                     }
 
@@ -130,16 +136,23 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
 
         private void handleLikeAction(final Entry currentEntry) {
 
-            FirestoreClient.getUserRef().collection("journals").document(journalTitle).update("entries", FieldValue.arrayRemove(currentEntry));
+            FirestoreClient.getUserRef().collection("journals").document(journalTitle).update("entries", FieldValue.arrayRemove(currentEntry))
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (currentEntry.isFavorite()) {
+                                Timber.i("Uniking entry...");
+                                currentEntry.setFavorite(false);
+                            } else {
+                                Timber.i("Liking post...");
+                                currentEntry.setFavorite(true);
+                            }
+                            FirestoreClient.getUserRef().collection("journals").document(journalTitle).update("entries", FieldValue.arrayUnion(currentEntry));
+                            updater.updateItems(false);
+                        }
+                    });
 
-            if (currentEntry.isFavorite()) {
-                Timber.i("Uniking entry...");
-                currentEntry.setFavorite(false);
-            } else {
-                Timber.i("Liking post...");
-                currentEntry.setFavorite(true);
-            }
-            FirestoreClient.getUserRef().collection("journals").document(journalTitle).update("entries", FieldValue.arrayUnion(currentEntry));
+
         }
     }
 }
