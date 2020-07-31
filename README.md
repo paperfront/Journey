@@ -50,8 +50,8 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 
 
 # Week 3
-- [ ] Visual polish
-    - [ ] Include an animation when signing in
+- [X] Visual polish
+    - [X] Include an animation when favoriting entries
 - [X] Create analysis feature
     - [X] Full map of all locations
     - [X] ** Implememt word map (tally occurence of each significant word, and make word size proportional to frequency of occurence. Make sure words don't overlap, etc.)
@@ -60,8 +60,8 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 - [X] Implement detail views
     - [X] Detail view for analysis
     - [X] Detail view for entries
-- [ ] Add gesture recognizer for favoriting entries by double tapping them
-- [ ] Add any extra journaling "tracks"
+- [X] Add gesture recognizer for favoriting entries by double tapping them
+
 
 # Week 4
 - [ ] Implement 3 full tracks
@@ -73,3 +73,4 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
     - [ ] Integrating spotify/music clips into Journal entries
     - [ ] Adding any additional tracks (max 5)
     - [ ] Allow users to run reports across various journals
+    - [ ] Add any extra journaling "tracks"
