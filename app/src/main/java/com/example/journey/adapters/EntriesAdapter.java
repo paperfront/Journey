@@ -86,15 +86,27 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
                     public void onLongPress(MotionEvent e) {
                         Timber.d("onDoubleTap");
                         ivPopupHeart.setVisibility(View.VISIBLE);
-                        Drawable fullHeart = context.getDrawable(R.drawable.ic_baseline_favorite_24);
-                        DrawableCompat.setTint(fullHeart, Color.RED);
-                        ivPopupHeart.setBackground(fullHeart);
-                        YoYo.with(Techniques.Landing)
-                                .duration(500)
-                                .playOn(ivPopupHeart);
-                        YoYo.with(Techniques.TakingOff)
-                                .duration(500)
-                                .playOn(ivPopupHeart);
+                        if (entry.isFavorite()) {
+                            Drawable fullHeart = context.getDrawable(R.drawable.ic_baseline_favorite_24);
+                            DrawableCompat.setTint(fullHeart, Color.RED);
+                            ivPopupHeart.setBackground(fullHeart);
+                            YoYo.with(Techniques.SlideOutRight)
+                                    .duration(1000)
+                                    .playOn(ivPopupHeart);
+                        } else {
+                            Drawable fullHeart = context.getDrawable(R.drawable.ic_baseline_favorite_24);
+                            DrawableCompat.setTint(fullHeart, Color.RED);
+                            ivPopupHeart.setBackground(fullHeart);
+                            YoYo.with(Techniques.Landing)
+                                    .duration(500)
+                                    .playOn(ivPopupHeart);
+                            YoYo.with(Techniques.TakingOff)
+                                    .duration(500)
+                                    .playOn(ivPopupHeart);
+                        }
+
+
+
                         handleLikeAction(entry);
                     }
 
