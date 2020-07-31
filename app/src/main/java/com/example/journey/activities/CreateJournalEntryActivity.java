@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.journey.databinding.ActivityCreateJournalEntryBinding;
 import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Entry;
@@ -39,6 +43,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
     public static final String KEY_JOURNAL = "journal";
 
     private FragmentManager fragmentManager;
+    private FrameLayout flPromptRoot;
     private TextView tvQuestion;
     private ProgressBar pbLoading;
     private Button btNext;
@@ -68,6 +73,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         pbLoading = binding.pbLoading;
         btNext = binding.btNext;
+        flPromptRoot = binding.getRoot();
     }
 
     private void setupElements() {
@@ -134,9 +140,20 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
             if (currentPromptCounter == prompts.size() - 1) {
                 btNext.setText("Finish");
             }
-            currentPrompt = prompts.get(currentPromptCounter);
-            currentPromptCounter += 1;
-            setupPrompt();
+            if (currentPromptCounter == 0) {
+                currentPrompt = prompts.get(currentPromptCounter);
+                currentPromptCounter += 1;
+                setupPrompt();
+            } else {
+                YoYo.with(Techniques.FadeOut).duration(1500).onEnd(new YoYo.AnimatorCallback() {
+                    @Override
+                    public void call(Animator animator) {
+                        currentPrompt = prompts.get(currentPromptCounter);
+                        currentPromptCounter += 1;
+                        setupPrompt();
+                    }
+                }).playOn(flPromptRoot);
+            }
         }
     }
 
@@ -144,6 +161,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
         tvQuestion.setText(currentPrompt.getQuestion());
         fragmentManager.beginTransaction().replace(binding.flPromptHolder.getId(), currentPrompt.getPromptFragment()).commit();
         Timber.d("Loaded prompt: " + currentPrompt.getPromptId());
+        YoYo.with(Techniques.FadeIn).duration(1500).playOn(flPromptRoot);
     }
 
 
