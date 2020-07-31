@@ -68,6 +68,11 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 - [ ] Implement 3 full tracks
 - [X] Allow users to create new journals
 - [ ] Extra visual polish
+    - [ ] Polish entry items
+    - [ ] Polish entry detail page
+    - [ ] Polish analysis fragment - add an icon for each analysis option and bold/darken them to show that the feature was enabled
+    - [ ] Polish word cloud layout (make it non rectangular and try to fill the space, use colors for background and words)
+    - [ ] Polish home fragment to inculde more relevant information on the page
 - [ ] Add extra polish to UX
 - [ ] Stretch Goals
     - [ ] Consider new ways to enhance the analysis feature
