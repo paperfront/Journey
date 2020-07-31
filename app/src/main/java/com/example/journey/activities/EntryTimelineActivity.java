@@ -82,15 +82,15 @@ public class EntryTimelineActivity extends AppCompatActivity {
 
     private void setupRV() {
         shownEntries = new ArrayList<>();
-        shownEntries.addAll(allEntries);
-        adapter = new EntriesAdapter(shownEntries, this);
+        Collections.reverse(allEntries);
+        adapter = new EntriesAdapter(shownEntries, this, title);
         rvEntries.setAdapter(adapter);
         rvEntries.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         loadEntries();
     }
 
     private void loadEntries() {
-        Collections.reverse(shownEntries);
+        shownEntries.addAll(allEntries);
         if (shownEntries.isEmpty()) {
             tvNoEntries.setVisibility(View.VISIBLE);
         }

@@ -110,6 +110,10 @@ public class Entry implements Parcelable, Comparable<Entry> {
         return favorite;
     }
 
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
     @Override
     public int compareTo(Entry o) {
         return getDateCreated().compareTo(o.getDateCreated());

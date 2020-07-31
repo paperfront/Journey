@@ -2,18 +2,29 @@ package com.example.journey.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.journey.R;
 import com.example.journey.activities.EntryDetailActivity;
 import com.example.journey.databinding.ItemEntryBinding;
+import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Entry;
+import com.example.journey.models.Journal;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.List;
 
@@ -23,10 +34,12 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
 
     private List<Entry> entries;
     private Context context;
+    private String journalTitle;
 
-    public EntriesAdapter(List<Entry> entries, Context context) {
+    public EntriesAdapter(List<Entry> entries, Context context, String journalTitle) {
         this.entries = entries;
         this.context = context;
+        this.journalTitle = journalTitle;
     }
 
     @NonNull
@@ -51,6 +64,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         private TextView tvDateCreated;
         private TextView tvPromptsAnswered;
         private ItemEntryBinding binding;
+        private ImageView ivPopupHeart;
         private View rootView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -58,22 +72,62 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             binding = ItemEntryBinding.bind(itemView);
             tvDateCreated = binding.tvDateCreated;
             tvPromptsAnswered = binding.tvPromptsAnswered;
+            ivPopupHeart = binding.ivPopupHeart;
             rootView = binding.getRoot();
         }
 
         private void bind(final Entry entry) {
             tvDateCreated.setText(entry.getDateCreated().toString());
             tvPromptsAnswered.setText("Prompts Answered: " + Integer.toString(entry.getPrompts().size()));
-            rootView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Timber.i("Entry clicked at position: " + getAdapterPosition());
-                    Intent i = new Intent(context, EntryDetailActivity.class);
-                    i.putExtra(EntryDetailActivity.KEY_ENTRY, entry);
-                    context.startActivity(i);
 
+            rootView.setOnTouchListener(new View.OnTouchListener() {
+                private GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                        Timber.d("onDoubleTap");
+                        ivPopupHeart.setVisibility(View.VISIBLE);
+                        Drawable fullHeart = context.getDrawable(R.drawable.ic_baseline_favorite_24);
+                        DrawableCompat.setTint(fullHeart, Color.RED);
+                        ivPopupHeart.setBackground(fullHeart);
+                        YoYo.with(Techniques.Landing)
+                                .duration(500)
+                                .playOn(ivPopupHeart);
+                        YoYo.with(Techniques.TakingOff)
+                                .duration(500)
+                                .playOn(ivPopupHeart);
+                        handleLikeAction(entry);
+                    }
+
+                    @Override
+                    public boolean onSingleTapUp(MotionEvent e) {
+                        Timber.i("Entry clicked at position: " + getAdapterPosition());
+                        Intent i = new Intent(context, EntryDetailActivity.class);
+                        i.putExtra(EntryDetailActivity.KEY_ENTRY, entry);
+                        context.startActivity(i);
+                        return super.onSingleTapUp(e);
+                    }
+                });
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    gestureDetector.onTouchEvent(event);
+                    return true;
                 }
             });
+        }
+
+        private void handleLikeAction(final Entry currentEntry) {
+
+            FirestoreClient.getUserRef().collection("journals").document(journalTitle).update("entries", FieldValue.arrayRemove(currentEntry));
+
+            if (currentEntry.isFavorite()) {
+                Timber.i("Uniking entry...");
+                currentEntry.setFavorite(false);
+            } else {
+                Timber.i("Liking post...");
+                currentEntry.setFavorite(true);
+            }
+            FirestoreClient.getUserRef().collection("journals").document(journalTitle).update("entries", FieldValue.arrayUnion(currentEntry));
         }
     }
 }
