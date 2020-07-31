@@ -52,6 +52,7 @@ https://www.figma.com/file/qClIizmXb2I8LTkHtXK8Du/Journey?node-id=0%3A1
 # Week 3
 - [X] Visual polish
     - [X] Include an animation when favoriting entries
+    - [X] Include an animation when displaying prompts
 - [X] Create analysis feature
     - [X] Full map of all locations
     - [X] ** Implememt word map (tally occurence of each significant word, and make word size proportional to frequency of occurence. Make sure words don't overlap, etc.)
