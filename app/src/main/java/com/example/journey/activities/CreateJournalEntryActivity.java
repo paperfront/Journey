@@ -145,7 +145,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
                 currentPromptCounter += 1;
                 setupPrompt();
             } else {
-                YoYo.with(Techniques.FadeOut).duration(1500).onEnd(new YoYo.AnimatorCallback() {
+                YoYo.with(Techniques.FadeOut).duration(700).onEnd(new YoYo.AnimatorCallback() {
                     @Override
                     public void call(Animator animator) {
                         currentPrompt = prompts.get(currentPromptCounter);
@@ -161,7 +161,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
         tvQuestion.setText(currentPrompt.getQuestion());
         fragmentManager.beginTransaction().replace(binding.flPromptHolder.getId(), currentPrompt.getPromptFragment()).commit();
         Timber.d("Loaded prompt: " + currentPrompt.getPromptId());
-        YoYo.with(Techniques.FadeIn).duration(1500).playOn(flPromptRoot);
+        YoYo.with(Techniques.FadeIn).duration(1200).playOn(flPromptRoot);
     }
 
 
