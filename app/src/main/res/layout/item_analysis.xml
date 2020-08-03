@@ -8,6 +8,7 @@
     android:padding="8dp">
 
     <TextView
+        android:layout_gravity="center"
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -16,11 +17,58 @@
         tools:text="Title" />
 
     <FrameLayout
+        android:layout_gravity="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"></FrameLayout>
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/ivWordCloud"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_baseline_chat_bubble_24"
+                />
+
+            <ImageView
+                android:src="@drawable/ic_baseline_location_on_24"
+                android:id="@+id/ivLocations"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+
+            <ImageView
+                android:src="@drawable/ic_baseline_vpn_key_24"
+                android:id="@+id/ivKeyEntry"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+
+            <ImageView
+                android:src="@drawable/ic_baseline_mood_24"
+                android:id="@+id/ivMood"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+
+
+    </FrameLayout>
 
     <TextView
+        android:gravity="center"
         android:id="@+id/tvDateCreated"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
