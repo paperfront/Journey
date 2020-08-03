@@ -68,6 +68,7 @@ public class EntryDetailActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    //todo create menu for deleting entries
 
 
 }

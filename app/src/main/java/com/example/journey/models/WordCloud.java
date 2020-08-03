@@ -2,6 +2,8 @@ package com.example.journey.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.Rect;
 
 import java.util.ArrayList;
@@ -14,16 +16,17 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import timber.log.Timber;
 
 public class WordCloud {
-    private int height = 300;
+    private int height = 250;
     private int width = 300;
     private float maxFontSize = 40;
-    private static final int paddingX = 3;
-    private static final int paddingY = 3;
+    private static final int paddingX = 7;
+    private static final int paddingY = 7;
     private static final int numWords = 15;
     private int largestCount;
     private HashMap<String, Integer> wordCounts;
@@ -41,7 +44,7 @@ public class WordCloud {
             totalCount += count;
             largestCount = count > largestCount ? count : largestCount;
         }
-        return Math.min(maxFontSize, height / (totalCount / largestCount));
+        return 40;//Math.min(maxFontSize, height / (totalCount / largestCount));
     }
 
     public Bitmap createBitmap() {
@@ -55,7 +58,7 @@ public class WordCloud {
         for (String word : wordKeys) {
             wordList.add(new Word(word, wordCounts.get(word), getWordSize(wordCounts.get(word))));
         }
-        fitWords(wordList);
+        fitWordsEnhanced(wordList);
         Bitmap canvasBitmap =  Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(canvasBitmap);
         for (Word word : wordList) {
@@ -116,6 +119,7 @@ public class WordCloud {
                 currentRect.offsetTo(currentX + paddingX, currentRect.top);
                 currentX += currentRect.width() + paddingX;
             }
+
             Rect intersect = intersectingRectangle(currentWord, wordList);
             while (intersect != null) {
                     /*
@@ -145,6 +149,37 @@ public class WordCloud {
                 currentRect.offsetTo(currentRect.left,
                         currentRect.top + paddingY);
         }
+    }
+
+    private void fitWordsEnhanced(List<Word> wordList) {
+        if (wordList.isEmpty()) {
+            return;
+        }
+        int placed = 0;
+        int attempts = 0;
+        while (placed < wordList.size() && attempts < 15) {
+            Word currentWord = wordList.get(placed);
+            Rect currentRect = currentWord.getWordRectangle();
+            Point testPoint = getRandomCanvasPoint();
+            currentRect.offsetTo(testPoint.x, testPoint.y);
+            if (isOnScreen(currentRect) && intersectingRectangle(currentWord, wordList) == null) {
+                placed += 1;
+                attempts = 0;
+            }
+        }
+        if (placed != wordList.size()) {
+            Timber.e("Failed to properly place all words.");
+        }
+    }
+
+    private Point getRandomCanvasPoint() {
+        int x = new Random().nextInt(width + 1);
+        int y = new Random().nextInt(height + 1);
+        return new Point(x, y);
+    }
+
+    private boolean isOnScreen(Rect rect) {
+        return rect.right < width && rect.bottom < height;
     }
 
     private Rect intersectingRectangle(Word currentWord, List<Word> allWords) {

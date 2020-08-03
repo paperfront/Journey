@@ -92,7 +92,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
                 private GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                     @Override
                     public void onLongPress(MotionEvent e) {
-                        Timber.d("onDoubleTap");
+                        Timber.d("onLongPress");
                         ivPopupHeart.setVisibility(View.VISIBLE);
                         if (entry.isFavorite()) {
                             Drawable fullHeart = context.getDrawable(R.drawable.ic_baseline_favorite_24);
