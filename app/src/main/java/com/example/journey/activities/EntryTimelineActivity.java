@@ -38,6 +38,7 @@ public class EntryTimelineActivity extends AppCompatActivity {
 
     public static final String KEY_ENTRIES = "entries";
     public static final String KEY_TITLE = "title";
+    public static final String KEY_MENU = "menu";
     private ActivityEntryTimelineBinding binding;
     private ProgressBar pbLoading;
 
@@ -49,13 +50,13 @@ public class EntryTimelineActivity extends AppCompatActivity {
     private List<Entry> allEntries;
     private String title;
     private boolean favoriteEnabled = false;
+    private boolean showFavoriteMenu = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEntryTimelineBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 
         bindElements();
         setupElements();
@@ -64,6 +65,7 @@ public class EntryTimelineActivity extends AppCompatActivity {
     private void bindElements() {
         allEntries = getIntent().getParcelableArrayListExtra(KEY_ENTRIES);
         title = getIntent().getStringExtra(KEY_TITLE);
+        showFavoriteMenu = getIntent().getBooleanExtra(KEY_MENU, false);
         tvJournalName = binding.tvJournalName;
         rvEntries = binding.rvEntries;
         tvNoEntries = binding.tvNoEntries;
@@ -106,7 +108,9 @@ public class EntryTimelineActivity extends AppCompatActivity {
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_favorite, menu);
+        if (showFavoriteMenu) {
+            getMenuInflater().inflate(R.menu.menu_favorite, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

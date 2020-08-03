@@ -135,6 +135,7 @@ public class TimelineFragment extends Fragment {
         Intent i = new Intent(getContext(), EntryTimelineActivity.class);
         i.putParcelableArrayListExtra(EntryTimelineActivity.KEY_ENTRIES, new ArrayList<>(journal.getEntries()));
         i.putExtra(EntryTimelineActivity.KEY_TITLE, journal.getTitle());
+        i.putExtra(EntryTimelineActivity.KEY_MENU, true);
         startActivity(i);
     }
 }
