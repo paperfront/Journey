@@ -3,6 +3,8 @@ package com.example.journey.models;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import java.util.Random;
+
 public class Word {
 
     public static final int BASE_FONT_SIZE = 10;
@@ -27,6 +29,8 @@ public class Word {
         wordPaint.setTextSize(wordSize);
         wordPaint.setStyle(Paint.Style.FILL);
         wordPaint.setTextAlign(Paint.Align.LEFT);
+        Random rnd = new Random();
+        wordPaint.setARGB(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         wordPaint.getTextBounds(word, 0, word.length(), wordRectangle);
         this.yOffset = Math.abs(wordRectangle.top);
         wordRectangle.offsetTo(0, 0);
