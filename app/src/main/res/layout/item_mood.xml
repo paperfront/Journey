@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/colorPrimary">
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,7 +19,7 @@
             />
 
         <TextView
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:id="@+id/tvMood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

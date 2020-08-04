@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/flContainer"
     android:layout_width="match_parent"
-    android:layout_height="350dp">
+    android:layout_height="350dp"
+    android:background="@color/colorPrimary">
 
     <LinearLayout
+        android:layout_margin="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -18,6 +21,7 @@
             style="@style/promptHeaderStyle"/>
 
         <FrameLayout
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="300dp">
 

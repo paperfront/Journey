@@ -73,6 +73,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         private TextView tvPromptsAnswered;
         private ItemEntryBinding binding;
         private ImageView ivPopupHeart;
+        private ImageView ivFavoriteHeart;
         private View rootView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -81,13 +82,18 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             tvDateCreated = binding.tvDateCreated;
             tvPromptsAnswered = binding.tvPromptsAnswered;
             ivPopupHeart = binding.ivPopupHeart;
+            ivFavoriteHeart = binding.ivFavoriteHeart;
             rootView = binding.getRoot();
         }
 
         private void bind(final Entry entry) {
-            tvDateCreated.setText(entry.getDateCreated().toString());
+            tvDateCreated.setText(entry.getDateCreatedString());
             tvPromptsAnswered.setText("Prompts Answered: " + Integer.toString(entry.getPrompts().size()));
-
+            if (entry.isFavorite()) {
+                setToRed(ivFavoriteHeart);
+            } else {
+                setToGray(ivFavoriteHeart);
+            }
             rootView.setOnTouchListener(new View.OnTouchListener() {
                 private GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                     @Override
@@ -95,16 +101,14 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
                         Timber.d("onLongPress");
                         ivPopupHeart.setVisibility(View.VISIBLE);
                         if (entry.isFavorite()) {
-                            Drawable fullHeart = context.getDrawable(R.drawable.ic_baseline_favorite_24);
-                            DrawableCompat.setTint(fullHeart, Color.RED);
-                            ivPopupHeart.setBackground(fullHeart);
+                            setToRed(ivPopupHeart);
                             YoYo.with(Techniques.SlideOutRight)
                                     .duration(1000)
                                     .playOn(ivPopupHeart);
+                            setToGray(ivFavoriteHeart);
                         } else {
-                            Drawable fullHeart = context.getDrawable(R.drawable.ic_baseline_favorite_24);
-                            DrawableCompat.setTint(fullHeart, Color.RED);
-                            ivPopupHeart.setBackground(fullHeart);
+                            setToRed(ivPopupHeart);
+                            setToRed(ivFavoriteHeart);
                             YoYo.with(Techniques.Landing)
                                     .duration(500)
                                     .playOn(ivPopupHeart);
@@ -132,6 +136,18 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
                     return true;
                 }
             });
+        }
+
+        private void setToRed(ImageView iv) {
+            Drawable fullHeart = context.getDrawable(R.drawable.ic_baseline_favorite_24);
+            DrawableCompat.setTint(fullHeart, Color.RED);
+            iv.setBackground(fullHeart);
+        }
+
+        private void setToGray(ImageView iv) {
+            Drawable fullHeart = context.getDrawable(R.drawable.ic_baseline_favorite_24);
+            DrawableCompat.setTint(fullHeart, Color.GRAY);
+            iv.setBackground(fullHeart);
         }
 
         private void handleLikeAction(final Entry currentEntry) {

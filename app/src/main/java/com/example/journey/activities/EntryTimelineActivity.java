@@ -7,6 +7,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -111,6 +112,11 @@ public class EntryTimelineActivity extends AppCompatActivity {
         if (showFavoriteMenu) {
             getMenuInflater().inflate(R.menu.menu_favorite, menu);
         }
+        MenuItem item = menu.findItem(R.id.action_favorite);
+        Drawable heart = getDrawable(R.drawable.ic_baseline_favorite_24);
+        heart = DrawableCompat.wrap(heart);
+        DrawableCompat.setTint(heart, Color.GRAY);
+        item.setIcon(heart);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -130,13 +136,13 @@ public class EntryTimelineActivity extends AppCompatActivity {
         if (!favoriteEnabled) {
             Drawable heart = getDrawable(R.drawable.ic_baseline_favorite_24);
             heart = DrawableCompat.wrap(heart);
-            DrawableCompat.setTint(heart, ContextCompat.getColor(this, R.color.quantum_googred));
+            DrawableCompat.setTint(heart, Color.RED);
             item.setIcon(heart);
 
         } else {
             Drawable heart = getDrawable(R.drawable.ic_baseline_favorite_24);
             heart = DrawableCompat.wrap(heart);
-            DrawableCompat.setTint(heart, ContextCompat.getColor(this, R.color.quantum_white_100));
+            DrawableCompat.setTint(heart, Color.GRAY);
             item.setIcon(heart);
         }
 

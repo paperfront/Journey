@@ -2,24 +2,25 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="80dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:padding="8dp">
 
     <TextView
-        android:layout_gravity="center"
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         style="@style/headerStyle"
+        android:layout_marginTop="0dp"
+        android:gravity="center"
         tools:text="Title" />
 
     <FrameLayout
         android:layout_gravity="center"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
         <LinearLayout
@@ -68,10 +69,11 @@
     </FrameLayout>
 
     <TextView
+        android:layout_marginTop="0dp"
         android:gravity="center"
         android:id="@+id/tvDateCreated"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         tools:text="Date Created"
         style="@style/headerStyle"/>
