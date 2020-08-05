@@ -1,6 +1,8 @@
 package com.example.journey.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -9,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -25,8 +29,11 @@ import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Entry;
 import com.example.journey.models.Journal;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
@@ -75,6 +82,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         private ImageView ivPopupHeart;
         private ImageView ivFavoriteHeart;
         private View rootView;
+        private ImageButton btDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +91,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             tvPromptsAnswered = binding.tvPromptsAnswered;
             ivPopupHeart = binding.ivPopupHeart;
             ivFavoriteHeart = binding.ivFavoriteHeart;
+            btDelete = binding.btDelete;
             rootView = binding.getRoot();
         }
 
@@ -136,6 +145,40 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
                     return true;
                 }
             });
+
+
+            btDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Delete")
+                            .setMessage("Do you really want to delete this entry?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    final Entry currentEntry = entries.get(getAdapterPosition());
+                                    Toast.makeText(context, "Entry deleted!", Toast.LENGTH_SHORT).show();
+                                    FirestoreClient.getUserRef().collection("journals").document(journalTitle).update("entries", FieldValue.arrayRemove(currentEntry));
+                                    FirestoreClient.getAllEntriesRef().whereEqualTo("dateCreated", currentEntry.getDateCreated()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                            List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                                            if (documents.size() != 1) {
+                                                Timber.e("Error getting document inside allDocuments collection.");
+                                                return;
+                                            } else {
+                                                DocumentSnapshot document = documents.get(0);
+                                                FirestoreClient.getAllEntriesRef().document(document.getId()).delete();
+                                            }
+                                        }
+                                    });
+                                    entries.remove(getAdapterPosition());
+                                    notifyDataSetChanged();
+                                }})
+                            .setNegativeButton(android.R.string.no, null).show();
+                }
+            });
         }
 
         private void setToRed(ImageView iv) {
@@ -164,6 +207,19 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
                                 currentEntry.setFavorite(true);
                             }
                             FirestoreClient.getUserRef().collection("journals").document(journalTitle).update("entries", FieldValue.arrayUnion(currentEntry));
+                            FirestoreClient.getAllEntriesRef().whereEqualTo("dateCreated", currentEntry.getDateCreated()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                                    if (documents.size() != 1) {
+                                        Timber.e("Error getting document inside allDocuments collection.");
+                                        return;
+                                    } else {
+                                        DocumentSnapshot document = documents.get(0);
+                                        FirestoreClient.getAllEntriesRef().document(document.getId()).update("favorited", currentEntry.isFavorite());
+                                    }
+                                }
+                            });
                             updater.updateItems(false);
                         }
                     });
