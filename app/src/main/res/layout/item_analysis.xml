@@ -25,41 +25,42 @@
 
         <LinearLayout
             android:layout_gravity="center"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
 
             <ImageView
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:id="@+id/ivWordCloud"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_baseline_chat_bubble_24"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_baseline_chat_bubble_24"
                 />
 
             <ImageView
-                android:src="@drawable/ic_baseline_location_on_24"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/ic_baseline_location_on_24"
                 android:id="@+id/ivLocations"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 />
 
             <ImageView
-                android:src="@drawable/ic_baseline_vpn_key_24"
+                android:background="@drawable/ic_baseline_vpn_key_24"
                 android:id="@+id/ivKeyEntry"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 />
 
             <ImageView
-                android:src="@drawable/ic_baseline_mood_24"
+                android:background="@drawable/ic_baseline_mood_24"
                 android:id="@+id/ivMood"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 />
 
         </LinearLayout>
