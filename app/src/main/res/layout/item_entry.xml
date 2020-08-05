@@ -48,11 +48,19 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/delius"/>
 
+            <ImageButton
+                android:id="@+id/btEdit"
+                android:layout_gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_baseline_edit_24"
+                android:backgroundTint="@color/quantum_white_100"/>
+
             <ImageView
                 android:id="@+id/ivFavoriteHeart"
                 android:layout_gravity="center"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/ic_baseline_favorite_24" />
 
         </LinearLayout>
