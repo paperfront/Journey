@@ -49,11 +49,11 @@
                 android:fontFamily="@font/delius"/>
 
             <ImageButton
-                android:id="@+id/btEdit"
+                android:id="@+id/btDelete"
                 android:layout_gravity="center"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/ic_baseline_edit_24"
+                android:background="@drawable/ic_baseline_delete_24"
                 android:backgroundTint="@color/quantum_white_100"/>
 
             <ImageView
