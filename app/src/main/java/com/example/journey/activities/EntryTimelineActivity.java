@@ -40,6 +40,7 @@ public class EntryTimelineActivity extends AppCompatActivity {
     public static final String KEY_ENTRIES = "entries";
     public static final String KEY_TITLE = "title";
     public static final String KEY_MENU = "menu";
+    public static final String KEY_COLOR = "color";
     private ActivityEntryTimelineBinding binding;
     private ProgressBar pbLoading;
 
@@ -50,6 +51,7 @@ public class EntryTimelineActivity extends AppCompatActivity {
     private List<Entry> shownEntries;
     private List<Entry> allEntries;
     private String title;
+    private int colorId;
     private boolean favoriteEnabled = false;
     private boolean showFavoriteMenu = false;
 
@@ -67,6 +69,7 @@ public class EntryTimelineActivity extends AppCompatActivity {
         allEntries = getIntent().getParcelableArrayListExtra(KEY_ENTRIES);
         title = getIntent().getStringExtra(KEY_TITLE);
         showFavoriteMenu = getIntent().getBooleanExtra(KEY_MENU, false);
+        colorId = getIntent().getIntExtra(KEY_COLOR, 0);
         tvJournalName = binding.tvJournalName;
         rvEntries = binding.rvEntries;
         tvNoEntries = binding.tvNoEntries;
@@ -92,7 +95,7 @@ public class EntryTimelineActivity extends AppCompatActivity {
                 updateShownItems(toggle);
             }
         };
-        adapter = new EntriesAdapter(shownEntries, this, title, updater);
+        adapter = new EntriesAdapter(shownEntries, this, title, colorId, updater);
         rvEntries.setAdapter(adapter);
         rvEntries.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         loadEntries();

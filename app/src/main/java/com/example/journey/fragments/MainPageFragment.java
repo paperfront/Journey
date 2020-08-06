@@ -166,6 +166,7 @@ public class MainPageFragment extends Fragment {
         i.putParcelableArrayListExtra(EntryTimelineActivity.KEY_ENTRIES, entries);
         i.putExtra(EntryTimelineActivity.KEY_TITLE, title);
         i.putExtra(EntryTimelineActivity.KEY_MENU, false);
+        i.putExtra(EntryTimelineActivity.KEY_COLOR, 0);
         startActivity(i);
     }
 

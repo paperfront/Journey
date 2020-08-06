@@ -21,6 +21,7 @@ import com.example.journey.adapters.JournalsAdapter;
 import com.example.journey.databinding.ActivityJournalsBinding;
 import com.example.journey.databinding.FragmentTimelineBinding;
 import com.example.journey.helpers.FirestoreClient;
+import com.example.journey.models.Entry;
 import com.example.journey.models.Journal;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -136,6 +137,7 @@ public class TimelineFragment extends Fragment {
         i.putParcelableArrayListExtra(EntryTimelineActivity.KEY_ENTRIES, new ArrayList<>(journal.getEntries()));
         i.putExtra(EntryTimelineActivity.KEY_TITLE, journal.getTitle());
         i.putExtra(EntryTimelineActivity.KEY_MENU, true);
+        i.putExtra(EntryTimelineActivity.KEY_COLOR, journal.getColorId());
         startActivity(i);
     }
 }

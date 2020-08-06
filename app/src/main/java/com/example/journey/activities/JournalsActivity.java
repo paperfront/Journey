@@ -109,7 +109,7 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
     }
 
     @Override
-    public void onFinishEditDialog(String title) {
+    public void onFinishEditDialog(String title, int colorId) {
 
         if (journalTitles.contains(title)) {
             Toast.makeText(this, "A journal with that name already exists", Toast.LENGTH_SHORT).show();
@@ -119,7 +119,7 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
             return;
         }
         journalTitles.add(title);
-        Journal newJournal = new Journal(title);
+        Journal newJournal = new Journal(title, colorId);
         journals.add(newJournal);
         adapter.notifyItemInserted(journals.size() - 1);
         saveJournal(newJournal);

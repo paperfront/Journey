@@ -44,12 +44,14 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
     private List<Entry> entries;
     private Context context;
     private String journalTitle;
+    private int colorId;
     private ListUpdater updater;
 
-    public EntriesAdapter(List<Entry> entries, Context context, String journalTitle, ListUpdater updater) {
+    public EntriesAdapter(List<Entry> entries, Context context, String journalTitle, int colorId, ListUpdater updater) {
         this.entries = entries;
         this.context = context;
         this.journalTitle = journalTitle;
+        this.colorId = colorId;
         this.updater = updater;
     }
 
@@ -103,6 +105,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             } else {
                 setToGray(ivFavoriteHeart);
             }
+            setBackgroundColor();
             rootView.setOnTouchListener(new View.OnTouchListener() {
                 private GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                     @Override
@@ -179,6 +182,38 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
                             .setNegativeButton(android.R.string.no, null).show();
                 }
             });
+        }
+
+        private void setBackgroundColor() {
+            switch (colorId) {
+                case 0:
+                    rootView.setBackgroundColor(context.getColor(R.color.colorPrimary));
+                    break;
+                case 1:
+                    rootView.setBackgroundColor(Color.BLUE);
+                    break;
+                case 2:
+                    rootView.setBackgroundColor(context.getColor(R.color.red));
+                    break;
+                case 3:
+                    rootView.setBackgroundColor(Color.GREEN);
+                    break;
+                case 4:
+                    rootView.setBackgroundColor(context.getColor(R.color.brown));
+                    break;
+                case 5:
+                    rootView.setBackgroundColor(Color.BLACK);
+                    break;
+                case 6:
+                    rootView.setBackgroundColor(Color.YELLOW);
+                    break;
+                case 7:
+                    rootView.setBackgroundColor(context.getColor(R.color.orange));
+                    break;
+                default:
+                    rootView.setBackgroundColor(context.getColor(R.color.colorPrimary));
+                    break;
+            }
         }
 
         private void setToRed(ImageView iv) {

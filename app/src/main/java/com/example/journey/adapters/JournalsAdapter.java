@@ -1,9 +1,11 @@
 package com.example.journey.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -59,6 +61,7 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
         private TextView tvTitle;
         private TextView tvTotalEntries;
         private View rootView;
+        private ImageButton btEdit;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -66,6 +69,7 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
             binding = ItemJournalBinding.bind(itemView);
             tvTitle = binding.tvTitle;
             tvTotalEntries = binding.tvTotalEntries;
+            btEdit = binding.btEdit;
             rootView = itemView;
         }
 
@@ -79,6 +83,37 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
                     onClick.setOnClick(journal);
                 }
             });
+
+            switch (journal.getColorId()) {
+                case 0:
+                    rootView.setBackgroundColor(context.getColor(R.color.colorPrimary));
+                    break;
+                case 1:
+                    rootView.setBackgroundColor(Color.BLUE);
+                    break;
+                case 2:
+                    rootView.setBackgroundColor(context.getColor(R.color.red));
+                    break;
+                case 3:
+                    rootView.setBackgroundColor(Color.GREEN);
+                    break;
+                case 4:
+                    rootView.setBackgroundColor(context.getColor(R.color.brown));
+                    break;
+                case 5:
+                    rootView.setBackgroundColor(Color.BLACK);
+                    break;
+                case 6:
+                    rootView.setBackgroundColor(Color.YELLOW);
+                    break;
+                case 7:
+                    rootView.setBackgroundColor(context.getColor(R.color.orange));
+                    break;
+                default:
+                    rootView.setBackgroundColor(context.getColor(R.color.colorPrimary));
+                    break;
+            }
+
         }
 
 

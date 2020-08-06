@@ -10,17 +10,20 @@ public class Journal implements Parcelable {
 
     private String title;
     private List<Entry> entries;
+    private int colorId;
 
     public Journal(){}
 
-    public Journal(String title) {
+    public Journal(String title, int colorId) {
         this.title = title;
+        this.colorId = colorId;
         this.entries = new ArrayList<>();
     }
 
     protected Journal(Parcel in) {
         title = in.readString();
         entries = in.readArrayList(Entry.class.getClassLoader());
+        colorId = in.readInt();
     }
 
     public static final Creator<Journal> CREATOR = new Creator<Journal>() {
@@ -53,5 +56,10 @@ public class Journal implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(title);
         parcel.writeList(entries);
+        parcel.writeInt(colorId);
+    }
+
+    public int getColorId() {
+        return colorId;
     }
 }
