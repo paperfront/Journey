@@ -8,6 +8,8 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:textColor">@color/quantum_white_100</item>
         <item name="android:spinnerDropDownItemStyle">@style/spinnerItemStyle</item>
+        <item name="android:actionMenuTextColor">@color/quantum_black_100</item>
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
 
     </style>
 
@@ -40,6 +42,10 @@
 
     <style name="spinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">@color/quantum_black_100</item>
+    </style>
+
+    <style name="myCustomMenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
 

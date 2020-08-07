@@ -22,6 +22,7 @@
             android:hint="Type here..." />
 
         <TextView
+            android:textColor="@color/quantum_black_100"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="- Entry # 1"
