@@ -71,6 +71,12 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
 
     public static final String KEY_ANALYSIS = "analysis";
     public static final String KEY_NEW_ANALYSIS = "new analysis";
+
+    public static final String KEY_WORD_CLOUD = "Word Cloud";
+    public static final String KEY_LOCATIONS = "Locations";
+    public static final String KEY_KEY_ENTRY = "Key Entry";
+    public static final String KEY_GRAPHS = "Graphs";
+
     private List<String> settings;
     private boolean newAnalysis = false;
     private ScrollView svRoot;
@@ -105,21 +111,21 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
         setupTitle();
 
         if (analysis.isSettingEnabled(Analysis.SETTING_WORD_CLOUD)) {
-            settings.add(Analysis.SETTING_WORD_CLOUD);
+            settings.add(KEY_WORD_CLOUD);
         }
 
         if (analysis.isSettingEnabled(Analysis.SETTING_MAPS)) {
-            settings.add(Analysis.SETTING_MAPS);
+            settings.add(KEY_LOCATIONS);
         }
 
         if (analysis.isSettingEnabled(Analysis.SETTING_IMPORTANT_ENTRIES)) {
-            settings.add(Analysis.SETTING_IMPORTANT_ENTRIES);
+            settings.add(KEY_KEY_ENTRY);
         }
 
         if (analysis.isSettingEnabled(Analysis.SETTING_MOOD_GRAPH)) {
             // note firebase has issues, uncomment when bugs are fixed
             // https://github.com/firebase/firebase-android-sdk/issues/361#issuecomment-664593540
-            settings.add(Analysis.SETTING_MOOD_GRAPH);
+            settings.add(KEY_GRAPHS);
         }
 
         setupSpinner();
@@ -333,16 +339,16 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
         }
 
         switch (settings.get(i)) {
-            case Analysis.SETTING_WORD_CLOUD:
+            case KEY_WORD_CLOUD:
                 setupWordCloud();
                 break;
-            case Analysis.SETTING_MAPS:
+            case KEY_LOCATIONS:
                 setupMap();
                 break;
-            case Analysis.SETTING_IMPORTANT_ENTRIES:
+            case KEY_KEY_ENTRY:
                 setupKeyEntries();
                 break;
-            case Analysis.SETTING_MOOD_GRAPH:
+            case KEY_GRAPHS:
                 setupMoodGraph();
                 break;
             default:
