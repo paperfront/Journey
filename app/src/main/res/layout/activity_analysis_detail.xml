@@ -19,129 +19,22 @@
             android:layout_height="wrap_content"
             tools:text="Title Here" />
 
+        <Spinner
+            android:layout_gravity="center"
+            android:id="@+id/settingSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:id="@+id/llWordCloud"
+            android:id="@+id/analysisItemHolder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                style="@style/headerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Word Cloud" />
-
-            <ImageView
-                android:scaleType="fitXY"
-                android:id="@+id/ivWordCloudHolder"
-                android:layout_width="300dp"
-                android:layout_height="250dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                tools:visibility="gone" />
+            >
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/llMap"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
 
-            <TextView
-                style="@style/headerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Places Visited" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:visibility="gone">
-
-                <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:layout_marginTop="16dp"
-                    map:mapType="normal" />
-
-                <ImageView
-                    android:id="@+id/transparent_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="#000000FF" />
-
-            </FrameLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llImportantEntry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                style="@style/headerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Your Memorable Entry" />
-
-            <include
-                android:id="@+id/itemEntry"
-                layout="@layout/item_entry" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llMoodGraph"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                style="@style/headerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Your Mood" />
-
-
-            <FrameLayout
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ProgressBar
-                    android:layout_gravity="center"
-                    tools:visibility="gone"
-                    android:id="@+id/pbMood"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <com.anychart.AnyChartView
-                    tools:visibility="gone"
-                    android:id="@+id/anyChartView"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"/>
-
-            </FrameLayout>
-
-
-
-        </LinearLayout>
 
 
     </LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/llImportantEntry"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="visible"
+    tools:visibility="visible"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        style="@style/headerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Memorable Entry" />
+
+    <include
+        android:id="@+id/itemEntry"
+        layout="@layout/item_entry" />
+
+
+</LinearLayout>

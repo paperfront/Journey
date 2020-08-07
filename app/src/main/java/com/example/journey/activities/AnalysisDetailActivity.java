@@ -5,14 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.anychart.AnyChart;
@@ -30,6 +35,10 @@ import com.anychart.graphics.vector.Stroke;
 import com.example.journey.R;
 import com.example.journey.databinding.ActivityAnalysisDetailBinding;
 import com.example.journey.databinding.ItemEntryBinding;
+import com.example.journey.databinding.ItemImportantEntryBinding;
+import com.example.journey.databinding.ItemMoodGraphBinding;
+import com.example.journey.databinding.ItemTravelMapBinding;
+import com.example.journey.databinding.ItemWordCloudBinding;
 import com.example.journey.fragments.AnalysisFragment;
 import com.example.journey.models.Analysis;
 import com.example.journey.models.Entry;
@@ -52,25 +61,21 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class AnalysisDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class AnalysisDetailActivity extends AppCompatActivity implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
     private ActivityAnalysisDetailBinding binding;
 
 
     public static final String KEY_ANALYSIS = "analysis";
     public static final String KEY_NEW_ANALYSIS = "new analysis";
+    private List<String> settings;
     private boolean newAnalysis = false;
     private ScrollView svRoot;
     private TextView tvTitle;
     private Analysis analysis;
-    private ImageView ivWordCloudHolder;
-    private LinearLayout llWordCloud;
-    private LinearLayout llMap;
-    private LinearLayout llKeyEntries;
-    private LinearLayout llMoodGraph;
-    private ImageView ivTransparentImage;
-    private ItemEntryBinding entryBinding;
-    private AnyChartView anyChartView;
+    private LinearLayout analysisItemHolder;
+    private Spinner settingSpinner;
+    private View inflatedLayout;
 
 
     @Override
@@ -87,42 +92,63 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
         newAnalysis = getIntent().getBooleanExtra(KEY_NEW_ANALYSIS, false);
 
         svRoot = binding.svRoot;
-        ivWordCloudHolder = binding.ivWordCloudHolder;
         tvTitle = binding.tvTitle;
-        llMap = binding.llMap;
-        llWordCloud = binding.llWordCloud;
-        ivTransparentImage = binding.transparentImage;
-        llKeyEntries = binding.llImportantEntry;
-        llMoodGraph = binding.llMoodGraph;
-        entryBinding = binding.itemEntry;
-        anyChartView = binding.anyChartView;
+        settingSpinner = binding.settingSpinner;
+        analysisItemHolder = binding.analysisItemHolder;
+        settings = new ArrayList<>();
     }
 
     private void setupElements() {
         setupTitle();
 
         if (analysis.isSettingEnabled(Analysis.SETTING_WORD_CLOUD)) {
-            setupWordCloud();
+            settings.add(Analysis.SETTING_WORD_CLOUD);
         }
 
         if (analysis.isSettingEnabled(Analysis.SETTING_MAPS)) {
-            setupMap();
+            settings.add(Analysis.SETTING_MAPS);
         }
 
         if (analysis.isSettingEnabled(Analysis.SETTING_IMPORTANT_ENTRIES)) {
-            setupKeyEntries();
+            settings.add(Analysis.SETTING_IMPORTANT_ENTRIES);
         }
 
         if (analysis.isSettingEnabled(Analysis.SETTING_MOOD_GRAPH)) {
             // note firebase has issues, uncomment when bugs are fixed
             // https://github.com/firebase/firebase-android-sdk/issues/361#issuecomment-664593540
-            setupMoodGraph();
+            settings.add(Analysis.SETTING_MOOD_GRAPH);
         }
+
+        setupSpinner();
 
     }
 
+    private void setupSpinner() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_analysis_item, settings);
+    // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    // Apply the adapter to the spinner
+        settingSpinner.setAdapter(adapter);
+        settingSpinner.setOnItemSelectedListener(this);
+    }
+
+    private void clearLayout() {
+        if (inflatedLayout != null) {
+            analysisItemHolder.removeView(inflatedLayout);
+        }
+    }
+
     private void setupMoodGraph() {
-        llMoodGraph.setVisibility(View.VISIBLE);
+
+
+        clearLayout();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        inflatedLayout = inflater.inflate(R.layout.item_mood_graph, (LinearLayout) analysisItemHolder, false);
+        analysisItemHolder.addView(inflatedLayout);
+
+        ItemMoodGraphBinding binding = ItemMoodGraphBinding.bind(inflatedLayout);
+        AnyChartView anyChartView = binding.anyChartView;
+
         anyChartView.setProgressBar(binding.pbMood);
         Cartesian cartesian = AnyChart.line();
 
@@ -176,11 +202,18 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
 
 
     private void setupKeyEntries() {
-        llKeyEntries.setVisibility(View.VISIBLE);
+
+        clearLayout();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        inflatedLayout = inflater.inflate(R.layout.item_important_entry, (LinearLayout) analysisItemHolder, false);
+        analysisItemHolder.addView(inflatedLayout);
+
+        ItemImportantEntryBinding binding = ItemImportantEntryBinding.bind(inflatedLayout);
+
         final Entry keyEntry = analysis.getImportantEntry();
-        entryBinding.tvDateCreated.setText(keyEntry.getDateCreatedString());
-        entryBinding.tvPromptsAnswered.setText("Prompts Answered: " + Integer.toString(keyEntry.getPrompts().size()));
-        entryBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+        binding.itemEntry.tvDateCreated.setText(keyEntry.getDateCreatedString());
+        binding.itemEntry.tvPromptsAnswered.setText("Prompts Answered: " + Integer.toString(keyEntry.getPrompts().size()));
+        binding.itemEntry.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(AnalysisDetailActivity.this, EntryDetailActivity.class);
@@ -191,14 +224,29 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
     }
 
     private void setupWordCloud() {
-        llWordCloud.setVisibility(View.VISIBLE);
+
+        clearLayout();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        inflatedLayout = inflater.inflate(R.layout.item_word_cloud, (LinearLayout) analysisItemHolder, false);
+        analysisItemHolder.addView(inflatedLayout);
+
+        ItemWordCloudBinding binding = ItemWordCloudBinding.bind(inflatedLayout);
+
         WordCloud wordCloud = new WordCloud(analysis.getWordCounts());
         Bitmap bitmap = wordCloud.createBitmap();
-        ivWordCloudHolder.setImageBitmap(bitmap);
+        binding.ivWordCloudHolder.setImageBitmap(bitmap);
     }
 
     private void setupMap() {
-        ivTransparentImage.setOnTouchListener(new View.OnTouchListener() {
+
+        clearLayout();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        inflatedLayout = inflater.inflate(R.layout.item_travel_map, (LinearLayout) analysisItemHolder, false);
+        analysisItemHolder.addView(inflatedLayout);
+
+        ItemTravelMapBinding binding = ItemTravelMapBinding.bind(inflatedLayout);
+
+        binding.transparentImage.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -222,8 +270,6 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
                 }
             }
         });
-
-        llMap.setVisibility(View.VISIBLE);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -250,4 +296,34 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
         tvTitle.setText(analysis.getTitle());
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+        TextView selectedText = (TextView) adapterView.getChildAt(0);
+        if (selectedText != null) {
+            selectedText.setTextColor(Color.BLACK);
+        }
+
+        switch (settings.get(i)) {
+            case Analysis.SETTING_WORD_CLOUD:
+                setupWordCloud();
+                break;
+            case Analysis.SETTING_MAPS:
+                setupMap();
+                break;
+            case Analysis.SETTING_IMPORTANT_ENTRIES:
+                setupKeyEntries();
+                break;
+            case Analysis.SETTING_MOOD_GRAPH:
+                setupMoodGraph();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }

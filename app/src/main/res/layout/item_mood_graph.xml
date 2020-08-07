@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/llMoodGraph"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="visible"
+    tools:visibility="visible"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        style="@style/headerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Mood" />
+
+
+    <FrameLayout
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:layout_gravity="center"
+            tools:visibility="gone"
+            android:id="@+id/pbMood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.anychart.AnyChartView
+            tools:visibility="gone"
+            android:id="@+id/anyChartView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+
+    </FrameLayout>
+
+
+
+</LinearLayout>
