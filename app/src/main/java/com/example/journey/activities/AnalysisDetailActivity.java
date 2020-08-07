@@ -178,7 +178,7 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
     private void setupKeyEntries() {
         llKeyEntries.setVisibility(View.VISIBLE);
         final Entry keyEntry = analysis.getImportantEntry();
-        entryBinding.tvDateCreated.setText(keyEntry.getDateCreated().toString());
+        entryBinding.tvDateCreated.setText(keyEntry.getDateCreatedString());
         entryBinding.tvPromptsAnswered.setText("Prompts Answered: " + Integer.toString(keyEntry.getPrompts().size()));
         entryBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override

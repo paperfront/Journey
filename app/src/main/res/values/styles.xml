@@ -12,6 +12,7 @@
     </style>
 
     <style name="titleStyle">
+        <item name="android:textColor">@color/quantum_black_100</item>
         <item name="android:fontFamily">@font/delius</item>
         <item name="android:textSize">36sp</item>
         <item name="android:textStyle">bold</item>
@@ -21,6 +22,7 @@
     </style>
 
     <style name="headerStyle">
+        <item name="android:textColor">@color/quantum_black_100</item>
         <item name="android:fontFamily">@font/delius</item>
         <item name="android:textSize">28sp</item>
         <item name="android:layout_gravity">center</item>

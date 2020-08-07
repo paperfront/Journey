@@ -13,13 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.journey.R;
+import com.example.journey.activities.AnalysisDetailActivity;
+import com.example.journey.activities.EntryDetailActivity;
 import com.example.journey.activities.EntryTimelineActivity;
 import com.example.journey.activities.JournalsActivity;
 import com.example.journey.databinding.FragmentMainPageBinding;
+import com.example.journey.databinding.ItemEntryBinding;
 import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Entry;
 import com.example.journey.models.Track;
@@ -51,8 +55,10 @@ public class MainPageFragment extends Fragment {
 
 
     private FragmentMainPageBinding binding;
+    private ItemEntryBinding entryBinding;
     private CalendarView calendar;
     private ProgressBar pbLoading;
+    private LinearLayout llRecentEntry;
 
     private FloatingActionButton btCompose;
     private List<Entry> allEntries;
@@ -96,6 +102,8 @@ public class MainPageFragment extends Fragment {
         btCompose = binding.btComposeEntry;
         calendar = binding.calendarView;
         pbLoading = binding.pbLoading;
+        entryBinding = binding.itemEntry;
+        llRecentEntry = binding.llRecentEntry;
     }
 
     private void setupElements() {
@@ -111,6 +119,45 @@ public class MainPageFragment extends Fragment {
             }
         });
         setupCalendar();
+        setupRecentEntry();
+    }
+
+    private void setupRecentEntry() {
+        pbLoading.setVisibility(View.VISIBLE);
+        llRecentEntry.setVisibility(View.GONE);
+        FirestoreClient.getAllEntriesRef().document("recentEntry").get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Timber.i("Successfully loaded recent entry");
+                        llRecentEntry.setVisibility(View.VISIBLE);
+                        final Entry recentEntry = documentSnapshot.toObject(Entry.class);
+                        if (recentEntry == null) {
+                            llRecentEntry.setVisibility(View.GONE);
+                            pbLoading.setVisibility(View.GONE);
+                            return;
+                        }
+                        entryBinding.tvDateCreated.setText(recentEntry.getDateCreatedString());
+                        entryBinding.tvPromptsAnswered.setText("Prompts Answered: " + Integer.toString(recentEntry.getPrompts().size()));
+                        entryBinding.ivFavoriteHeart.setVisibility(View.GONE);
+                        entryBinding.btDelete.setVisibility(View.GONE);
+                        entryBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent i = new Intent(getContext(), EntryDetailActivity.class);
+                                i.putExtra(EntryDetailActivity.KEY_ENTRY, recentEntry);
+                                startActivity(i);
+                            }
+                        });
+                        pbLoading.setVisibility(View.GONE);
+                }}).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Timber.e("Failed to get recent entry.");
+                pbLoading.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     private void setupCalendar() {
@@ -141,14 +188,14 @@ public class MainPageFragment extends Fragment {
                             entries.add(document.toObject(Entry.class));
                         }
                         Timber.i(queryDocumentSnapshots.getQuery().toString());
-                        pbLoading.setVisibility(View.INVISIBLE);
+                        pbLoading.setVisibility(View.GONE);
                         goToEntryTimelineActivity(entries, "Entries From " + today.toString());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Timber.e(e, "Failed to query calendar.");
-                pbLoading.setVisibility(View.INVISIBLE);
+                pbLoading.setVisibility(View.GONE);
             }
         });
         Timber.d("Start: " + today.toString());
@@ -169,6 +216,7 @@ public class MainPageFragment extends Fragment {
         i.putExtra(EntryTimelineActivity.KEY_COLOR, 0);
         startActivity(i);
     }
+
 
 
 

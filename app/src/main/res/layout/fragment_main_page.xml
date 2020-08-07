@@ -24,13 +24,35 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"/>
 
+    <LinearLayout
+        android:id="@+id/llRecentEntry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_below="@id/pbLoading">
+
+        <TextView
+            style="@style/headerStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Last Entry" />
+
+        <include
+            android:id="@+id/itemEntry"
+            layout="@layout/item_entry" />
+
+
+    </LinearLayout>
+
 
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/pbLoading"
-        android:layout_margin="16dp" />
+        android:layout_below="@id/llRecentEntry"
+        android:layout_margin="0dp" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"

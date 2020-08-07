@@ -137,9 +137,6 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
             Timber.d("Finished loading all prompts for track " + track.toString());
             goToDetailPage();
         } else {
-            if (currentPromptCounter == prompts.size() - 1) {
-                btNext.setText("Finish");
-            }
             if (currentPromptCounter == 0) {
                 currentPrompt = prompts.get(currentPromptCounter);
                 currentPromptCounter += 1;
@@ -148,6 +145,9 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
                 YoYo.with(Techniques.FadeOut).duration(700).onEnd(new YoYo.AnimatorCallback() {
                     @Override
                     public void call(Animator animator) {
+                        if (currentPromptCounter == prompts.size() - 1) {
+                            btNext.setText("Finish");
+                        }
                         currentPrompt = prompts.get(currentPromptCounter);
                         currentPromptCounter += 1;
                         setupPrompt();
@@ -189,6 +189,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
         DocumentReference docRef = entryRef.document(journal.getTitle());
         docRef.update("entries", FieldValue.arrayUnion(entry));
         allEntries.add(entry);
+        FirestoreClient.getAllEntriesRef().document("recentEntry").set(entry);
     }
 
 }
