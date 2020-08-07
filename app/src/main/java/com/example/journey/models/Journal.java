@@ -62,4 +62,12 @@ public class Journal implements Parcelable {
     public int getColorId() {
         return colorId;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setColorId(int colorId) {
+        this.colorId = colorId;
+    }
 }

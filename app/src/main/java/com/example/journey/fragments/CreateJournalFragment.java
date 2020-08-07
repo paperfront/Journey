@@ -28,6 +28,8 @@ public class CreateJournalFragment extends DialogFragment implements TextView.On
     private Spinner colorSpinner;
     private FragmentCreateJournalBinding binding;
     private int lastSelectedColor = 0;
+    private String currentName;
+    private EditNameDialogListener listener;
 
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -53,10 +55,15 @@ public class CreateJournalFragment extends DialogFragment implements TextView.On
         // Use `newInstance` instead as shown below
     }
 
-    public static CreateJournalFragment newInstance(String title) {
-        CreateJournalFragment frag = new CreateJournalFragment();
+    public CreateJournalFragment(EditNameDialogListener listener) {
+        this.listener = listener;
+    }
+
+    public static CreateJournalFragment newInstance(String title, String currentName, EditNameDialogListener listener) {
+        CreateJournalFragment frag = new CreateJournalFragment(listener);
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putString("currentName", currentName);
         frag.setArguments(args);
         return frag;
     }
@@ -77,6 +84,7 @@ public class CreateJournalFragment extends DialogFragment implements TextView.On
         setupElements();
 
     }
+
 
     private void bindElements() {
         btSave = binding.btSave;
@@ -120,7 +128,6 @@ public class CreateJournalFragment extends DialogFragment implements TextView.On
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditNameDialogListener listener = (EditNameDialogListener) getActivity();
                 listener.onFinishEditDialog(etJournalName.getText().toString(), lastSelectedColor);
                 // Close the dialog and return back to the parent activity
                 dismiss();
@@ -134,6 +141,7 @@ public class CreateJournalFragment extends DialogFragment implements TextView.On
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
+        etJournalName.setText(getArguments().getString("currentName", ""));
         etJournalName.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

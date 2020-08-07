@@ -1,5 +1,6 @@
 package com.example.journey.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -96,7 +97,11 @@ public class TimelineFragment extends Fragment {
                 goToEntryTimeline(journal);
             }
         };
-        adapter = new JournalsAdapter(getContext(), journals, onClick);
+        ProgressDialog pd = new ProgressDialog(getContext());
+        pd.setTitle("Loading...");
+        pd.setMessage("Please wait.");
+        pd.setCancelable(false);
+        adapter = new JournalsAdapter(getContext(), journals, getChildFragmentManager(), pd, onClick);
         rvJournals.setAdapter(adapter);
         rvJournals.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         loadJournals();

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,8 +77,12 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
                 goToCreateJournalEntryActivity(journal);
             }
         };
+        ProgressDialog pd = new ProgressDialog(this);
+        pd.setTitle("Loading...");
+        pd.setMessage("Please wait.");
+        pd.setCancelable(false);
 
-        adapter = new JournalsAdapter(this, journals, onClick);
+        adapter = new JournalsAdapter(this, journals, getSupportFragmentManager(), pd, onClick);
         rvJournals.setAdapter(adapter);
         rvJournals.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         loadJournals();
@@ -104,7 +109,7 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
 
     private void showEditDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        CreateJournalFragment createJournalDialogFragment = CreateJournalFragment.newInstance("Create New Journal");
+        CreateJournalFragment createJournalDialogFragment = CreateJournalFragment.newInstance("Create New Journal", "", this);
         createJournalDialogFragment.show(fm, "fragment_create_journal");
     }
 
