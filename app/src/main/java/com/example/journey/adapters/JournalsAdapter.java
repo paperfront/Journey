@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,7 +74,7 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
 
         private TextView tvTitle;
         private TextView tvTotalEntries;
-        private View rootView;
+        private CardView rootView;
         private ImageButton btEdit;
 
 
@@ -83,7 +84,7 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
             tvTitle = binding.tvTitle;
             tvTotalEntries = binding.tvTotalEntries;
             btEdit = binding.btEdit;
-            rootView = itemView;
+            rootView = binding.getRoot();
         }
 
 
@@ -110,31 +111,31 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
         private void setBackgroundColor(Journal journal) {
             switch (journal.getColorId()) {
                 case 0:
-                    rootView.setBackgroundColor(context.getColor(R.color.colorPrimary));
+                    rootView.setCardBackgroundColor(context.getColor(R.color.colorPrimary));
                     break;
                 case 1:
-                    rootView.setBackgroundColor(Color.BLUE);
+                    rootView.setCardBackgroundColor(Color.BLUE);
                     break;
                 case 2:
-                    rootView.setBackgroundColor(context.getColor(R.color.red));
+                    rootView.setCardBackgroundColor(context.getColor(R.color.red));
                     break;
                 case 3:
-                    rootView.setBackgroundColor(Color.GREEN);
+                    rootView.setCardBackgroundColor(Color.GREEN);
                     break;
                 case 4:
-                    rootView.setBackgroundColor(context.getColor(R.color.brown));
+                    rootView.setCardBackgroundColor(context.getColor(R.color.brown));
                     break;
                 case 5:
-                    rootView.setBackgroundColor(Color.BLACK);
+                    rootView.setCardBackgroundColor(Color.BLACK);
                     break;
                 case 6:
-                    rootView.setBackgroundColor(Color.YELLOW);
+                    rootView.setCardBackgroundColor(Color.YELLOW);
                     break;
                 case 7:
-                    rootView.setBackgroundColor(context.getColor(R.color.orange));
+                    rootView.setCardBackgroundColor(context.getColor(R.color.orange));
                     break;
                 default:
-                    rootView.setBackgroundColor(context.getColor(R.color.colorPrimary));
+                    rootView.setCardBackgroundColor(context.getColor(R.color.colorPrimary));
                     break;
             }
         }
