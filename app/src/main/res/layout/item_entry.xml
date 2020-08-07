@@ -47,7 +47,8 @@
                 android:layout_height="wrap_content"
                 tools:text="Prompts Answered: #"
                 android:layout_gravity="center"
-                android:fontFamily="@font/delius"/>
+                android:fontFamily="@font/delius"
+                android:layout_marginEnd="16dp"/>
 
             <ImageButton
                 android:id="@+id/btDelete"
@@ -62,6 +63,7 @@
                 android:layout_gravity="center"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/ic_baseline_favorite_24" />
 
         </LinearLayout>

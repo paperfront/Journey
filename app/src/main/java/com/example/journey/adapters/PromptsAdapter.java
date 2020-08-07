@@ -66,7 +66,7 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        return prompts.get(position).getPromptId();
+        return prompts.get(position).getType();
     }
 
     @NonNull
@@ -75,15 +75,13 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
         View view = LayoutInflater.from(context).inflate(R.layout.item_prompt, parent, false);
         ;
         switch (viewType) {
-            case Prompt.CAMERA_AND_GALLERY:
+            case Prompt.TYPE_MEDIA_RESPONSE:
                 return new CameraAndGalleryViewHolder(view);
-            case Prompt.TRAVEL:
+            case Prompt.TYPE_LOCATION_RESPONSE:
                 return new TravelViewHolder(view);
-            case Prompt.PROUD:
+            case Prompt.TYPE_STRING_RESPONSE:
                 return new StringResponseViewHolder(view);
-            case Prompt.MOOD:
-                return new StringResponseViewHolder(view);
-            case Prompt.ANYTHING:
+            case Prompt.TYPE_SLIDER_RESPONSE:
                 return new StringResponseViewHolder(view);
             default:
                 Timber.e("Invalid view type selected");
@@ -155,11 +153,7 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
 
         @Override
         void handleUI() {
-            if (getPrompt().getPromptHeader() == null) {
-                tvHeader.setText(getPrompt().getQuestion());
-            } else {
-                tvHeader.setText(getPrompt().getPromptHeader());
-            }
+            tvHeader.setText(getPrompt().getQuestion());
             List<String> downloadUrls = getPrompt().getStringResponse();
             String firstUrl = downloadUrls.get(0);
             Glide.with(context).load(firstUrl).into(ivMedia);
@@ -184,11 +178,7 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
         @Override
         void handleUI() {
 
-            if (getPrompt().getPromptHeader() == null) {
-                tvHeader.setText(getPrompt().getQuestion());
-            } else {
-                tvHeader.setText(getPrompt().getPromptHeader());
-            }
+            tvHeader.setText(getPrompt().getQuestion());
 
             transparentImageView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -261,11 +251,7 @@ public class PromptsAdapter extends RecyclerView.Adapter<PromptsAdapter.ViewHold
 
         @Override
         void handleUI() {
-            if (getPrompt().getPromptHeader() == null) {
-                tvPrompt.setText(getPrompt().getQuestion());
-            } else {
-                tvPrompt.setText(getPrompt().getPromptHeader());
-            }
+            tvPrompt.setText(getPrompt().getQuestion());
             List<String> responses = getPrompt().getStringResponse();
             for (String response : responses) {
                 tvBody.append(" - " + response + "\n");

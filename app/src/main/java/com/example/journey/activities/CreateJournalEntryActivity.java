@@ -93,30 +93,16 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
 
 
     private void getPrompts(Track track) {
-        FirebaseFirestore db = FirestoreClient.getReference();
         startLoading();
-        db.collection(track.getKey()).orderBy("promptId", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    stopLoading();
-                    QuerySnapshot snapshot = task.getResult();
-                    if (!snapshot.isEmpty()) {
-                        prompts = new ArrayList<>();
-                        Timber.d("QuerySnapshot has some data");
-                        List<DocumentSnapshot> documents = snapshot.getDocuments();
-                        for (DocumentSnapshot document : documents) {
-                            prompts.add(document.toObject(Prompt.class));
-                        }
-                        loadNextPrompt();
-                    } else {
-                        Timber.d("Query yielded no results");
-                    }
-                } else {
-                    Timber.d(task.getException(), "get failed with ");
-                }
+        prompts = new ArrayList<>();
+        for (Prompt prompt : journal.getPrompts()) {
+            if (prompt.isEnabled()) {
+                prompts.add(prompt);
             }
-        });
+        }
+        stopLoading();
+        loadNextPrompt();
+
 
     }
 

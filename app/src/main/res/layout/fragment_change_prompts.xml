@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorBackground"
+    android:id="@+id/edit_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="16dp"
+    android:padding="16dp"
+    android:orientation="vertical"  >
+
+    <TextView
+        android:textColor="@color/quantum_black_100"
+        android:text="Choose your prompts for this journal:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginVertical="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/prompt1"
+            android:checked="true"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:text="Photo of the Day"/>
+
+        <ImageButton
+            android:id="@+id/btEditPrompt1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_baseline_edit_24"
+            android:backgroundTint="@color/quantum_black_100"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginVertical="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/prompt2"
+            android:checked="true"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:text="Places Visited"/>
+
+        <ImageButton
+            android:id="@+id/btEditPrompt2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_baseline_edit_24"
+            android:backgroundTint="@color/quantum_black_100"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginVertical="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/prompt3"
+            android:checked="true"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:text="Daily Mood"/>
+
+        <ImageButton
+            android:id="@+id/btEditPrompt3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_baseline_edit_24"
+            android:backgroundTint="@color/quantum_black_100"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginVertical="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/prompt4"
+            android:checked="true"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:text="Accomplishments"/>
+
+        <ImageButton
+            android:id="@+id/btEditPrompt4"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_baseline_edit_24"
+            android:backgroundTint="@color/quantum_black_100"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginVertical="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/prompt5"
+            android:checked="true"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:text="Miscellaneous"/>
+
+        <ImageButton
+            android:id="@+id/btEditPrompt5"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_baseline_edit_24"
+            android:backgroundTint="@color/quantum_black_100"/>
+
+    </LinearLayout>
+
+
+
+
+
+    <Button
+        android:id="@+id/btSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"/>
+
+
+</LinearLayout>

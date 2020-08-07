@@ -14,17 +14,15 @@ public class DBQueryMapper {
 
     public static Fragment getFragmentForPrompt(Prompt prompt) {
 
-       switch (prompt.getPromptId()) {
-           case Prompt.CAMERA_AND_GALLERY:
+       switch (prompt.getType()) {
+           case Prompt.TYPE_MEDIA_RESPONSE:
                return CameraAndGalleryPromptFragment.newInstance(prompt);
-           case Prompt.TRAVEL:
+           case Prompt.TYPE_LOCATION_RESPONSE:
                return PlacesPromptFragment.newInstance(prompt);
-           case Prompt.PROUD:
+           case Prompt.TYPE_STRING_RESPONSE:
                return AddStringsPromptFragment.newInstance(prompt);
-           case Prompt.MOOD:
+           case Prompt.TYPE_SLIDER_RESPONSE:
                return SliderPromptFragment.newInstance(prompt);
-           case Prompt.ANYTHING:
-               return AddStringsPromptFragment.newInstance(prompt);
            default:
                Timber.e("No Fragment Found for that prompt ID");
                return null;

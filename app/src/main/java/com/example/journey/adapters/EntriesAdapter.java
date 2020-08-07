@@ -1,5 +1,6 @@
 package com.example.journey.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -98,6 +99,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             rootView = binding.getRoot();
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         private void bind(final Entry entry) {
             tvDateCreated.setText(entry.getDateCreatedString());
             tvPromptsAnswered.setText("Prompts Answered: " + Integer.toString(entry.getPrompts().size()));

@@ -14,4 +14,11 @@
         <item>Yellow</item>
         <item>Orange</item>
     </string-array>
+
+    <string-array name="prompt_type_array">
+        <item>String Response</item>
+        <item>Numerical Response</item>
+        <item>Image Response</item>
+        <item>Location Response</item>
+    </string-array>
 </resources>

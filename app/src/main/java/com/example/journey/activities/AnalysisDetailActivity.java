@@ -1,6 +1,7 @@
 package com.example.journey.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -43,6 +44,7 @@ import com.example.journey.fragments.AnalysisFragment;
 import com.example.journey.models.Analysis;
 import com.example.journey.models.Entry;
 import com.example.journey.models.Location;
+import com.example.journey.models.Prompt;
 import com.example.journey.models.WordCloud;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -56,6 +58,7 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -141,63 +144,88 @@ public class AnalysisDetailActivity extends AppCompatActivity implements OnMapRe
     private void setupMoodGraph() {
 
 
-        clearLayout();
-        LayoutInflater inflater = LayoutInflater.from(this);
-        inflatedLayout = inflater.inflate(R.layout.item_mood_graph, (LinearLayout) analysisItemHolder, false);
-        analysisItemHolder.addView(inflatedLayout);
-
-        ItemMoodGraphBinding binding = ItemMoodGraphBinding.bind(inflatedLayout);
-        AnyChartView anyChartView = binding.anyChartView;
-
-        anyChartView.setProgressBar(binding.pbMood);
-        Cartesian cartesian = AnyChart.line();
-
-        cartesian.animation(true);
-
-        cartesian.padding(10d, 20d, 5d, 20d);
-
-        cartesian.crosshair().enabled(true);
-        cartesian.crosshair()
-                .yLabel(true)
-                // TODO ystroke
-                .yStroke((Stroke) null, null, null, (String) null, (String) null);
-
-        cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
-
-        cartesian.title("Mood Level Over Time");
-
-        cartesian.yAxis(0).title("Mood Level");
-        cartesian.xAxis(0).labels().padding(5d, 5d, 5d, 5d);
-
-        List<DataEntry> seriesData = new ArrayList<>();
+        HashMap<String, List<Pair<Prompt, Date>>> numericalEntries = new HashMap<>();
         List<Entry> allEntries = analysis.getEntries();
-        Collections.sort(allEntries);
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         for (Entry entry : allEntries) {
-            seriesData.add(new ValueDataEntry(format.format(entry.getDateCreated()), entry.getMood()));
+            List<Prompt> prompts = entry.getPrompts();
+            for (Prompt prompt : prompts) {
+                if (prompt.getType() == Prompt.TYPE_SLIDER_RESPONSE) {
+                    if (numericalEntries.containsKey(prompt.getQuestion())) {
+                        List<Pair<Prompt, Date>> currentPrompts = numericalEntries.get(prompt.getQuestion());
+                        currentPrompts.add(new Pair<Prompt, Date>(prompt, entry.getDateCreated()));
+                    } else {
+                        List<Pair<Prompt, Date>> promptList = new ArrayList<>();
+                        promptList.add(new Pair<Prompt, Date>(prompt, entry.getDateCreated()));
+                        numericalEntries.put(prompt.getQuestion(), promptList);
+                    }
+                }
+            }
         }
 
-        Set set = Set.instantiate();
-        set.data(seriesData);
-        Mapping series1Mapping = set.mapAs("{ x: 'x', value: 'value' }");
+        clearLayout();
 
-        Line series1 = cartesian.line(series1Mapping);
-        series1.name("Mood");
-        series1.hovered().markers().enabled(true);
-        series1.hovered().markers()
-                .type(MarkerType.CIRCLE)
-                .size(4d);
-        series1.tooltip()
-                .position("right")
-                .anchor(Anchor.LEFT_CENTER)
-                .offsetX(5d)
-                .offsetY(5d);
+        for (String question : numericalEntries.keySet()) {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            inflatedLayout = inflater.inflate(R.layout.item_mood_graph, (LinearLayout) analysisItemHolder, false);
+            analysisItemHolder.addView(inflatedLayout);
 
-        cartesian.yScale(AnyChart.line().yScale().minimum(1).maximum(10).minimumGap(1));
-        cartesian.legend().enabled(true);
-        cartesian.legend().fontSize(13d);
-        cartesian.legend().padding(0d, 0d, 10d, 0d);
-        anyChartView.setChart(cartesian);
+            ItemMoodGraphBinding binding = ItemMoodGraphBinding.bind(inflatedLayout);
+            AnyChartView anyChartView = binding.anyChartView;
+            binding.tvTitle.setText(question);
+
+            anyChartView.setProgressBar(binding.pbMood);
+            Cartesian cartesian = AnyChart.line();
+
+            cartesian.animation(true);
+
+            cartesian.padding(10d, 20d, 5d, 20d);
+
+            cartesian.crosshair().enabled(true);
+            cartesian.crosshair()
+                    .yLabel(true)
+                    // TODO ystroke
+                    .yStroke((Stroke) null, null, null, (String) null, (String) null);
+
+            cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
+
+            cartesian.title(question);
+
+            cartesian.yAxis(0).title("Y");
+            cartesian.xAxis(0).labels().padding(5d, 5d, 5d, 5d);
+
+            List<DataEntry> seriesData = new ArrayList<>();
+            Collections.sort(allEntries);
+            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+            for (Pair<Prompt, Date> promptDatePair : numericalEntries.get(question)) {
+                seriesData.add(new ValueDataEntry(format.format(promptDatePair.second),  (int) Float.parseFloat(promptDatePair.first.getStringResponse().get(0))));
+            }
+
+            Set set = Set.instantiate();
+            set.data(seriesData);
+            Mapping series1Mapping = set.mapAs("{ x: 'x', value: 'value' }");
+
+            Line series1 = cartesian.line(series1Mapping);
+            series1.name("Value");
+            series1.hovered().markers().enabled(true);
+            series1.hovered().markers()
+                    .type(MarkerType.CIRCLE)
+                    .size(4d);
+            series1.tooltip()
+                    .position("right")
+                    .anchor(Anchor.LEFT_CENTER)
+                    .offsetX(5d)
+                    .offsetY(5d);
+
+            cartesian.yScale(AnyChart.line().yScale().minimum(1).maximum(10).minimumGap(1));
+            cartesian.legend().enabled(true);
+            cartesian.legend().fontSize(13d);
+            cartesian.legend().padding(0d, 0d, 10d, 0d);
+            anyChartView.setChart(cartesian);
+        }
+
+
+
+
     }
 
 

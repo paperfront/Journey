@@ -24,6 +24,7 @@ import com.example.journey.databinding.ActivityJournalsBinding;
 import com.example.journey.fragments.CreateJournalFragment;
 import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Journal;
+import com.example.journey.models.Prompt;
 import com.example.journey.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -159,11 +160,27 @@ public class JournalsActivity extends AppCompatActivity implements CreateJournal
         });
     }
 
-    private void saveJournal(Journal journal) {
+    private void saveJournal(final Journal journal) {
         tvNoJournals.setVisibility(View.GONE);
         DocumentReference userRef = FirestoreClient.getUserRef();
         userRef.update("journalNames", FieldValue.arrayUnion(journal.getTitle()));
-        userRef.collection("journals").document(journal.getTitle()).set(journal);
+        FirestoreClient.getReference().collection("general").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<Prompt> prompts = new ArrayList<>();
+                List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot documentSnapshot : documentSnapshots) {
+                    prompts.add(documentSnapshot.toObject(Prompt.class));
+                }
+                journal.setPrompts(prompts);
+                FirestoreClient.getUserRef().collection("journals").document(journal.getTitle()).set(journal);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Timber.e("Failed to get prompts for journal.");
+            }
+        });
     }
 
     public void goToCreateJournalEntryActivity(Journal journal) {

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.journey.R;
 import com.example.journey.databinding.ItemJournalBinding;
+import com.example.journey.fragments.ChangePromptsFragment;
 import com.example.journey.fragments.CreateJournalFragment;
 import com.example.journey.helpers.FirestoreClient;
 import com.example.journey.models.Journal;
@@ -68,7 +69,7 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
         return journals.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements CreateJournalFragment.EditNameDialogListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements CreateJournalFragment.EditNameDialogListener, ChangePromptsFragment.EditPromptsDialogListener {
 
         private ItemJournalBinding binding;
 
@@ -76,6 +77,7 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
         private TextView tvTotalEntries;
         private CardView rootView;
         private ImageButton btEdit;
+        private ImageButton btChangePrompts;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -84,6 +86,7 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
             tvTitle = binding.tvTitle;
             tvTotalEntries = binding.tvTotalEntries;
             btEdit = binding.btEdit;
+            btChangePrompts = binding.btChangePrompts;
             rootView = binding.getRoot();
         }
 
@@ -102,6 +105,13 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
                 @Override
                 public void onClick(View view) {
                     showEditDialog();
+                }
+            });
+
+            btChangePrompts.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showChangePromptsFragment();
                 }
             });
 
@@ -146,6 +156,12 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
             createJournalDialogFragment.show(fm, "fragment_create_journal");
         }
 
+        private void showChangePromptsFragment() {
+            FragmentManager fm = fragmentManager;
+            ChangePromptsFragment changePromptsFragment = ChangePromptsFragment.newInstance("Create New Journal", journals.get(getAdapterPosition()), this);
+            changePromptsFragment.show(fm, "fragment_change_prompts");
+        }
+
         @Override
         public void onFinishEditDialog(String title, int colorId) {
 
@@ -185,5 +201,15 @@ public class JournalsAdapter extends RecyclerView.Adapter<JournalsAdapter.ViewHo
         }
 
 
+
+        @Override
+        public void onFinishEditPromptsDialog(Journal journal) {
+            FirestoreClient.getUserRef().collection("journals").document(journal.getTitle()).update("prompts", journal.getPrompts()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(context, "Successfully saved journal.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
